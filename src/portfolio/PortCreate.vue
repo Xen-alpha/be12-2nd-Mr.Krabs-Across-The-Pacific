@@ -218,6 +218,27 @@ const sum = computed(() => {
 // TODO : 입력태그 비어있으면 오류메시지 띄우기
 // Create 버튼 클릭 이벤트 (포트폴리오 생성)
 const createBtn = async (index) => {
+    // 입력값 검증
+    const invalidStock = stockData.value.stocks.find(
+        (stock) =>
+            !stock.name || // name이 비어 있는 경우
+            stock.quantity <= 0 || // quantity가 0 이하인 경우
+            stock.price <= 0 || // price가 0 이하인 경우
+            !stock.date // date가 비어 있는 경우
+    );
+
+    if (invalidStock) {
+        toast("비어있는 필드 존재", {
+            theme: "auto",
+            type: "error",
+            position: "bottom-center",
+            autoClose: 1000,
+            hideProgressBar: true,
+        });
+        return; // 함수 중단
+    }
+
+    //정상 입력
     loadingStore.startLoading();
     try {
         const response = await portCreate.setPortfolio({
@@ -273,6 +294,33 @@ const stockUpdate = async (index) => {
 };
 // Update 버튼 클릭 이벤트 (포트폴리오 수정)
 const updateBtn = async () => {
+    // 입력값 검증
+    const invalidPort = portfolioData.value.stocks.find(
+        (stock) =>
+            !stock.name || // name이 비어 있는 경우
+            stock.quantity <= 0 || // quantity가 0 이하인 경우
+            stock.price <= 0 || // price가 0 이하인 경우
+            !stock.date // date가 비어 있는 경우
+    );
+    const invalidStock = stockData.value.stocks.find(
+        (stock) =>
+            !stock.name || // name이 비어 있는 경우
+            stock.quantity <= 0 || // quantity가 0 이하인 경우
+            stock.price <= 0 || // price가 0 이하인 경우
+            !stock.date // date가 비어 있는 경우
+    );
+    if (invalidPort || invalidStock) {
+        toast("비어있는 필드 존재", {
+            theme: "auto",
+            type: "error",
+            position: "bottom-center",
+            autoClose: 1000,
+            hideProgressBar: true,
+        });
+        return; // 함수 중단
+    }
+
+    //정상 입력
     loadingStore.startLoading();
     try {
         // 새로 추가한 주식 데이터
