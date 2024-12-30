@@ -57,11 +57,15 @@ const dislikeReply = async (replyId) => {
 
 <template>
     <div class="card shadow mb-4 card-row">
-        <div class="card-header py-3" style="min-width: 15rem;">
-            <h6 class="m-0 font-weight-bold text-primary">{{ reply.userName }}</h6>
-            <p class="replycard-info">
-                작성일자: {{ reply.createdAt }} <br>
-                최종 수정일자: {{ reply.updatedAt }} </p>
+        <div class="card-header py-3" style="width: 15rem;">
+            <h5 class="m-0 font-weight-bold text-primary" >{{ reply.userName }}</h5>
+            <small class="replycard-info text-black-50">
+                작성일자: {{ reply.createdAt }}
+            </small>
+            <small v-if="reply.createdAt!=reply.updatedAt"class="text-right replycard-info text-black-50">
+                    (수정됨)
+            </small>
+            
             <div style="display: flex;">
                 <div style="display: flex;" class="me-auto align-items-lg-center">
                     <button class="like-btn ">
@@ -71,11 +75,17 @@ const dislikeReply = async (replyId) => {
                     </button>
                     <p style="margin-left: 5px;">{{ likesCount }}</p>
                 </div>
+                <div class="nav-item dropdown no-arrow mx-1" data-bs-toggle="dropdown">
+                    <font-awesome-icon :icon="['fas', 'ellipsis-vertical']" />
+                    <a class="dropdown-item" href="#">
+                        Profile
+                    </a>
+                </div>
                 <div v-if="userStore.userId === reply.userId" class="align-items-lg-center">
-                    <input v-if="!isUpdate" @click="changeUpdate" type="button" name="수정" value="수정" style="height: max-content;"/>
-                    <input v-else @click="updateReply(reply.replyId, reply.content)" type="button" name="수정완료" value="수정완료">
-                    <input v-if="!isUpdate" @click="deleteReply(reply.replyId)" type="button" name="삭제" value="삭제" />
-                    <input v-else @click="changeUpdate" type="button" name="취소" value="취소">
+                    <input v-if="!isUpdate" @click="changeUpdate" type="button" class="btn btn-light" value="수정" style="height: max-content;"/>
+                    <input v-else @click="updateReply(reply.replyId, reply.content)" type="button" class="btn-light" name="수정완료" value="수정완료">
+                    <input v-if="!isUpdate" @click="deleteReply(reply.replyId)" type="button" class="btn btn-light" value="삭제" />
+                    <input v-else @click="changeUpdate" type="button"class="btn-light"  value="취소">
                 </div>
             </div>
 
