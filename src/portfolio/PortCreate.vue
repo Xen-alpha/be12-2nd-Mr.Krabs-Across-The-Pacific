@@ -220,7 +220,7 @@ const sum = computed(() => {
 const createBtn = async (index) => {
     loadingStore.startLoading();
     try {
-        await portCreate.setPortfolio({
+        const response = await portCreate.setPortfolio({
             name: portfolioData.value.name,
             stocks: stockData.value.stocks
         });
@@ -232,8 +232,7 @@ const createBtn = async (index) => {
         "hideProgressBar": true
         })
         setTimeout(() => {
-        const portfolioId = 1; // 포트폴리오 번호로 나중에 동적 추가
-        router.push(`/portfolio/${portfolioId}`); //만들어진 포트폴리오 페이지로 이동
+        router.push(`/portfolio/${response}`); //만들어진 포트폴리오 페이지로 이동
         }, 1000); // 1초 (autoClose와 같은 시간으로 맞춤)
     } catch (error) {
         toast("error", {
@@ -253,38 +252,49 @@ const createBtn = async (index) => {
 const stockUpdate = async (index) => {
     loadingStore.startLoading();
     try {
-        const updatedStock = portfolioData.value.stocks[index];
-        await portCreate.updateStock({
+        //const updatedStock = portfolioData.value.stocks[index];
+        await portCreate.updatePortfolio({
             name: portfolioData.name,
-            stocks: updatedStock
-            // name: updatedStock.name,
-            // quantity: updatedStock.quantity,
-            // price: updatedStock.price,
-            // date: updatedStock.date,
+            stocks: portfolioData.value.stocks
         });
         console.log(`Stock at index ${index} updated successfully`);
     } catch (error) {
+        toast("Error!", {
+        "theme": "auto",
+        "type": "error",
+        "position": "bottom-center",
+        "autoClose": 1000,
+        "hideProgressBar": true
+        })
         console.error(`Error updating stock at index ${index}:`, error);
     } finally {
         loadingStore.stopLoading();
     }
 };
-
 // Update 버튼 클릭 이벤트 (포트폴리오 수정)
 const updateBtn = async () => {
     loadingStore.startLoading();
     try {
-        // 1. 새로 추가한 주식 데이터 처리
+        // 새로 추가한 주식 데이터
         for (let i = 0; i < stockData.value.stocks.length; i++) {
             await createBtn(i); // 인덱스 기반으로 새 주식 데이터 생성
         }
-
-        // 2. 기존 포트폴리오 데이터 업데이트
+        // 기존 포트폴리오 데이터 업데이트
         for (let i = 0; i < portfolioData.value.stocks.length; i++) {
             await stockUpdate(i); // 인덱스 기반으로 기존 데이터 업데이트
         }
-        console.log('Update operation completed successfully');
+        setTimeout(() => {
+            const portfolioIdx = 1; //TODO : 추후 포트폴리오 PK에 맞춰 수정
+            router.push(`/portfolio/${portfolioIdx}`); //만들어진 포트폴리오 페이지로 이동
+        }, 1000); // 1초 (autoClose와 같은 시간으로 맞춤)
     } catch (error) {
+        toast("Error!", {
+        "theme": "auto",
+        "type": "error",
+        "position": "bottom-center",
+        "autoClose": 1000,
+        "hideProgressBar": true
+        })
         console.error('Error during update operation:', error);
     } finally {
         loadingStore.stopLoading();

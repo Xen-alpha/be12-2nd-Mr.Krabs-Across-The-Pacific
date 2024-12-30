@@ -1,5 +1,6 @@
 [
     {
+        "idx" : 1,
         "name": "portfolio1",
         "username": "장원영",
         "stocks": [
@@ -41,6 +42,7 @@
         ]
     },
     {
+        "idx" : 2,
         "name": "portfolio2",
         "username": "안유진",
         "stocks": [
