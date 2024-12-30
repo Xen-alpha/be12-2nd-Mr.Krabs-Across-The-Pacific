@@ -37,9 +37,11 @@ const bookBtn = () => {
 <template>
     <div class="inside">
         <!-- 지현  -->
-        <!-- 뒤에 /:idx 추가 -> 전체 포트폴리오에서 클릭하면 이동  -->
-        <a  class="portfolio" href="/portfolio/1">
+        <!-- 뒤에 /:idx 추가 -> 전체 포트폴리오에서 클릭하면 이동 id로 받아오면 좋은데  id가 없어서 name으로 받음 -->
+        <a  class="portfolio">
+            <router-link :to="`/portfolio/${portfolio.name}`">
             <img class="img" src="../images/sample.jpg" alt="Portfolio Image" />
+        </router-link>
         </a>
         <div class="bottom">
             <div class="bottom_left">

@@ -39,8 +39,21 @@ export const usePortfolioRepliesStore = defineStore('portfolioReplies',{
             const response = await axios.get(`https://a57d4fc0-b6d5-4291-b024-114538078baa.mock.pstmn.io/api/portfolio/${idx}/replies`);
             this.portfolioReplies = response.data; // 댓글 데이터
         },
-        //포트폴리오 id
-        async setPortfolioReply(idx) {
+        //입력한 댓글 저장 , idx == 포트폴리오 id(portfolioId)
+        async setPortfolioReply(portfolioId, newReply) {  
+            try {
+            const response = await axios.post(
+              `/api/portfolio/${portfolioId}/replies`,
+              newReply
+            );
+            // 성공적으로 저장되면, 응답 데이터를 리스트에 추가
+            this.portfolioReplies.push(response.data);
+            console.log("댓글이 성공적으로 저장되었습니다:", response.data);
+          } catch (error) {
+            console.error("댓글 저장 중 에러 발생:", error);
+            throw error; // 에러를 호출한 쪽으로 전달
+          }
+    
 
         },
 
