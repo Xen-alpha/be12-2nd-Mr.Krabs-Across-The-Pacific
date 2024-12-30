@@ -1,6 +1,6 @@
 <script setup>
 import { ref, reactive, computed, onMounted, watch } from 'vue';
-import { RouterLink, RouterView } from 'vue-router';
+import { useRouter } from 'vue-router';
 import { Doughnut } from 'vue-chartjs';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { usePortCreateStore } from '../stores/usePortCreateStore';
@@ -12,9 +12,9 @@ import "vue3-toastify/dist/index.css";
 const stockList = useStockListStore();
 const loadingStore = useLoadingStore();
 const portCreate = usePortCreateStore();
-
+const router = useRouter();
 // TODO : 유저 정보 받아와서 해당 params에 접근 가능한지 검증
-
+// TODO : 추후 유저 idx 받아오는 식으로 변경
 //현재 로그인한 사용자가 장원영이라고 가정
 const userInfo = ref({
     "username" : "장원영"});
@@ -28,46 +28,64 @@ const stockData = ref({ //주식 데이터
         isCh: true
     }]
 });
-const portfolioData = ref({//포트폴리오 데이터
+const portfolioData = ref({//포트폴리오 데이터 (포트폴리오 업데이트시 사용)
     name: '포트폴리오',
     username: '',
-    stocks: [],
+    stocks: [{
+        name: '',
+        quantity: 0,
+        price: 0,
+        date: '',
+        isCh: true
+    }],
     isEditing: false, // 편집 모드 상태
     editName: '', // 편집 중인 이름
 });
 
 //주식 검색을 위한 설정
 const isListVisible = ref(false);
-const showList = (index) => {
+const activeListType = ref(''); // 클릭한 리스트 타입 (생성 : create, 수정 : portfolio)
+const showList = (index, type) => {
     isListVisible.value = index;
+    activeListType.value = type; // 클릭한 리스트 타입
 };
+//주식 검색
 const filteredStocks = computed(() => {
-    return stockData.value.stocks.map((stock, index) => {
-        const searchQuery = stock.name.toLowerCase(); // 입력된 이름의 소문자 변환
-        return stocks.value.filter(stocks =>
-        stocks.name.toLowerCase().includes(searchQuery) ||
-        stocks.symbol.toLowerCase().includes(searchQuery) ||
-        stocks.k_name.toLowerCase().includes(searchQuery)
+    const sourceData = activeListType.value === 'portfolio' ? portfolioData.value.stocks : stockData.value.stocks;
+
+    return sourceData.map((stock) => {
+        const searchQuery = stock.name.toLowerCase();
+        return stocks.value.filter((s) =>
+            s.name.toLowerCase().includes(searchQuery) ||
+            s.symbol.toLowerCase().includes(searchQuery) ||
+            s.k_name.toLowerCase().includes(searchQuery)
         );
     });
 });
 // 선택된 주식을 입력 필드에 넣고 목록 숨기기
 const selectStock = (stockName, index) => {
-    stockData.value.stocks[index].name = stockName;
+    const sourceData = activeListType.value === 'portfolio' ? portfolioData : stockData;
+    sourceData.value.stocks[index].name = stockName;
     isListVisible.value = false;
 };
 // blur 시 목록 숨기기
 const hideList = () => {
     setTimeout(() => {
         isListVisible.value = false;
+        activeListType.value = ''; // 리스트 타입 초기화
     }, 100);
 };
-const nameRemove = (index) => {
-    stockData.value.stocks[index].name = '';
+//주식 이름 지우기
+const nameRemove = (dataType, index) => {
+    if(dataType === 'portCreate'){
+        stockData.value.stocks[index].name = '';
+    }else if(dataType === 'portUpdate'){
+        portfolioData.value.stocks[index].name = '';
+    }
     isListVisible.value = false;
 };
 
-//create 모드와 update 모드를 구분하기 위한 임시 함수와 변수
+// NOTE : create 모드와 update 모드를 구분하기 위한 임시 함수와 변수
 const portStatus = ref(true); //true면 포트폴리오 생성 페이지, false면 포트폴리오 수정 페이지
 const resetData = () => { //버튼 누를 때마다 데이터 초기화
     stockData.value = {
@@ -98,7 +116,7 @@ const statusBtn = async () => {
 
 let isRequestInProgress = false; //Too many request 방지 플래그
 const dataList = ref(1);
-//포트폴리오 받아오기
+//기존 포트폴리오 받아오기
 const loadPortfolio = async () => {
     if (isRequestInProgress) return; // 요청 진행 중이면 중단
     isRequestInProgress = true;
@@ -126,7 +144,6 @@ const loadPortfolio = async () => {
 watch(portStatus, () => {
     loadPortfolio();
 });
-
 // onMounted 내에서 최초 데이터 로드 (필요시)
 onMounted(() => {
     if (portStatus.value === false) {
@@ -156,23 +173,50 @@ const addBtn = () => {
     });
 }
 // x 눌러서 주식 삭제 버튼
-const stockDelete = (index) => {
-    if (index >= 0 && index < stockData.value.stocks.length) {
-        stockData.value.stocks.splice(index, 1); // 해당 인덱스 항목 제거
-        addCount.value = stockData.value.stocks.length; // 남은 항목 수로 업데이트
+const stockDelete = (dataType, index) => {
+    if (dataType === 'create') {
+        // stockData에서 항목 삭제
+        if (index >= 0 && index < stockData.value.stocks.length) {
+            stockData.value.stocks.splice(index, 1);
+            addCount.value = stockData.value.stocks.length; // 남은 항목 수 업데이트
+        }
+    } else if (dataType === 'portfolio') {
+        // portfolioData에서 항목 삭제
+        if (index >= 0 && index < portfolioData.value.stocks.length) {
+            portfolioData.value.stocks.splice(index, 1);
+        }
+    } else {
+        console.error('Invalid data type provided to stockDelete function');
     }
 };
 
-// TODO : sum 함수 고치기
 //입력한 주식 값 계산
 const sum = computed(() => {
-    return stockData.value.stocks.reduce(
-        (total, stock) => total + stock.quantity * stock.price, 0
-    );
+    let total = 0;
+
+    // 포트폴리오 생성
+    total += stockData.value.stocks.reduce((sum, stock) => {
+        if (stock.isCh) {
+            return sum + stock.quantity * stock.price;
+        }
+        return sum;
+    }, 0);
+
+    // 포트폴리오
+    if (!portStatus.value) {
+        total += portfolioData.value.stocks.reduce((sum, portStock) => {
+            if (portStock.isCh) {
+                return sum + portStock.quantity * portStock.price;
+            }
+            return sum;
+        }, 0);
+    }
+
+    return total;
 });
 
 // TODO : 입력태그 비어있으면 오류메시지 띄우기
-// 새로운 주식 데이터 저장
+// Create 버튼 클릭 이벤트 (포트폴리오 생성)
 const createBtn = async (index) => {
     loadingStore.startLoading();
     try {
@@ -187,7 +231,10 @@ const createBtn = async (index) => {
         "autoClose": 1000,
         "hideProgressBar": true
         })
-        console.log(`Stock at index ${index} created successfully`);
+        setTimeout(() => {
+        const portfolioId = 1; // 포트폴리오 번호로 나중에 동적 추가
+        router.push(`/portfolio/${portfolioId}`); //만들어진 포트폴리오 페이지로 이동
+        }, 1000); // 1초 (autoClose와 같은 시간으로 맞춤)
     } catch (error) {
         toast("error", {
         "theme": "auto",
@@ -223,7 +270,7 @@ const stockUpdate = async (index) => {
     }
 };
 
-// Update 버튼 클릭 시 동작
+// Update 버튼 클릭 이벤트 (포트폴리오 수정)
 const updateBtn = async () => {
     loadingStore.startLoading();
     try {
@@ -362,12 +409,12 @@ const chartOptions = ref({
                     <div class="stock_name">
                         <div class="stock_list">
                             <input type="text" placeholder="Enter stock name" v-model="portStock.name" 
-                            @focus="showList(index)" @input="showList(index)" @blur="hideList" />
+                            @focus="showList(index, 'portfolio')" @input="showList(index, 'portfolio')" @blur="hideList" />
                             <img :class="['xmark', portStock.name === '' ? 'xmarkhide' : 'xmarkshow']" src="../images/x.svg"
-                            @click="nameRemove(index)"/>
-                            <ul v-if="isListVisible === index">
-                                <li v-if="filteredStocks[index].length == 0">검색 결과가 없습니다</li>
-                                <li v-for="(stock, i) in filteredStocks[index]" :key="i" @click="selectStock(portStock.name, index)">
+                            @click="nameRemove('portUpdate', index)"/>
+                            <ul v-if="isListVisible === index && activeListType === 'portfolio'">
+                                <li v-if="filteredStocks[index] === 0">>검색 결과가 없습니다</li>
+                                <li v-for="(stock, i) in filteredStocks[index]" :key="i" @click="selectStock(stock.name, index)">
                                     {{ stock.name }}
                                 </li>
                             </ul>
@@ -386,7 +433,7 @@ const chartOptions = ref({
                         <p>{{ portStock.quantity * portStock.price }}</p>
                     </div>
                     <div class="stock_delete">
-                        <button @click="stockDelete(index)" class="add-field-button"> X </button>
+                        <button @click="stockDelete('portfolio', index)" class="add-field-button"> X </button>
                     </div>
                 </div>
                 <!--포트폴리오 생성 페이지-->
@@ -397,10 +444,10 @@ const chartOptions = ref({
                     <div class="stock_name">
                         <div class="stock_list">
                             <input type="text" placeholder="Enter stock name" v-model="stock.name" 
-                            @focus="showList(index)" @input="showList(index)" @blur="hideList" />
+                            @focus="showList(index, 'create')" @input="showList(index, 'create')" @blur="hideList" />
                             <img :class="['xmark', stock.name === '' ? 'xmarkhide' : 'xmarkshow']" src="../images/x.svg"
-                            @click="nameRemove(index)"/>
-                            <ul v-if="isListVisible === index">
+                            @click="nameRemove('portCreate', index)"/>
+                            <ul v-if="isListVisible === index && activeListType === 'create'" >
                                 <li v-if="filteredStocks[index].length == 0">검색 결과가 없습니다</li>
                                 <li v-for="(stock, i) in filteredStocks[index]" :key="i" @click="selectStock(stock.name, index)">
                                     {{ stock.name }}
@@ -421,7 +468,7 @@ const chartOptions = ref({
                         <p>{{ stock.quantity * stock.price }}</p>
                     </div>
                     <div class="stock_delete">
-                        <button @click="stockDelete(index)" class="add-field-button"> X </button>
+                        <button @click="stockDelete('create', index)" class="add-field-button"> X </button>
                     </div>
                 </div>
                 <!--FIX : 구매 금액 합계 동작 확인-->
