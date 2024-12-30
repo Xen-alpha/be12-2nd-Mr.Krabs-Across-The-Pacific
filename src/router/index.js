@@ -30,21 +30,21 @@ const routes = [
     children: [
       {
         path: '',
-        component: Main, // Main Page
+        component: Main,
       },
       {
         path: 'portfoliolist/:username',
         components: {
-          default: Main, // Main List
-          user: UserPort, // User Info Display
+          default: Main,
+          user: UserPort,
         },
         props: {
-          user: true, // Pass username as prop to UserPort
+          user: true,
         },
       },
     ],
   },
-  { path: '/portfolio/:idx', component: PortfolioDetail },
+  {path: '/portfolio/:idx', component: PortfolioDetail},
   { path: '/stock/:idx', component: StockDetail },
   { path: '/stockList', component: StockList },
   { path: '/editport', component: CreatePortfolio, beforeEnter: checkLogin },

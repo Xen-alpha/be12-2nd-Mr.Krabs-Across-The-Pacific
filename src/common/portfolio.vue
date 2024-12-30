@@ -8,6 +8,10 @@ const props = defineProps({
     }
 });
 
+//const portfolio_id = props.portfolio.idx; // 동적으로 바인딩할 ID (예: props로 전달받거나 데이터에서 가져옴)
+const portfolio_id = 1;
+const username = '장원영';
+
 const isBookmarked = ref(false); // true면 북마크
 const heartsContainer = ref(null); // 하트 컨테이너 참조
 const bookBtn = () => {
@@ -36,11 +40,11 @@ const bookBtn = () => {
 
 <template>
     <div class="inside">
-        <!-- 지현  -->
         <!-- 뒤에 /:idx 추가 -> 전체 포트폴리오에서 클릭하면 이동  -->
-        <a  class="portfolio" href="/portfolio/1">
+        <router-link class="portfolio"
+        :to="`/portfolio/${portfolio_id}`" >
             <img class="img" src="../images/sample.jpg" alt="Portfolio Image" />
-        </a>
+        </router-link>
         <div class="bottom">
             <div class="bottom_left">
                 <div class="p_name">{{portfolio.name}}</div>

@@ -51,7 +51,7 @@ const changePage = (page) => {
 </script>
 
 <template>
-    <div  class="container">
+    <div class="container">
         <router-view name="user" />
         <div class="p_type">
             <div class="p_category">Category</div>
