@@ -16,18 +16,10 @@ onMounted(async () => {
     loadingStore.stopLoading()
 })
 
-<<<<<<< HEAD
-//TODO : 카테고리에 따라 정렬 후 보여주기
-=======
->>>>>>> 50710648f8274fcecc57eb97a29b644d09435463
 const selectOption=(option)=>{
     selectedOption.value = option;
     currentPage.value = 1; // 카테고리 변경 시 첫 페이지로 이동
 }
-<<<<<<< HEAD
-//TODO : 북마크순 정렬 고치기
-=======
->>>>>>> 50710648f8274fcecc57eb97a29b644d09435463
 const sortedPortfolios = computed(() => {
     if (selectedOption.value === 'view') {// 'view' 기준으로 내림차순 정렬
         return [...portfolioList.portfolios].sort((a, b) => b.view - a.view);
@@ -38,14 +30,6 @@ const sortedPortfolios = computed(() => {
     }
 });
 
-<<<<<<< HEAD
-//TODO : 메인페이지를 재활용하여 특정 유저의 포트폴리오 목록 나타내기
-//CHECKLIST
-//[v] : 유저 정보 보여주는 영역
-//[v] : 유저 정보 보여주는 영역과 중첩 라우트 설정
-
-=======
->>>>>>> 50710648f8274fcecc57eb97a29b644d09435463
 const itemsPerPage = 30; // 한 페이지당 표시할 포트폴리오 개수
 const currentPage = ref(1); // 현재 페이지 번호
 // 현재 페이지의 포트폴리오 리스트

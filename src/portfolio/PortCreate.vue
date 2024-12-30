@@ -171,20 +171,23 @@ const sum = computed(() => {
     );
 });
 
-//새로 삽입한 주식 데이터 전송
-const createBtn = async () => {
-
 // TODO : 입력태그 비어있으면 오류메시지 띄우기
 // 새로운 주식 데이터 저장
 const createBtn = async (index) => {
-
     loadingStore.startLoading();
     try {
         await portCreate.setPortfolio({
             name: portfolioData.value.name,
-            stocks: stockData.value.stocks,
+            stocks: stockData.value.stocks
         });
-        console.log('Portfolio created successfully');
+        toast("Save!", {
+        "theme": "auto",
+        "type": "success",
+        "position": "bottom-center",
+        "autoClose": 1000,
+        "hideProgressBar": true
+        })
+        console.log(`Stock at index ${index} created successfully`);
     } catch (error) {
         toast("error", {
         "theme": "auto",
@@ -215,13 +218,12 @@ const stockUpdate = async (index) => {
         console.log(`Stock at index ${index} updated successfully`);
     } catch (error) {
         console.error(`Error updating stock at index ${index}:`, error);
-
     } finally {
         loadingStore.stopLoading();
     }
 };
 
-// 수정한 포트폴리오 Update 
+// Update 버튼 클릭 시 동작
 const updateBtn = async () => {
     loadingStore.startLoading();
     try {
@@ -236,6 +238,7 @@ const updateBtn = async () => {
         }
         console.log('Update operation completed successfully');
     } catch (error) {
+        console.error('Error during update operation:', error);
     } finally {
         loadingStore.stopLoading();
     }
@@ -270,6 +273,9 @@ function generateUniqueColor() {
     return color;
 }
 // 차트 데이터
+const checkedStocks = computed(() => {
+    return portfolioData.value.stocks.filter(stock => stock.isCh);
+});
 const chartData = computed(() => {
     // 1. 체크된 항목만 필터링 (포트폴리오와 추가 항목 병합)
     const allCheckedStocks = [...portfolioData.value.stocks, ...stockData.value.stocks].filter(stock => stock.isCh);
@@ -307,7 +313,6 @@ const chartData = computed(() => {
         ],
     };
 });
-
 //차트 설정
 const chartOptions = ref({
     responsive: true,
@@ -320,7 +325,6 @@ const chartOptions = ref({
         },
     }
 });
-}
 </script>
 
 <template>
