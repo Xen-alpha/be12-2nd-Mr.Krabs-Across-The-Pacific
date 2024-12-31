@@ -53,7 +53,7 @@ export const usePortCreateStore = defineStore('portcreate', {
                 this.isLoading = true; // 로딩 상태 시작
                 const response = await axios.put('/sample/createdportfolioList.json', payload);
                 // 수정된 데이터를 state에 반영
-                this.name = payload.name;
+                this.name = payload.name; 
                 this.stocks = payload.stocks;
                 return response.data[0].idx; //TODO : 추후 DB 형식에 맞춰서 수정
             } catch (error) {
