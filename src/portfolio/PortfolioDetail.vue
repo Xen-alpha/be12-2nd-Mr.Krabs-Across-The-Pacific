@@ -66,8 +66,8 @@ onMounted(async () => {
               <!-- Page Heading -->
               <div class="d-sm-flex align-items-center justify-content-between mb-4">
                 <h1 class="h3 mb-0 text-gray-800">아무거나 포트폴리오</h1>
-                <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-                    class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+                <button class="updateBtn">수정</button>
+                <button calss="deleteBtn">삭제</button>
               </div>
 
               <!-- Content Row -->
@@ -355,62 +355,8 @@ onMounted(async () => {
 
 <style scoped>
 
-
 @import '../common/sb-admin-2.min.css';
 @import 'https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i';
+@import './portfolioDetail.css'
 
-    .card-row {
-      flex-direction: row;
-    }
-
-    .container-fluid {
-      margin-top: 10vmax;
-    }
-
-    .border {
-      border: 1px;
-      border-width: 2px;
-      padding: 2px;
-      /* border-radius: 1.5rem; */
-      overflow: hidden; /* border-radius 영역을 넘어가는 콘텐츠를 숨김 */
-
-    }
-
-    .btn-border {
-      border: 10px;
-      border-color: black;
-      background-color: #F0F0F0;
-      border-radius: 0.5rem;
-    }
-
-    .container-btn {
-      display: flex;
-      flex-direction: row-reverse;
-      justify-content: space-between;
-    }
-
-    .comment-btn {
-      margin-left: auto;
-      border-radius: 8px;
-      background-color: #4f74df;
-      border: 1px solid #bbb;
-    }
-
-    @media (max-width:992px) {
-      .container-fluid {
-        margin-top: 20vh;
-      }
-    }
-
-    .container {
-  /*max-width: 900px;*/
-  max-width: 90%;
-  --bs-gutter-x: 1.5rem;
-  --bs-gutter-y: 0;
-  width: 100%;
-  padding: 0 calc(var(--bs-gutter-x) * 0.5);
-  box-sizing: border-box;
-  height: auto;
-  margin-bottom: 20px;
-}
 </style>
