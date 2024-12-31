@@ -1,40 +1,73 @@
+.container{
+    max-width: 90%;
+}
 .page-container {
     display: flex;
-    height: 100vh;
+    flex-wrap: wrap;
+    flex-direction: row;
     margin-top: 80px;
+    width: 100%; /* 부모 컨테이너의 너비를 100%로 설정 */
 }
 
 .left-section {
-    position: fixed; /* 스크롤 시 고정 */
-    top: 80px; /* 상단 여백 */
-    left: 0;
-    width: calc(100% - 500px); /* 화면 너비에서 오른쪽 섹션의 고정 너비를 뺀 값 */
-    height: calc(100vh - 80px); /* 상단 여백 제외한 높이 */
-    padding: 2rem;
-    background-color: #f9f9f9;
+    flex: 1;
+    padding: 1rem;
     border-right: 1px solid #ddd;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box; /* 패딩 포함 크기 계산 */
+    box-sizing: border-box;
 }
 
-/* 오른쪽 섹션 */
+.chart_position {
+    background-color: #f9f9f9;
+    position: sticky;
+    top: 80px; /* top 값을 설정하여 화면 상단에 고정 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    padding: 1rem;
+    width: 100%;
+}
+
 .right-section {
-    position: fixed; /* 고정 위치 */
-    top: 80px; /* 상단 여백 */
-    right: 0; /* 화면 오른쪽에 고정 */
-    width: 500px; /* 고정된 너비 */
-    height: calc(100vh - 80px); /* 상단 여백 제외한 높이 */
+    width: 100%;
+    max-width: 500px;
     padding: 1rem;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    box-sizing: border-box; /* 패딩 포함 크기 계산 */
-    background-color: white; /* 필요 시 배경색 지정 */
-    border-left: 1px solid #ddd; /* 왼쪽 경계선 추가 */
-    margin-right: 20px;
+    background-color: white;
+    border-left: 1px solid #ddd;
+    box-sizing: border-box;
+    overflow: auto;
+}
+
+/* 모바일 화면에서 수직 정렬 및 크기 조정 */
+@media (max-width: 425px) {
+    .page-container {
+        flex-direction: column; /* 모바일 화면에서는 세로 배치 */
+        justify-content: center; /* 세로 중앙 정렬 */
+        text-align: center;
+    }
+    .left-section{
+        border-right: none;
+    }
+    .right-section {
+        width: 100%; /* 모바일에서는 100% 너비로 설정 */
+        max-width: none; /* 최대 너비 제한 제거 */
+        margin-right: 0; /* 모바일에서는 오른쪽 마진을 제거 */
+        border-left: none;
+    }
+}
+
+/* 화면 크기가 980px 이하일 때 적용 (데스크탑 => 모바일 전환) */
+@media (max-width: 980px) {
+    .page-container {
+        flex-direction: column; /* 화면 너비가 980px 이하일 때 세로 배치 */
+        justify-content: center;
+    }
 }
 
 .donut {
@@ -58,15 +91,6 @@
     width: 100%;
 }
 
-/* Field Labels */
-.field-labels {
-    display: flex;
-    gap: 0.2rem; /* 동일한 간격 */
-    align-items: center; /* 수직 중앙 정렬 */
-    justify-content: space-between; /* 라벨 간 간격 균일 */
-    height: 40px; /* 입력 필드와 동일한 높이 */
-}
-
 /* Input Rows */
 #field-wrapper {
     display: flex;
@@ -74,24 +98,14 @@
     gap: 0.5rem; /* field-labels와 동일한 간격 */
 }
 
-/* Field Row Container */
-.field-container {
+/* Field Labels */
+.field-labels {
     display: flex;
-    gap: 0.5rem; /* 내부 요소 간 간격 (field-labels와 동일하게) */
-    align-items: center;
-    justify-content: space-around;
-    width: 100%; /* 고정 너비 유지 */
-    height: 40px; /* 라벨과 입력 필드의 높이를 동일하게 설정 */
+    gap: 0.1rem; /* 동일한 간격 */
+    align-items: center; /* 수직 중앙 정렬 */
+    justify-content: space-between; /* 라벨 간 간격 균일 */
+    height: 40px; /* 입력 필드와 동일한 높이 */
 }
-
-/* Field Labels and Inputs Alignment */
-.field-label{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%; /* 입력 필드와 같은 높이 */
-}
-
 .stock_check{
     width: 20px;
 }
@@ -99,10 +113,17 @@
     width: 200px;
     text-align: center;
 }
+.stock_name input {
+    width: 100%;
+}
 .stock_quantity, .stock_price {
     width: 50px;
     text-align: center;
 }
+.stock_quantity input , .stock_price input {
+    width:30px;
+}
+
 .stock_date {
     width: 120px;
     text-align: center;
