@@ -41,6 +41,9 @@ const bookBtn = () => {
 <template>
     <div class="inside">
         <!-- 뒤에 /:idx 추가 -> 전체 포트폴리오에서 클릭하면 이동  -->
+        <!-- <a  class="portfolio" href="/portfolio/1">
+            <img class="img" src="../images/sample.jpg" alt="Portfolio Image" />
+        </a> -->
         <router-link class="portfolio"
         :to="`/portfolio/${portfolio_id}`" >
             <img class="img" src="../images/sample.jpg" alt="Portfolio Image" />
