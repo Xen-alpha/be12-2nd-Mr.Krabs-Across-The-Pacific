@@ -3,8 +3,8 @@ import { defineProps, ref } from 'vue';
 import { useUserStore } from '../stores/useUserStore';
 import { usePortfolioRepliesStore } from '../stores/usePortfolioRepliesStore';
 const props = defineProps({
-  replies: {
-    type: Array,
+  reply: {
+    type: Object,
     required: true,
   },
 });
@@ -48,7 +48,7 @@ const dislikeReply = async (replyId) => {
 
 <template>
   <div>
-    <div v-for="reply in replies" :key="reply.id" class="card-row card shadow mb-4">
+    <div class="card-row card shadow mb-4">
       <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">{{ reply.userName }}</h6>
         <div v-if="userStore.userId==reply.userId">
