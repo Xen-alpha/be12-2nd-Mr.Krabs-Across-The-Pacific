@@ -72,7 +72,7 @@ const portfolioIdx = 1;
 const updateBtn = () => {
   router.push({
     path: '/editport',
-    state: { portfolioIdx: portfolioIdx },
+    state: { username:"멍자", portfolioIdx: 1, portStatus: false},
   });
 };
 

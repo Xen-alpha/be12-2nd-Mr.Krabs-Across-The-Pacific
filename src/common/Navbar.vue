@@ -57,13 +57,17 @@ const userStore = useUserStore();
             </a>
             <ul class="dropdown-menu">
               <li>
-                <router-link to="/editport" class="dropdown-item">
-                  포트폴리오 만들기
+                <router-link to="/" class="dropdown-item">
+                  모든 포트폴리오 보기
                 </router-link>
               </li>
+              <!-- 링크 수정(khj) -->
               <li>
-                <router-link to="/themes" class="dropdown-item">
-                  모든 포트폴리오 보기
+                <router-link :to="{ path: '/editport', state: { portfolioIdx: 1, portStatus: true }}" class="dropdown-item">포트폴리오 만들기</router-link>
+              </li>
+              <li>
+                <router-link to="/bookmarks" class="dropdown-item">
+                  북마크 포트폴리오
                 </router-link>
               </li>
               <li>
