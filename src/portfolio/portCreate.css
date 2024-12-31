@@ -1,7 +1,11 @@
+.container{
+    
+}
 .page-container {
-    display: flex;
+    /* display: flex; */
     height: 100vh;
     margin-top: 80px;
+    max-width: 90%;
 }
 
 .left-section {

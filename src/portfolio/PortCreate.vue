@@ -328,7 +328,8 @@ const chartOptions = ref({
 </script>
 
 <template>
-    <div class="page-container">  
+    <div class="container">
+        <div class="page-container">  
         <div class="left-section"> <!-- Left Section -->
             <div class="donut_name">
                 <p v-if="!portfolioData.isEditing" @dblclick="enableEditing" class="editable-text" aria-placeholder="portfolio"> {{ portfolioData.name }} </p>
@@ -435,6 +436,9 @@ const chartOptions = ref({
             </div>
         </div>
     </div>
+    </div>
+    
+    
 </template>
 
 <style scoped>

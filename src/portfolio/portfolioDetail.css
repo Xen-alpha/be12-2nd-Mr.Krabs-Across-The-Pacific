@@ -41,15 +41,10 @@
 }
 
 .container {
-/*max-width: 900px;*/
     max-width: 90%;
-    --bs-gutter-x: 1.5rem;
-    --bs-gutter-y: 0;
     width: 100%;
-    padding: 0 calc(var(--bs-gutter-x) * 0.5);
     box-sizing: border-box;
     height: auto;
-    margin-bottom: 20px;
 }
 
 .updateBtn, .deleteBtn{
