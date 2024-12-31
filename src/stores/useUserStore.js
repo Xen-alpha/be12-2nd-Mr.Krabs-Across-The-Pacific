@@ -10,12 +10,12 @@ export const useUserStore = defineStore("user", {
     actions: {
         async login(email, password) {
             const response = await axios
-                .post("/api/auth/login", {
+                .post("/sample/auth/login.json", {
                     "email": email,
                     "password": password
                 },)
                 .catch((error) => {
-                    console.log("hi");
+                    console.log(error);
                     return null
                 })
             console.log(response);
@@ -28,9 +28,9 @@ export const useUserStore = defineStore("user", {
 
         async logout() {
             const response = await axios
-                .get("/api/auth/logout",)
+                .get("/sample/auth/logout.json",)
                 .catch((error) => {
-                    console.log("hi");
+                    console.error(error);
                     return null
                 })
             console.log(response);
@@ -42,7 +42,7 @@ export const useUserStore = defineStore("user", {
         },
         async checkLogin() {
             //axios
-            const response = await axios.get("/api/auth/check", {
+            const response = await axios.get("/sample/auth/check.json", {
                 withCredentials: true,
             }).catch((error) => {
                 //console.error(error);
