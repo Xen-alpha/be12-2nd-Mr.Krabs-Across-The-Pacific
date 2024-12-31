@@ -53,8 +53,9 @@ const chartOptions = ref({
 onMounted(async () => {
   // 차트 데이터 가져오기
   loadingStore.startLoading();
-  const response = await axios.get(`https://aaefca20-f361-4d2c-bc81-3db58a3ae355.mock.pstmn.io/stock/history?id=${id}`);
+  const response = await axios.get(`/sample/stocklist/get_AAPL.json`, { params: { id: id } });
   const result = Object.entries(Object.entries(response.data)[0][1]).sort((a, b) => (b > a ? -1 : 1));
+  // console.log(result);
   const result_data = result.map((value) => parseFloat(value[1]["4. close"]));
   const result_label = result.map((value) => value[0]);
   const length = result_label.length;
