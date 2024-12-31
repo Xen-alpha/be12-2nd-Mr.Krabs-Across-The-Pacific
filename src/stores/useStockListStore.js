@@ -23,7 +23,7 @@ export const useStockListStore = defineStore("stockList", {
       // 렌더링 및 링크 목적의 단일한 항목의 정보를 요청하여 반환
       try {
         // TODO: 크롤링 서버 URL로 바꾸기
-        const response = await axios.get("https://aaefca20-f361-4d2c-bc81-3db58a3ae355.mock.pstmn.io/stock/item", {
+        const response = await axios.get("/sample/stocklist/get.json", {
           params: {
             id: id,
           },
@@ -38,7 +38,7 @@ export const useStockListStore = defineStore("stockList", {
       // 전체 리스트를 반환
       try {
         // TODO: 크롤링 서버 URL로 바꾸기
-        const response = await axios.get("https://aaefca20-f361-4d2c-bc81-3db58a3ae355.mock.pstmn.io/stock/list", {
+        const response = await axios.get("/sample/stocklist/get.json", {
           params: {
             text: text,
             offset: offset,
@@ -60,7 +60,7 @@ export const useStockListStore = defineStore("stockList", {
     async getStocks() {
       try {
         // TODO: 크롤링 서버 URL로 바꾸기
-        const response = await axios.get("https://aaefca20-f361-4d2c-bc81-3db58a3ae355.mock.pstmn.io/stock/list", {
+        const response = await axios.get("/sample/stocklist/get.json", {
           params: {
             text: text,
             offset: 0,
