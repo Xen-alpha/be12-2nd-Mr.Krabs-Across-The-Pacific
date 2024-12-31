@@ -9,11 +9,12 @@
                         <div class="card-body under row justify-content-center">
                             <div class="col-xl-8 col-lg-9">
                                 <div>
-                                    <h1 class="font-weight-bold">Welcome! Now you can create<br> your own portfolio</h1>
+                                    <img src="../images/money.png" alt="Across The Pacific Logo" />
+
+                                    <h1 class="font-weight-bold">Welcome! Now you can create<br> Your Own Portfolio</h1>
                                     <br>
-                                    <br>
-                                    <h4>포트폴리오 만들러 가기</h4>
-                                    <h4>이전으로 돌아가기</h4>
+                                    <router-link to="/login">로그인하러 가기</router-link><br>
+                                    <router-link to="/">메인으로 돌아가기</router-link>  
                                 </div>
                             </div>
                         </div>
