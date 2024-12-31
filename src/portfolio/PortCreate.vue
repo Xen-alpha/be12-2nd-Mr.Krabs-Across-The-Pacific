@@ -155,8 +155,8 @@ onMounted(() => {
 const stocks = ref([]);
 onMounted(async () => {
     loadingStore.startLoading();
-    await stockList.getStocks();
-    stocks.value = [...stocks.value, ...stockList.stocks];
+    const getStockList = await stockList.getStocks();
+    stocks.value = [...stocks.value, ...getStockList];
     loadingStore.stopLoading();
 });
 
@@ -330,6 +330,13 @@ const updateBtn = async () => {
         for (let i = 0; i < portfolioData.value.stocks.length; i++) {
             await stockUpdate(i); // 인덱스 기반으로 기존 데이터 업데이트
         }
+        toast("Save!", {
+        "theme": "auto",
+        "type": "success",
+        "position": "bottom-center",
+        "autoClose": 1000,
+        "hideProgressBar": true
+        })
         setTimeout(() => {
             const portfolioIdx = 1; //TODO : 추후 포트폴리오 PK에 맞춰 수정
             router.push(`/portfolio/${portfolioIdx}`); //만들어진 포트폴리오 페이지로 이동
@@ -434,6 +441,7 @@ const chartOptions = ref({
 <template>
     <div class="page-container">  
         <div class="left-section"> <!-- Left Section -->
+            <div class="chart_position">
             <div class="donut_name">
                 <p v-if="!portfolioData.isEditing" @dblclick="enableEditing" class="editable-text" aria-placeholder="portfolio"> {{ portfolioData.name }} </p>
                 <input v-model="portfolioData.editName" v-else type="text" @blur="applyNameChange" 
@@ -445,8 +453,10 @@ const chartOptions = ref({
             <div>
                 <button @click="statusBtn">On/Off</button>
             </div>
-            <p>On : 포트폴리오 신규 생성, Off : 기존 포트폴리오 수정</p>
-        </div>
+                <p>On : 포트폴리오 신규 생성, Off : 기존 포트폴리오 수정</p>
+                </div>
+            </div>
+
         <div class="right-section"> <!-- Right Section -->
             <div class="field-labels"> <!-- Field Labels Row -->
                 <div class="stock_check"></div>

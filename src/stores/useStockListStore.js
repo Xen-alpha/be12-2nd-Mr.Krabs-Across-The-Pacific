@@ -57,17 +57,13 @@ export const useStockListStore = defineStore("stockList", {
         return this.stockList;
       }
     },
+    //Note : KHJ
     async getStocks() {
       try {
         // TODO: 크롤링 서버 URL로 바꾸기
-        const response = await axios.get("/sample/stocklist/get.json", {
-          params: {
-            text: text,
-            offset: 0,
-            requestLength: false,
-          },
-        });
-        return response.data.result;
+        const response = await axios.get("/sample/stockList.json",);
+        return response.data;
+        // return response.data.result;
       } catch (e) {
         return this.stockList;
       }
