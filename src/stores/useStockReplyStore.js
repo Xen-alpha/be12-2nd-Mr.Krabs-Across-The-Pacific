@@ -7,13 +7,14 @@ export const useStockReplyStore = defineStore("stockReply", {
     actions: {
         async getStockReplyListByCreatedAt(stockId, offset) {
             const response = await axios
-            .get("https://637b1d88-d99f-48ca-b187-81bb20e3ae05.mock.pstmn.io/stockreply"+"?stockId="+stockId+"&offset="+offset)
+            .get("/sample/stockreply/get.json")
+            //.get("https://637b1d88-d99f-48ca-b187-81bb20e3ae05.mock.pstmn.io/stockreply"+"?stockId="+stockId+"&offset="+offset)
             this.replies = response.data.replies;
         },
         async setStockReply(stockId, content) {
             //axios
             const response = await axios
-                .post("link",
+                .post("/sample/stockreply/post.json",
                     {
                         "stockId": stockId,
                         "content": content,
@@ -27,7 +28,7 @@ export const useStockReplyStore = defineStore("stockReply", {
         },
         async updateStockReply(replyId, content) {
             const response = await axios
-                .put("link", 
+                .put("/sample/stockreply/put.json", 
                     {
                         "replyId": replyId,
                         "content": content
@@ -40,9 +41,9 @@ export const useStockReplyStore = defineStore("stockReply", {
             return response.data;
             //axios
         },
-        async deleteReply(replyId) {
+        async deleteStockReply(replyId) {
             const response = await axios
-                .delete("link",
+                .delete("/sample/stockreply",
                     {
                         "replyId": replyId
                     },
@@ -55,7 +56,7 @@ export const useStockReplyStore = defineStore("stockReply", {
         },
         async setReplyLikes(replyId) {
             const response = await axios
-                .post("api/stockreplylikes",
+                .post("/sample/stockreplylikes",
                     { "replyId": replyId },
                     {withCredentials: true}
                 )
@@ -66,7 +67,7 @@ export const useStockReplyStore = defineStore("stockReply", {
         },        
         async deleteReplyLikes(replyId) {
             const response = await axios
-                .delete("api/stockreplylikes",
+                .delete("/sample/stockreplylikes",
                     { "replyId": replyId },
                     {withCredentials: true}
                 )

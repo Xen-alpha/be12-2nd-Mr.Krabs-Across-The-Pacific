@@ -9,7 +9,8 @@ export const useStockDetailStore = defineStore("stockDetail", {
     actions: {
         async getStockDetail(stockId) {
             const response = await axios
-                .get('https://637b1d88-d99f-48ca-b187-81bb20e3ae05.mock.pstmn.io/stock?idx='+stockId)
+                .get('/sample/stock/get.json');
+                //.get('https://637b1d88-d99f-48ca-b187-81bb20e3ae05.mock.pstmn.io/stock?idx='+stockId)
             this.name = response.data.name;
             this.code = response.data.code;
             this.market = response.data.market;

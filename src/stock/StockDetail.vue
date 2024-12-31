@@ -3,10 +3,11 @@ import { onMounted, ref } from 'vue';
 import StockReply from './component/StockReply.vue';
 import { useStockDetailStore } from '../stores/useStockDetailStore';
 import { useStockReplyStore } from '../stores/useStockReplyStore';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useUserStore } from '../stores/useUserStore';
 
 const route = useRoute();
+const router = useRouter();
 const offset = ref(0);
 const stockReplyStore = useStockReplyStore();
 const stockDetailStore = useStockDetailStore();
@@ -44,7 +45,9 @@ onMounted(async () => {
 
 const setReply = async () => {
     const content = document.querySelector('[contenteditable="true"]').innerHTML;
-    //const result = await stockReplyStore.setStockReply(route.params.idx, content);
+    const result = await stockReplyStore.setStockReply(route.params.idx, content);
+    console.log(result);
+    router.go(0);
 }
 
 </script>
