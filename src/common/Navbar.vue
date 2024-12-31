@@ -1,6 +1,7 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import { useUserStore } from '../stores/useUserStore'
+import { useRouter } from 'vue-router';
 const searchQuery = ref('');
 const alerts = [
   {
@@ -24,6 +25,20 @@ const alerts = [
 ];
 
 const userStore = useUserStore();
+const closeNavbar = () => {
+      const navbarCollapse = document.querySelector(".navbar-collapse");
+      if (navbarCollapse && navbarCollapse.classList.contains("show")) {
+        navbarCollapse.classList.remove("show"); // Bootstrap의 'show' 클래스 제거
+      }
+    };
+
+onMounted(() => {
+      // 라우터 이벤트를 감지하여 Navbar 닫기
+      const router = useRouter();
+      router.afterEach(() => {
+        closeNavbar();
+      });
+    });
 
 </script>
 
