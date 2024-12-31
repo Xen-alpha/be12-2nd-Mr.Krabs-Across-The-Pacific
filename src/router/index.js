@@ -10,6 +10,7 @@ import CreatePortfolio from '../portfolio/PortCreate.vue';
 import StockList from '../stock/StockList.vue';
 import Login from '../user/Login.vue';
 import Signup from '../user/Signup.vue';
+import EndSignup from '../user/EndSignup.vue';
 
 // Login Check Middleware
 const checkLogin = async (to, from, next) => {
@@ -52,6 +53,7 @@ const routes = [
   { path: '/editport', component: CreatePortfolio},
   { path: '/login', component: Login },
   { path: '/signup', component: Signup },
+  { path: '/endsignup', component: EndSignup}
 ];
 
 // Router Instance
