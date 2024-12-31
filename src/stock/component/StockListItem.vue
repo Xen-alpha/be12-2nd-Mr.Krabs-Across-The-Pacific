@@ -1,7 +1,8 @@
 <script setup>
 import { defineProps, ref } from "vue";
+import LineChart from "../../components/LineChart.vue";
 const props = defineProps({
-  information: String, // 종목 칸을 채우는 객체형 정보
+  information: Object, // 종목 칸을 채우는 객체형 정보
 });
 let id = ref(0);
 let code = ref("d");
@@ -9,10 +10,9 @@ let name = ref("d");
 let market = ref("d");
 let price = ref("d");
 let likes = ref(0);
-let doILikeThis = ref(false);
 
 // information으로부터 정보 추출해서 대입
-const response = JSON.parse(props.information);
+const response = props.information;
 id.value = response.id;
 code.value = response.code;
 name.value = response.name.replace(" Common Stock", "");
@@ -40,6 +40,7 @@ const scrollToTop = () => {
       </div>
     </div>
     <!-- TODO: 그래프? -->
+    <LineChart :id="id" />
     <div class="card-body bold-weight" style="max-width: 160px">
       <div class="listbox-item">
         최근 가격:<br />
