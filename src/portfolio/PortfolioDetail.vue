@@ -196,7 +196,6 @@ onMounted(async () => {
                     </div>
                   </div>
                 </div>
-
                 <!-- Portfolio 종목 Column (6/12) -->
                 <div class="col-xl-8 col-lg-7">
                   <!-- 포트폴리오 종목 카드 -->
