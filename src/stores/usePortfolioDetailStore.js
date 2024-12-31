@@ -47,7 +47,7 @@ export const usePortfolioDetailStore = defineStore("portfolioDetail", {
   actions: {
     async getportfolioDetail(idx) {
       try {
-        const response = await axios.get(`https://a57d4fc0-b6d5-4291-b024-114538078baa.mock.pstmn.io/api/portfolio-details/${idx}`);
+        const response = await axios.get(`/public/sample/portfoliodetail/portfoliodetail.json`);
         this.products = response.data;
       } catch (error) {
         console.error("Error fetching portfolio details:", error);
