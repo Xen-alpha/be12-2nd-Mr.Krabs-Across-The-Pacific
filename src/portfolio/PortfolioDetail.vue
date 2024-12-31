@@ -36,13 +36,11 @@ onMounted(async () => {
     portfolioReplies.value = []; // 기본값 설정
   }
 });
-
-const data = { username: "멍자", portfolioIdx: 1, portStatus: false}
-
+const username = "멍자";
 const updateBtn = () => {
   router.push({
     path: '/editport',
-    state: { data: JSON.stringify(data)},
+    state: { username:"멍자", portfolioIdx: 1, portStatus: false},
   });
 };
 

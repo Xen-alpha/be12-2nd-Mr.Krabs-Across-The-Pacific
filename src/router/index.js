@@ -42,6 +42,12 @@ const routes = [
           user: true,
         },
       },
+      {
+        path: '/bookmarks',
+        name: 'BookmarkedPortfolios',
+        component: Main, // 기존 Main 컴포넌트 재사용
+        props: { showBookmarks: true }, // 북마크 필터링에 필요한 값 전달
+      },
     ],
   },
   {path: '/portfolio/:idx', component: PortfolioDetail},

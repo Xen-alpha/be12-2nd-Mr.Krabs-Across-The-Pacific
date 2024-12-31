@@ -18,19 +18,10 @@ const router = useRouter();
 // TODO : 추후 유저 idx 받아오는 식으로 변경
 //현재 로그인한 사용자가 장원영이라고 가정
 const userInfo = ref({
-    "username" : "장원영"});
+    "username" : "장원영"
+});
 
-// const portfolioIdx = route.state?.portfolioIdx;
-// const portStatus = route.state?.portStatus !== undefined ? route.state.portStatus : true; // 기본값 true 설정
-// console.log(portfolioIdx);
-const data = ref({});
-const dataObj = history.state.data;
-data.value = dataObj._rawValue;// data.value에 _rawValue 할당
-console.log(data.value);
-// const portStatus = data.value.portStatus;
-console.log("유저네임 : " + data.value.username);
-data.value = dataObj;
-console.log("값:"+data.value);
+const portStatus = history.state.portStatus;
 
 const stockData = ref({ //주식 데이터
     stocks: [{
