@@ -37,12 +37,12 @@ onMounted(async () => {
   }
 });
 
-const username = '멍자';
-const portfolioIdx = 1;
+const data = { username: "멍자", portfolioIdx: 1, portStatus: false}
+
 const updateBtn = () => {
   router.push({
     path: '/editport',
-    state: { portfolioIdx: portfolioIdx },
+    state: { data: JSON.stringify(data)},
   });
 };
 
