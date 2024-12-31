@@ -214,10 +214,11 @@ const submitReply = async () => {
                     </div>
                     <!-- Card Body -->
                     <div class="card-body" style="white-space:pre-wrap; overflow-wrap: break-word;">
-                      <div class="chart-pie pt-2 pb-2">                  
+                      <!-- <div class="chart-pie pt-2 pb-2">                   -->
                         <!-- <canvas id="myPieChart"></canvas> -->
+                         <!-- canvas -->
                         <PortfolioStockChart />                        
-                        </div>
+                        <!-- </div> -->
 
                       <!-- <div class="mt-4 text-center small">
                         <span class="mr-2">
