@@ -10,6 +10,7 @@ import CreatePortfolio from '../portfolio/PortCreate.vue';
 import StockList from '../stock/StockList.vue';
 import Login from '../user/Login.vue';
 import Error404 from '../components/404Page.vue'
+import StockLikesList from '../stock/StockLikesList.vue';
 
 // Login Check Middleware
 const checkLogin = async (to, from, next) => {
@@ -57,6 +58,9 @@ const routes = [
   },
   {
     path:'/404', component: Error404
+  },
+  {
+    path: '/likes/:idx', component: StockLikesList
   }
 ];
 
