@@ -1,67 +1,76 @@
 <script setup>
-<<<<<<< HEAD
-=======
-/**
- *  Alert: 작동하지 않습니다! 이 모듈로 라우트하지 마세요!
- *  이 모듈은 차트 관련 연습용으로 별도 분리한 모듈입니다.
- */
->>>>>>> 50710648f8274fcecc57eb97a29b644d09435463
-// import { defineProps } from 'vue';
-// mport { usePortfolioDetailsStore } from '../stores/usePortfolioDetailsStore.js';
-// let portfolioStore = usePortfolioDetailsStore();
-// let rawdata = portfolioStore.getportfolioDetail(idx);
-// TODO: rawdata를 가공해서 종목 별로 항목과 현 가치를 계산해 labels와 datasets.data에 삽입
-</script>
-<script>
-// Alert: 작동하지 않습니다! 이 모듈로 라우트하지 마세요!
-<<<<<<< HEAD
-import { Line } from 'vue-chartjs'
-import { Chart as ChartJS, Title, Tooltip, Legend, LineElement, PointElement, CategoryScale, LinearScale } from 'chart.js'
-=======
+// 경윤: 이 모듈은 아직 완벽하게 작동하지 않습니다.
 import { Line } from "vue-chartjs";
-import { Chart as ChartJS, Title, Tooltip, Legend, LineElement, PointElement, CategoryScale, LinearScale } from "chart.js";
->>>>>>> 50710648f8274fcecc57eb97a29b644d09435463
+import { defineProps, computed, ref, shallowRef, shallowReactive, reactive, onMounted } from "vue";
+import axios from "axios";
 
-// import axios from 'axios';
+import { Chart as ChartJS, Title, Tooltip, Legend, PointElement, CategoryScale, LinearScale, LineElement } from "chart.js";
+import { useLoadingStore } from "../stores/useLoadingStore.js";
 
 ChartJS.register(Title, Tooltip, Legend, LineElement, PointElement, CategoryScale, LinearScale);
 
-export default {
-<<<<<<< HEAD
-  name: 'LineChart',
-=======
-  name: "LineChart",
->>>>>>> 50710648f8274fcecc57eb97a29b644d09435463
-  components: { Line },
-  computed: {
-    chartData() {
-      return {
-<<<<<<< HEAD
-        labels: ['January', 'February', 'March'],
-=======
-        labels: ["January", "February", "March"],
->>>>>>> 50710648f8274fcecc57eb97a29b644d09435463
-        datasets: [{ data: [40, 20, 12], tension: 0, pointStyle: false }],
-      }; /* mutable chart data */
+const props = defineProps({
+  id: Number,
+});
+
+let id = props.id ? props.id : 0;
+
+let labelList = reactive([]);
+let dataList = reactive([]);
+
+const loadingStore = useLoadingStore();
+
+const chartData = computed(() => {
+  return {
+    labels: labelList,
+    datasets: [
+      {
+        label: "",
+        data: dataList,
+        pointStyle: false,
+        tension: 0,
+        padding: 0,
+      },
+    ],
+  };
+});
+
+const chartOptions = ref({
+  responsive: true,
+  plugins: {
+    responsive: true,
+    maintainAspectRatio: false,
+    legend: {
+      display: false,
     },
-    chartOptions() {
-      return {
-        responsive: true,
-      };
+    tooltip: {
+      enabled: false,
     },
-<<<<<<< HEAD
-  }
-}
-=======
+    aspectRatio: 8,
   },
-};
->>>>>>> 50710648f8274fcecc57eb97a29b644d09435463
+});
+
+onMounted(async () => {
+  // 차트 데이터 가져오기
+  loadingStore.startLoading();
+  const response = await axios.get(`https://aaefca20-f361-4d2c-bc81-3db58a3ae355.mock.pstmn.io/stock/history?id=${id}`);
+  const result = Object.entries(Object.entries(response.data)[0][1]).sort((a, b) => (b > a ? -1 : 1));
+  const result_data = result.map((value) => parseFloat(value[1]["4. close"]));
+  const result_label = result.map((value) => value[0]);
+  const length = result_label.length;
+  // 적용하기
+  let chart = ChartJS.getChart(document.getElementsByClassName("graphchart")[id - 1]);
+  for (let i = 0; i < length; i++) {
+    labelList.push(result_label[i]);
+  }
+  chart.data.datasets[0].data = result_data;
+  chart.update();
+  loadingStore.stopLoading();
+});
 </script>
 <template>
-  <LineChart :data="chartData" :options="chartOptions" />
+  <div class="chart" style="position: relative; width: 50vw; vertical-align: center;">
+    <Line class="graphchart" ref="linechart" :data="chartData" :options="chartOptions" :width="800" :height="160" />
+  </div>
 </template>
-<<<<<<< HEAD
 <style scoped></style>
-=======
-<style scoped></style>
->>>>>>> 50710648f8274fcecc57eb97a29b644d09435463
