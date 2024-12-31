@@ -28,7 +28,7 @@ const login = async () => {
                 <div class="container">
                     <div class="row justify-content-center">
                         <div size="large" style="display: flex;justify-content: center;">
-                            <div class="col-xl-10 col-lg-12">
+                            <div class="col-xl-10 col-lg-12" style="display: flex;justify-content: center;">
                                 <div class="main-card">
                                     <div class="card-body under">
                                         <div class="row justify-content-center">

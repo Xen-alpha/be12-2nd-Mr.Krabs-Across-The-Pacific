@@ -64,7 +64,7 @@ onMounted(() => {
 
         <!-- Main Navigation -->
         <ul class="navbar-nav me-auto">
-          <li class="nav-item dropdown">
+          <li class="nav-item dropdown no-arrow">
             <a id="navbarDropdownThemes" class="dropdown-toggle nav-link pointer" href="#" role="button"
               data-bs-toggle="dropdown" aria-expanded="false">
               Portfolio
@@ -88,10 +88,10 @@ onMounted(() => {
               </li>
             </ul>
           </li>
-          <li class="nav-item dropdown">
+          <li class="nav-item dropdown no-arrow">
             <a id="navbarDropdownTemplates" class="dropdown-toggle nav-link pointer" href="#" role="button"
               data-bs-toggle="dropdown" aria-expanded="false">
-              Stocks
+              Stock
               <!-- <font-awesome-icon :icon="['fas', 'chevron-right']" /> -->
             </a>
             <ul class="dropdown-menu">
