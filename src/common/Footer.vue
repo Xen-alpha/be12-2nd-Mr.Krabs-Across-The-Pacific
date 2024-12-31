@@ -13,7 +13,8 @@
     </div>
     <div class="footer-menuline">
       <router-link to="/portfolio">포트폴리오 보기</router-link><br>
-      <router-link to="/stocklist">종목 보기</router-link><br>
+      <!--<router-link to="/portfolio/random">임의의 공개 포트폴리오 보기</router-link><br>-->
+      <router-link to="/stocklist">전체 종목 보기</router-link><br>
     </div>
     <div id="footer-icons"></div>
   </div>
