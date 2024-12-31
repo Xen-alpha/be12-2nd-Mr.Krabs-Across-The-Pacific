@@ -45,6 +45,7 @@
     /* border-left: 1px solid #ddd; */
     box-sizing: border-box;
     overflow: auto;
+    margin-right: 10px;
 }
 .donut {
     size: 90%;
