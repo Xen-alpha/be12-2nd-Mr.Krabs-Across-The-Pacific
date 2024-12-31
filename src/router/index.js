@@ -11,6 +11,8 @@ import StockList from '../stock/StockList.vue';
 import Login from '../user/Login.vue';
 import Error404 from '../components/404Page.vue'
 import StockLikesList from '../stock/StockLikesList.vue';
+import About from '../etc/About.vue';
+import Privacy from '../etc/Privacy.vue';
 
 // Login Check Middleware
 const checkLogin = async (to, from, next) => {
@@ -56,12 +58,10 @@ const routes = [
       path: '/:pathMatch(.*)*', // 기타 존재하지 않는 페이지인 경우
       redirect: "/404"
   },
-  {
-    path:'/404', component: Error404
-  },
-  {
-    path: '/likes/:idx', component: StockLikesList
-  }
+  { path:'/404', component: Error404 },
+  { path: '/likes/:idx', component: StockLikesList },
+  { path: '/about', component: About },
+  { path: '/privacy', component: Privacy }
 ];
 
 // Router Instance
