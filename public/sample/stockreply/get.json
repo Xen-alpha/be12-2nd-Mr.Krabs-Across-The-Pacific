@@ -3,29 +3,30 @@
     {
         "stockId": 3,
         "userId": 1,
-        "userName": "작성자1",
-        "createdAt": "2024-12-23",
+        "userName": "익명",
+        "createdAt": "2024-12-25",
         "updatedAt": "2024-12-25",
         "likesCount": 0,
-        "content": "<div data-v-c821c647=\"\" data-slate-node=\"element\"><span data-v-c821c647=\"\" data-slate-node=\"text\"><span data-v-c821c647=\"\" data-slate-leaf=\"true\"><span data-v-c821c647=\"\" data-slate-zero-width=\"n\" data-slate-length=\"0\">asdf</span></span></span></div>"
+        "content": "<div data-v-c821c647=\"\" data-slate-node=\"element\"><span data-v-c821c647=\"\" data-slate-node=\"text\"><span data-v-c821c647=\"\" data-slate-leaf=\"true\"><span data-v-c821c647=\"\" data-slate-zero-width=\"n\" data-slate-length=\"0\">화성 갈끄니까</span></span></span></div>"
     },
     {
         "stockId": 2,
         "userId": 2,
-        "userName": "작성자2",
-        "createdAt": "2024-12-24",
+        "userName": "김경준",
+        "createdAt": "2024-12-23",
         "updatedAt": "2024-12-24",
         "likesCount": 1,
-        "content": "내용2내용2내용2내용2"
+        "content": "<div data-v-c821c647=\"\" data-slate-node=\"element\"><span data-v-c821c647=\"\" data-slate-node=\"text\"><span data-v-c821c647=\"\" data-slate-leaf=\"true\"><span data-v-c821c647=\"\" data-slate-zero-width=\"n\" data-slate-length=\"0\">이거 슬슬 내릴듯?</span></span></span></div>"
+
     },
     {
         "stockId": 1,
         "userId": 3,
-        "userName": "작성자3",
-        "createdAt": "2024-12-25",
-        "updatedAt": "2024-12-25",
+        "userName": "황경윤",
+        "createdAt": "2024-10-22",
+        "updatedAt": "2024-10-22",
         "likesCount": 123,
-        "content": "내용3내용3내용3내용3\n내용3내용3내용3내용3"
+        "content": "<div data-v-c821c647=\"\" data-slate-node=\"element\"><span data-v-c821c647=\"\" data-slate-node=\"text\"><span data-v-c821c647=\"\" data-slate-leaf=\"true\"><span data-v-c821c647=\"\" data-slate-zero-width=\"n\" data-slate-length=\"0\">제가 봤을때 트럼프 당선되고 떡상합니다.</span></span></span></div>"        
     }
 ]
 }

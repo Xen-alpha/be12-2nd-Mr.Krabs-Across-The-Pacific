@@ -13,6 +13,7 @@ const stockReplyStore = useStockReplyStore();
 const stockDetailStore = useStockDetailStore();
 const userStore = useUserStore();
 const chartContainer = ref(null);
+const isInterested = ref(false);
 
 const draw = async () => {
     const script = document.createElement("script");
@@ -50,6 +51,10 @@ const setReply = async () => {
     router.go(0);
 }
 
+const changeInterest = async () => {
+    isInterested.value = !isInterested.value
+}
+
 </script>
 
 <template>
@@ -62,14 +67,20 @@ const setReply = async () => {
 
             <!-- Page Heading -->
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                <h1 class="h3 mb-0 text-gray-800">주식 : {{ stockDetailStore.name }}</h1>
+                <h1>{{ stockDetailStore.name }}</h1>
             </div>
 
             <!-- Content Row -->
             <div class="row">
 
                 <div>
-                    <h1>Trading View</h1>
+                    <div style="display: flex; justify-content: space-between;">
+                        <h5 class="text-gray-800">Chart By Trading View</h5>
+                        <button id="interest-btn" @click="changeInterest" style="display: flex; justify-content: space-between;">
+                            <font-awesome-icon v-if="isInterested" :icon="['fas', 'bookmark']" /> 
+                            <font-awesome-icon v-else :icon="['far', 'bookmark']" />
+                            </button>
+                    </div>
                     <div id="chartContainer" style="width: 100%; height: 500px;"></div>
                 </div>
 
@@ -175,4 +186,9 @@ const setReply = async () => {
       background-color: #4f74df;
       border: 1px solid #bbb;
     }
+#interest-btn {
+    background-color: #fff;
+    border: none;
+    box-shadow: none;
+}
 </style>
