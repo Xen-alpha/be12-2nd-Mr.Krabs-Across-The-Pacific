@@ -434,6 +434,7 @@ const chartOptions = ref({
 <template>
     <div class="page-container">  
         <div class="left-section"> <!-- Left Section -->
+          <div class="chart_position">
             <div class="donut_name">
                 <p v-if="!portfolioData.isEditing" @dblclick="enableEditing" class="editable-text" aria-placeholder="portfolio"> {{ portfolioData.name }} </p>
                 <input v-model="portfolioData.editName" v-else type="text" @blur="applyNameChange" 
@@ -445,8 +446,9 @@ const chartOptions = ref({
             <div>
                 <button @click="statusBtn">On/Off</button>
             </div>
-            <p>On : 포트폴리오 신규 생성, Off : 기존 포트폴리오 수정</p>
-        </div>
+              <p>On : 포트폴리오 신규 생성, Off : 기존 포트폴리오 수정</p>
+            </div>
+          </div>
         <div class="right-section"> <!-- Right Section -->
             <div class="field-labels"> <!-- Field Labels Row -->
                 <div class="stock_check"></div>
