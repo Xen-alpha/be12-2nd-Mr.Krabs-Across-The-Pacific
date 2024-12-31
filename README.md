@@ -219,6 +219,28 @@ Across The Pacific은 위의 문제점들을 보완하여 꾸준히 높아지는
 
 </details>
 
+<details>
+<summary>주식 상세 페이지 그래프 조작</summary>
+
+![StockDetail](/images/trading_view.gif)
+
+</details>
+
+<details>
+<summary>주식 상세 페이지 댓글 작성</summary>
+
+![StockReplyInsert](/images/stock_reply_insert.gif)
+
+</details>
+
+
+<details>
+<summary>주식 상세 페이지 댓글 좋아요, 수정/삭제</summary>
+
+![StockLikes](/images/stock_reply_like_update_delete.gif)
+
+</details>
+
 
 ## 📄 기타 문서
 [👉🏼 프로젝트 기획안](https://docs.google.com/document/d/10S8pPWJzgGtz6S1djeimFvKHkFpN2KdOCY7mrUeAtj4/edit?pli=1&tab=t.b3v4vsjloy9)
