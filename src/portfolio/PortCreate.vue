@@ -215,7 +215,6 @@ const sum = computed(() => {
     return total;
 });
 
-// TODO : 입력태그 비어있으면 오류메시지 띄우기
 // Create 버튼 클릭 이벤트 (포트폴리오 생성)
 const createBtn = async (index) => {
     // 입력값 검증
