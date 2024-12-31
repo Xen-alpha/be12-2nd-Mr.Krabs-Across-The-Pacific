@@ -240,6 +240,14 @@ Across The Pacific은 위의 문제점들을 보완하여 꾸준히 높아지는
 
 </details>
 
+<details>
+<summary>404 Redirect</summary>
+
+![footer와-404-에러 (1)](https://github.com/user-attachments/assets/99eb7008-6965-498f-8eee-67dba042dbe3)
+
+</details>
+
+
 ## 📄 기타 문서
 [👉🏼 프로젝트 기획안](https://docs.google.com/document/d/10S8pPWJzgGtz6S1djeimFvKHkFpN2KdOCY7mrUeAtj4/edit?pli=1&tab=t.b3v4vsjloy9)
 

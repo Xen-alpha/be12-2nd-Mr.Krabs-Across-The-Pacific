@@ -6,9 +6,11 @@ import PortfolioStockChart from './PortfolioStockChart.vue';
 import { usePortfolioDetailStore } from '../stores/usePortfolioDetailStore';
 import { usePortfolioRepliesStore } from '../stores/usePortfolioRepliesStore';
 import { useRoute } from 'vue-router';
+import { useRouter } from 'vue-router';
 
 
 const route = useRoute();
+const router = useRouter();
 
 const portfolioDetailStore = usePortfolioDetailStore();
 const portfolioRepliesStore = usePortfolioRepliesStore();
@@ -65,45 +67,52 @@ const submitReply = async () => {
   }
 };
 
+const username = '멍자';
+const portfolioIdx = 1;
+const updateBtn = () => {
+  router.push({
+    path: '/editport',
+    state: { portfolioIdx: portfolioIdx },
+  });
+};
+
+const deleteBtn = () => {
+  const isConfirmed = confirm('정말로 삭제하시겠습니까?');
+  if (isConfirmed) {
+    router.push({
+      path: `/portfoliolist/${username}`
+    });
+  }
+};
 
 </script>
 
-
 <template>
   <div class="container">
-    
     <div id="page-top">
-      
-      <!-- Page Wrapper -->
       <div id="wrapper">
-
-        <!-- Sidebar -->
-
-        <!-- End of Sidebar -->
-
-        <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
-
-          <!-- Main Content -->
-          <div id="content">
-
-            <!-- End of Topbar -->
-
+          <div id="content1">
             <!-- Begin Page Content -->
-            <div class="container-fluid">
-              
-
+            <!-- 만약 페이지 구성 이상해지면  class="container-fluid1 를 class="container-fluid 로 변경-->
+            <div class="container-fluid1">
               <!-- Page Heading -->
               <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                <h1 class="h3 mb-0 text-gray-800">아무거나 포트폴리오</h1>
-                <button class="updateBtn">수정</button>
-                <button calss="deleteBtn">삭제</button>
+                <router-link
+                  :to="`/portfoliolist/${username}`" >
+                    <img alt="profile" fetchpriority="high" width="128" height="128" decoding="async" data-nimg="1"
+                    style="color:transparent" src="../images/멍자.png" />
+                </router-link>
+                <div>
+                  <h1 class="h3 mb-0 text-gray-800">{{username}} 포트폴리오</h1>
+                </div>
+                <div>
+                  <button class="updateBtn" @click="updateBtn">수정</button>
+                  <button class="deleteBtn" @click="deleteBtn">삭제</button>
+                </div>
               </div>
-
               <!-- Content Row -->
               <div class="row">
-
-                
                 <!-- Earnings (Monthly) Card Example -->
                 <div class="col-xl-3 col-md-6 mb-4">
                   <div class="card border-left-primary shadow h-100 py-2">
@@ -155,8 +164,8 @@ const submitReply = async () => {
                             </div>
                             <div class="col">
                               <div class="progress progress-sm mr-2">
-                                <div class="progress-bar bg-info" role="progressbar" style="width: 50%" aria-valuenow="50"
-                                  aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar bg-info" role="progressbar" style="width: 50%"
+                                  aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
                               </div>
                             </div>
                           </div>
@@ -240,7 +249,6 @@ const submitReply = async () => {
                     </div>
                   </div>
                 </div>
-
                 <!-- Portfolio 종목 Column (6/12) -->
                 <div class="col-xl-4 col-lg-5">
                   <!-- 포트폴리오 종목 카드 -->
@@ -248,49 +256,48 @@ const submitReply = async () => {
                     <div class="card-header py-3">
                       <PortfolioStock :portfolioStocks="portfolioDetailStore.portfolioItem.portfolio_Stocks" />
                     </div>
-                </div>
-                </div>
-                </div>
-                </div>
-                </div>
-                </div>
-
-
-              </div>
-              <!-- Content Row -->
-              <div class="row">
-                <!-- Area Chart -->
-                <div class="col-xl-12 col-lg-12">
-                  <div class="card shadow mb-4">
-                    <!-- Card Header - Dropdown -->
-                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                      <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
-                      <div class="dropdown no-arrow">
-                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                          aria-haspopup="true" aria-expanded="false">
-                          <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                          aria-labelledby="dropdownMenuLink">
-                          <div class="dropdown-header">Dropdown Header:</div>
-                          <a class="dropdown-item" href="#">Action</a>
-                          <a class="dropdown-item" href="#">Another action</a>
-                          <div class="dropdown-divider"></div>
-                          <a class="dropdown-item" href="#">Something else here</a>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Card Body -->
-                    <div class="card-body">
-                      <div class="chart-area">
-                        <canvas id="myAreaChart1"></canvas>
-                      </div>
-                    </div>
                   </div>
                 </div>
-
               </div>
+            </div>
+          </div>
+        </div>
 
+
+      </div>
+      <!-- Content Row -->
+      <div class="row">
+        <!-- Area Chart -->
+        <div class="col-xl-12 col-lg-12">
+          <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+              <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
+              <div class="dropdown no-arrow">
+                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false">
+                  <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                  aria-labelledby="dropdownMenuLink">
+                  <div class="dropdown-header">Dropdown Header:</div>
+                  <a class="dropdown-item" href="#">Action</a>
+                  <a class="dropdown-item" href="#">Another action</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+              </div>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body">
+              <div class="chart-area">
+                <canvas id="myAreaChart1"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
 
               <!-- Reply -->
               <div class="reply">
@@ -343,58 +350,54 @@ const submitReply = async () => {
                 <div class="row">
                   <!-- Approach -->
                   <PortfolioReply :replies="portfolioReplies" />
-                  
 
 
         </div>
         <!-- /.container-fluid -->
 
       </div>
-      </div>
-      <!-- End of Main Content -->
+    </div>
+    <!-- End of Main Content -->
 
+    <!-- End of Footer -->
 
-
-
-      <!-- End of Footer -->
-
-      <!-- </div> -->
-      <!-- End of Content Wrapper -->
-      <!-- Footer -->
-      <footer class="sticky-footer bg-white">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Across The pacific 2024</span>
-          </div>
+    <!-- </div> -->
+    <!-- End of Content Wrapper -->
+    <!-- Footer -->
+    <footer class="sticky-footer bg-white">
+      <div class="container my-auto">
+        <div class="copyright text-center my-auto">
+          <span>Copyright &copy; Across The pacific 2024</span>
         </div>
-      </footer>
-      <!-- </div> -->
-      <!-- End of Page Wrapper -->
+      </div>
+    </footer>
+    <!-- </div> -->
+    <!-- End of Page Wrapper -->
 
-      <!-- Scroll to Top Button-->
-      <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-      </a>
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
 
-      <!-- Logout Modal-->
-      <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-              <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">×</span>
-              </button>
-            </div>
-            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-            <div class="modal-footer">
-              <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-              <a class="btn btn-primary" href="login.html">Logout</a>
-            </div>
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+            <a class="btn btn-primary" href="login.html">Logout</a>
           </div>
         </div>
       </div>
+    </div>
 
   </div>
 
@@ -403,9 +406,7 @@ const submitReply = async () => {
 
 
 <style scoped>
-
 @import '../common/sb-admin-2.min.css';
 @import 'https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i';
 @import './portfolioDetail.css'
-
 </style>
