@@ -85,8 +85,8 @@ const login = async () => {
                                     <hr class="my-0">
                                     <div class="card-body px-5 py-4">
                                         <div class="small text-center">New user?
-                                            <a routerlink="../register" href="/auth/register">Create an
-                                                account!</a>
+                                            <router-link to="/signup">Create an
+                                                account!</router-link>
                                         </div>
                                     </div>
                                 </div>

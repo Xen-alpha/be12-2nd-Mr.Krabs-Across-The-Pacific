@@ -9,6 +9,7 @@ import UserPort from '../common/UserPort.vue';
 import CreatePortfolio from '../portfolio/PortCreate.vue';
 import StockList from '../stock/StockList.vue';
 import Login from '../user/Login.vue';
+import Signup from '../user/Signup.vue';
 
 // Login Check Middleware
 const checkLogin = async (to, from, next) => {
@@ -50,6 +51,7 @@ const routes = [
   // { path: '/editport', component: CreatePortfolio, beforeEnter: checkLogin }, //로그인 되었는지 확인
   { path: '/editport', component: CreatePortfolio},
   { path: '/login', component: Login },
+  { path: '/signup', component: Signup },
 ];
 
 // Router Instance
