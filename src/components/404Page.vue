@@ -5,11 +5,20 @@ export default {
 };
 </script>
 <template>
-  <div class="big-center">404 Not Found</div>
-  <div class="small-center">요청한 리소스가 존재하지 않습니다.</div>
+  <div class="errorpage">
+    <div class="big-center">404 Not Found</div>
+    <div class="small-center">요청한 리소스가 존재하지 않습니다.</div>
+  </div>
+
 </template>
 <style scoped>
+.errorpage {
+  margin: 8rem;
+  min-height: 320px;
+}
+
 .big-center {
+  top: 80px;
   text-align: center;
   font-size: large;
 }
