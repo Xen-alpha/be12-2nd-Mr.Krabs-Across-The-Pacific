@@ -240,7 +240,12 @@ Across The Pacific은 위의 문제점들을 보완하여 꾸준히 높아지는
 ![StockLikes](/images/stock_reply_like_update_delete.gif)
 
 </details>
+<details>
+<summary>로그인, 로그아웃</summary>
 
+![LoginLogout](/images/loginlogout.gif)
+
+</details>
 
 ## 📄 기타 문서
 [👉🏼 프로젝트 기획안](https://docs.google.com/document/d/10S8pPWJzgGtz6S1djeimFvKHkFpN2KdOCY7mrUeAtj4/edit?pli=1&tab=t.b3v4vsjloy9)
