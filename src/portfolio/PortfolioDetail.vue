@@ -2,10 +2,12 @@
 import { ref, onMounted } from 'vue';
 import PortfolioReply from './PortfolioReply.vue';
 import PortfolioStock from './PortfolioStock.vue';
+import PortfolioStockChart from './PortfolioStockChart.vue';
 import { usePortfolioDetailStore } from '../stores/usePortfolioDetailStore';
 import { usePortfolioRepliesStore } from '../stores/usePortfolioRepliesStore';
 import { useRoute } from 'vue-router';
 import { useRouter } from 'vue-router';
+
 
 const route = useRoute();
 const router = useRouter();
@@ -35,8 +37,38 @@ onMounted(async () => {
     portfolioStocks.value = {}; // 기본값 설정 (객체 형태로 초기화)
     portfolioReplies.value = []; // 기본값 설정
   }
+  
 });
-const username = "멍자";
+const newReplyContent = ref(""); // 새 댓글 내용
+// 댓글 내용 업데이트 핸들러
+const updateContent = (event) => {
+  newReplyContent.value = event.target.innerText; // contenteditable의 텍스트 추출
+};
+
+const submitReply = async () => {
+  if (!newReplyContent.value.trim()) {
+    alert("댓글 내용을 입력해주세요.");
+    return;
+  }
+
+  const newReply = {
+    userName: "현재 사용자", // 사용자 이름
+    content: newReplyContent.value,
+    createdAt: new Date().toISOString(), // 현재 시간
+    updatedAt: new Date().toISOString(),
+  };
+
+  try {
+    await portfolioRepliesStore.setPortfolioReply(route.params.idx, newReply);
+    newReplyContent.value = ""; // 댓글 입력창 초기화
+    alert("댓글이 성공적으로 저장되었습니다.");
+  } catch (error) {
+    alert("댓글 저장 중 오류가 발생했습니다.");
+  }
+};
+
+const username = '멍자';
+const portfolioIdx = 1;
 const updateBtn = () => {
   router.push({
     path: '/editport',
@@ -169,7 +201,7 @@ const deleteBtn = () => {
 
               <div class="row">
                 <!-- Pie Chart -->
-                <div class="col-xl-4 col-lg-5">
+                <div class="col-xl-8 col-lg-7">
                   <div class="card shadow mb-4">
                     <!-- Card Header - Dropdown -->
                     <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -190,11 +222,14 @@ const deleteBtn = () => {
                       </div>
                     </div>
                     <!-- Card Body -->
-                    <div class="card-body">
-                      <div class="chart-pie pt-4 pb-2">
-                        <canvas id="myPieChart"></canvas>
-                      </div>
-                      <div class="mt-4 text-center small">
+                    <div class="card-body" style="white-space:pre-wrap; overflow-wrap: break-word;">
+                      <!-- <div class="chart-pie pt-2 pb-2">                   -->
+                        <!-- <canvas id="myPieChart"></canvas> -->
+                         <!-- canvas -->
+                        <PortfolioStockChart />                        
+                        <!-- </div> -->
+
+                      <!-- <div class="mt-4 text-center small">
                         <span class="mr-2">
                           <i class="fas fa-circle text-primary"></i> 테슬라
                         </span>
@@ -210,12 +245,12 @@ const deleteBtn = () => {
                         <span class="mr-2">
                           <i class="fas fa-circle text-warning"></i> 마이크로소프트
                         </span>
-                      </div>
+                      </div> -->
                     </div>
                   </div>
                 </div>
                 <!-- Portfolio 종목 Column (6/12) -->
-                <div class="col-xl-8 col-lg-7">
+                <div class="col-xl-4 col-lg-5">
                   <!-- 포트폴리오 종목 카드 -->
                   <div class="card shadow mb-4">
                     <div class="card-header py-3">
@@ -264,44 +299,57 @@ const deleteBtn = () => {
 
       </div>
 
-
-      <!-- Reply -->
-      <div class="reply">
-        <div class="compose-wrapper">
-          <div class="avatar"><span class="user user--refresh">
-              <!-- <div></div> -->
-            </span></div>
-          <div class="textarea-outer-wrapper textarea-outer-wrapper--refresh">
-            <div class="textarea-wrapper textarea-wrapper--embedv2 " data-role="textarea" dir="auto">
-              <div class="_container_ylcfx_1">
-                <div class="_editor-container-expanded_ylcfx_37">
-                  <div class="_placeholder_s9avi_1">댓글을 입력하세요</div>
-                  <div role="textbox" aria-multiline="true" class="_editor-expanded_ylcfx_13 border" spellcheck="true"
-                    data-slate-editor="true" data-slate-node="value" contenteditable="true" zindex="-1"
-                    style="background-color: white; position: relative; white-space: pre-wrap; overflow-wrap: break-word;">
-                    <div data-slate-node="element"><span data-slate-node="text"><span data-slate-leaf="true"><span
-                            data-slate-zero-width="n" data-slate-length="0">﻿<br></span></span></span></div>
-                  </div>
-                  <div class="container-btn _toolbar_k0g7a_47 ">
-                    <div class="_toolbar-primary_k0g7a_51">
-                      <!-- <div class="_menu_k0g7a_41 "><span class="_expand_k0g7a_1 ">Aa</span></div> -->
-                      <div class="_actions_k0g7a_78"><button
-                          class="comment-btn _button_8fv5d_1 _button-fill_8fv5d_15 _submit_k0g7a_84 bt"
-                          type="button"><span class=" _submit-text_k0g7a_122"
-                            style="color: white;">Comment</span></button></div>
-
-                    </div>
-                  </div>
-                  <div class="reply-section-title">댓글</div>
-                </div>
+              <!-- Reply -->
+              <div class="reply">
+  <div class="compose-wrapper">
+    <div class="avatar">
+      <span class="user user--refresh">
+        <!-- 아바타 -->
+      </span>
+    </div>
+    <div class="textarea-outer-wrapper textarea-outer-wrapper--refresh">
+      <div class="textarea-wrapper textarea-wrapper--embedv2" data-role="textarea" dir="auto">
+        <div class="_container_ylcfx_1">
+          <div class="_editor-container-expanded_ylcfx_37">
+            <!-- Placeholder -->
+            <div class="_placeholder_s9avi_1" v-if="!newReplyContent.trim()">댓글을 입력하세요</div>
+            
+            <!-- Contenteditable div -->
+            <div
+              role="textbox"
+              aria-multiline="true"
+              class="_editor-expanded_ylcfx_13 border"
+              spellcheck="true"
+              data-slate-editor="true"
+              data-slate-node="value"
+              contenteditable="true"
+              zindex="-1"
+              style="background-color: white; position: relative; white-space: pre-wrap; overflow-wrap: break-word;"
+              @input="updateContent"
+            ></div>
+          </div>
+          <div class="container-btn _toolbar_k0g7a_47">
+            <div class="_toolbar-primary_k0g7a_51">
+              <div class="_actions_k0g7a_78">
+                <button
+                  @click="submitReply"
+                  class="comment-btn _button_8fv5d_1 _button-fill_8fv5d_15 _submit_k0g7a_84 bt"
+                  type="button"
+                >
+                  <span class="_submit-text_k0g7a_122" style="color: white;">Comment</span>
+                </button>
               </div>
             </div>
           </div>
+          <div class="reply-section-title">댓글</div>
         </div>
-        <div class="row">
-          <!-- Approach -->
-          <PortfolioReply :replies="portfolioReplies" />
+      </div>
+    </div>
+  </div>
 
+                <div class="row">
+                  <!-- Approach -->
+                  <PortfolioReply :replies="portfolioReplies" />
 
 
         </div>

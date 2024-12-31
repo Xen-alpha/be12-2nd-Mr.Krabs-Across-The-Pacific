@@ -36,14 +36,14 @@ export const usePortfolioRepliesStore = defineStore('portfolioReplies',{
     actions: {
         //포트폴리오id로 조회
         async getPortfolioRepliesByCreatedAt(idx) {
-            const response = await axios.get(`https://a57d4fc0-b6d5-4291-b024-114538078baa.mock.pstmn.io/api/portfolio/${idx}/replies`);
+            const response = await axios.get(`/public/sample/portfolioreply/replies.json`);
             this.portfolioReplies = response.data; // 댓글 데이터
         },
         //입력한 댓글 저장 , idx == 포트폴리오 id(portfolioId)
         async setPortfolioReply(portfolioId, newReply) {  
             try {
             const response = await axios.post(
-              `/api/portfolio/${portfolioId}/replies`,
+              `/public/sample/portfolioreply/newreply.json`,
               newReply
             );
             // 성공적으로 저장되면, 응답 데이터를 리스트에 추가
@@ -57,8 +57,20 @@ export const usePortfolioRepliesStore = defineStore('portfolioReplies',{
 
         },
 
-        async updatePortfolioReply(idx) {
-
-        }
+        async updatePortfolioReply(replyId, content) {
+            const response = await axios
+                .put("/sample/PortfolioReply/put.json", 
+                    {
+                        "replyId": replyId,
+                        "content": content
+                    },
+                    { withCredentials: true }
+                )  
+                .catch((error)=> {
+                    console.error(error);
+                });
+            return response.data;
+            //axios
+        },
     }, 
 });

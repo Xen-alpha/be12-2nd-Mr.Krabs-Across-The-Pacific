@@ -1,25 +1,22 @@
 <script setup>
 import { defineProps, ref, reactive, onMounted, computed, onBeforeMount } from "vue";
 import stockListItem from "./component/StockListItem.vue";
-import { useStockListStore } from "../stores/useStockListStore.js";
+import { useStockLikesStore } from "../stores/useStockLikesStore.js";
 import { useLoadingStore } from "../stores/useLoadingStore.js";
 import axios from "axios";
 
 // TODO: API에 offset을 파라미터로 넘겨 페이지네이션을 구현할 것(경윤)
 const props = defineProps({
-  offset: Number, // 현재 오프셋, 시작은 0
-  sectionAction: String,
-  text: String, // 검색으로 들어온 경우 값을 저장
   initialList: Object // 상위 모듈에서 최초로 넘겨줄 초기 리스트(없으면 안 됨)
 });
 // 어쩔 수 없이 삼항 연산자 사용
-const offset = ref(!props.offset ? 0 : props.offset);
+let offset = ref(0);
 const text = ref(!props.text ? "" : props.text);
 
-const stockListStore = useStockListStore();
+const stockLikesStore = useStockLikesStore();
 const loadingStore = useLoadingStore();
-let itemlist = reactive(props.initialList ? props.initialList : stockListStore.stockListResult);
-let totalLength = ref(stockListStore.stockListOffset);
+let itemlist = reactive(props.initialList ? props.initialList : stockLikesStore.stockListResult);
+let totalLength = ref(stockLikesStore.stockListOffset);
 
 let canMoveLeft = computed(() => {
   return ref(offset > 1);
@@ -30,27 +27,27 @@ let canMoveRight = computed(() => {
 
 onBeforeMount(async () => {
   loadingStore.startLoading();
-  await stockListStore.getStockList(offset, text);
+  await stockLikesStore.getStockList(offset, text);
   loadingStore.stopLoading();
 })
 
 onMounted(async () => {
   loadingStore.startLoading();
-  await stockListStore.getStockList(offset, text);
+  await stockLikesStore.getStockList(offset, text);
   loadingStore.stopLoading();
 });
 
-const onmovePrev = async () => {
+const onmovePrev = () => {
   offset.value -= 30;
   loadingStore.startLoading();
-  await stockListStore.getStockList(offset, text);
+  stockLikesStore.getStockList(offset, text);
   loadingStore.stopLoading();
 };
 
-const onmoveNext = async () => {
+const onmoveNext = () => {
   offset.value += 30;
   loadingStore.startLoading();
-  await stockListStore.getStockList(offset, text);
+  stockLikesStore.getStockList(offset, text);
   loadingStore.stopLoading();
 };
 
@@ -59,7 +56,7 @@ const onmoveNext = async () => {
 
 <template>
   <div class="container">
-    <h1>검색 결과</h1>
+    <h1>나의 관심 종목</h1>
     <div v-for="item in itemlist">
       <stockListItem :information="item" />
     </div>
