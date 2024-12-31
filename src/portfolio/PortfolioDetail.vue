@@ -41,33 +41,19 @@ onMounted(async () => {
 
 <template>
   <div class="container">
-    
     <div id="page-top">
-      
-      <!-- Page Wrapper -->
       <div id="wrapper">
-
-        <!-- Sidebar -->
-
-        <!-- End of Sidebar -->
-
-        <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
-
-          <!-- Main Content -->
           <div id="content">
-
-            <!-- End of Topbar -->
-
             <!-- Begin Page Content -->
             <div class="container-fluid">
-              
-
               <!-- Page Heading -->
               <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                <h1 class="h3 mb-0 text-gray-800">아무거나 포트폴리오</h1>
-                <button class="updateBtn">수정</button>
-                <button calss="deleteBtn">삭제</button>
+                <div><h1 class="h3 mb-0 text-gray-800">아무거나 포트폴리오</h1></div>
+                <div>
+                  <button class="updateBtn">수정</button>
+                  <button class="deleteBtn">삭제</button>
+                </div>
               </div>
 
               <!-- Content Row -->
