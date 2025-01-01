@@ -27,7 +27,9 @@ onMounted(async () => {});
     <div id="useremail">이메일: {{ email }}</div>
     <div id="usercreated">가입 일자: {{ created }}</div>
     <div id="usertier">유저 등급: {{ tier }}</div>
-    <div id="userportfolio">나의 포트폴리오 수: <router-link to="/mylikes"></router-link>{{ portnum }}</div>
+    <div id="userportfolio">
+      나의 포트폴리오 수: <router-link to="/myportfolio">{{ portnum }}</router-link>
+    </div>
     <div id="userlikes-port">
       나의 포트폴리오 좋아요 수: <router-link to="/bookmarks">{{ portlikes }}</router-link>
     </div>
@@ -36,7 +38,7 @@ onMounted(async () => {});
     </div>
   </div>
   <div style="text-align: center; margin: 1rem">
-    <button class="modifyprofile">정보 수정</button>
+    <router-link to="/editprofile"><button class="modifyprofile">정보 수정</button></router-link>
     <br /><br />
     <button class="danger">회원 탈퇴</button>
   </div>
