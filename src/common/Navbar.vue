@@ -180,10 +180,10 @@ const userStore = useUserStore();
                   <font-awesome-icon :icon="['fas', 'user']" />
                   Profile
                 </router-link>
-                <a class="dropdown-item" href="#">
+                <router-link class="dropdown-item" to="/settings">
                   <font-awesome-icon :icon="['fas', 'gear']" />
                   Settings
-                </a>
+                </router-link>
                 <a class="dropdown-item" href="#">
                   <font-awesome-icon :icon="['fas', 'list']" />
                   Activity Log

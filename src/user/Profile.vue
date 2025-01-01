@@ -43,7 +43,7 @@ onMounted(async () => {});
     </div>
   </div>
   <div style="text-align: center; margin: 1rem">
-    <router-link to="/editprofile"><button class="modifyprofile">정보 수정</button></router-link>
+    <router-link to="/settings"><button class="modifyprofile">정보 수정</button></router-link>
     <br /><br />
     <button class="danger">회원 탈퇴</button>
   </div>

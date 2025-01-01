@@ -28,18 +28,20 @@ onMounted(async () => {});
       <h2>이미지 바꾸기</h2>
       <div class="lineElement">현재 이미지: <img :src="image" width="128" height="128" /></div>
       <div class="lineElement">새 이미지:<input type="file" id="profileimage" /></div>
-      <div class="lineElement"><button id="changeimage">이미지 변경</button></div>
+      <div class="lineElement"><button class="button" id="changeimage">이미지 변경</button></div>
     </div>
     <div style="margin-top:1rem;">
       <h2>비밀번호 변경</h2>
       <div class="lineElement">현재 비밀번호&nbsp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="password" id="oldpassword" /></div>
       <div class="lineElement">새 비밀번호&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="password" id="newpassword" /></div>
       <div class="lineElement">새 비밀번호 다시 입력<input type="password" id="checknewpassword" /></div>
-      <div class="lineElement"><button id="submitPasword">확인</button></div>
+      <div class="lineElement"><button class="button" id="submitPasword">확인</button></div>
     </div>
   </div>
 </template>
 <style scoped>
+@import '../common/main.css';
+
 .lineElement{
   padding:.5rem;
 }
@@ -49,5 +51,11 @@ onMounted(async () => {});
   color: white;
   border-radius: 0.4rem;
   border: 1px none;
+}
+.button {
+  background-color:#4f74df;
+  color:white;
+  border:1px none;
+  border-radius: 0.4rem;
 }
 </style>

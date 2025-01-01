@@ -71,7 +71,7 @@ const routes = [
   { path: "/about", component: About },
   { path: "/privacy", component: Privacy },
   { path: "/myprofile", component: Profile },
-  { path: "/editprofile", component: EditProfile },
+  { path: "/settings", component: EditProfile },
 ];
 
 // Router Instance
