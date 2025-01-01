@@ -15,7 +15,7 @@ const text = ref(!props.text ? "" : props.text);
 
 const stockLikesStore = useStockLikesStore();
 const loadingStore = useLoadingStore();
-let itemlist = reactive(props.initialList ? props.initialList : stockLikesStore.stockListResult);
+let itemlist = ref(props.initialList ? props.initialList : stockLikesStore.stockListResult);
 let totalLength = ref(stockLikesStore.stockListOffset);
 
 let canMoveLeft = computed(() => {

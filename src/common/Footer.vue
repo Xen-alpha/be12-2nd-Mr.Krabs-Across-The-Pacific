@@ -11,7 +11,7 @@
       <router-link to="/privacy">개인정보처리방침</router-link><br />
     </div>
     <div class="footer-menuline">
-      <router-link to="/bookmarks">북마크된 포트폴리오 보기</router-link><br />
+      <router-link to="/bookmarks">인기 포트폴리오 보기</router-link><br />
       <!--<router-link to="/portfolio/random">임의의 공개 포트폴리오 보기</router-link><br>-->
       <router-link to="/stocklist">전체 종목 보기</router-link><br />
     </div>

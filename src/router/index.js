@@ -14,6 +14,7 @@ import StockLikesList from "../stock/StockLikesList.vue";
 import About from "../etc/About.vue";
 import Privacy from "../etc/Privacy.vue";
 import Profile from "../user/Profile.vue";
+import EditProfile from "../user/EditProfile.vue";
 
 // Login Check Middleware
 const checkLogin = async (to, from, next) => {
@@ -70,6 +71,7 @@ const routes = [
   { path: "/about", component: About },
   { path: "/privacy", component: Privacy },
   { path: "/myprofile", component: Profile },
+  { path: "/editprofile", component: EditProfile },
 ];
 
 // Router Instance
