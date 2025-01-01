@@ -7,7 +7,7 @@ import axios from "axios";
 
 // TODO: API에 offset을 파라미터로 넘겨 페이지네이션을 구현할 것(경윤)
 const props = defineProps({
-  initialList: Object // 상위 모듈에서 최초로 넘겨줄 초기 리스트(없으면 안 됨)
+  initialList: Object, // 상위 모듈에서 최초로 넘겨줄 초기 리스트(없으면 안 됨)
 });
 // 어쩔 수 없이 삼항 연산자 사용
 let offset = ref(0);
@@ -29,7 +29,7 @@ onBeforeMount(async () => {
   loadingStore.startLoading();
   await stockLikesStore.getStockList(offset, text);
   loadingStore.stopLoading();
-})
+});
 
 onMounted(async () => {
   loadingStore.startLoading();
@@ -50,8 +50,6 @@ const onmoveNext = () => {
   stockLikesStore.getStockList(offset, text);
   loadingStore.stopLoading();
 };
-
-
 </script>
 
 <template>
@@ -68,7 +66,7 @@ const onmoveNext = () => {
   </div>
 </template>
 <style scoped>
-.container>h1 {
+.container > h1 {
   margin-top: 6rem;
 }
 
