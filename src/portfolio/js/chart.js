@@ -1,129 +1,85 @@
-import { Chart, registerables } from 'chart.js';
+import { Chart, registerables } from "chart.js";
 
-// // Set new default font family and font color to mimic Bootstrap's default styling
-// Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
-// Chart.defaults.global.defaultFontColor = '#858796';
+Chart.register(...registerables); // Chart.js 기본 구성 등록
 
-// Chart.js 플러그인 및 기본 구성 등록
-Chart.register(...registerables);
+//플러그인 커스텀
+const centerTextPlugin = {
+  id: "centerText",
+  beforeDraw(chart) {
+    if (chart.config.type === "doughnut") {
+      const { width, height, ctx } = chart;
+      ctx.save();
+      const fontSize = 24;
+      ctx.font = `${fontSize}px Nunito`;
+      ctx.textBaseline = "middle"; // 텍스트 세로 정렬 기준
 
-// src/portfolio/js/chart.js
+      // 중앙에 표시할 텍스트
+      const total = chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+      const text = `${total}%`;
 
+      // 텍스트 중앙 좌표 계산
+      const textX = Math.round((width - ctx.measureText(text).width) / 2);
+      const textY = Math.round(height/2)+25; // 캔버스의 중앙 (라벨 높이에 따라 달라지는 것 고려)
+      
+      // 텍스트 그리기
+      ctx.fillText(text, textX, textY);
+      ctx.restore();
+    }
+  },
+};
+
+// 플러그인 등록
+Chart.register(centerTextPlugin);
+
+// 차트 초기화
 export const initializeChart = (ctx) => {
-    const myPieChart = new Chart(ctx, {
-      type: 'doughnut',
-      data: {
-        labels: ["tesla", "google", "amazon", "apple", "microsoft"],
-        datasets: [
-          {
-            data: [55, 30, 15, 5, 7],
-            backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#E74A3B', '#F6C23E'],
-            hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
-            hoverBorderColor: "rgba(234, 236, 244, 1)",
-          },
-        ],
-      },
-      options: {
-        maintainAspectRatio: false,
-        tooltips: {
-          backgroundColor: "rgb(255,255,255)",
-          bodyFontColor: "#858796",
-          borderColor: '#dddfeb',
-          borderWidth: 1,
-          xPadding: 15,
-          yPadding: 15,
-          displayColors: false,
-          caretPadding: 10,
+  const myPieChart = new Chart(ctx, {
+    type: "doughnut",
+    data: {
+      labels: ["Tesla", "Google", "Amazon", "Apple", "Microsoft"],
+      datasets: [
+        {
+          data: [55, 30, 15, 5, 7],
+          backgroundColor: [
+            "#4e73df",
+            "#1cc88a",
+            "#36b9cc",
+            "#E74A3B",
+            "#F6C23E",
+          ],
+          hoverBackgroundColor: ["#2e59d9", "#17a673", "#2c9faf", "#E7483B", "#F6B23D"],
+          hoverBorderColor: "rgba(234, 236, 244, 1)",
+          borderWidth: 4, // 도넛의 외곽선 두께
         },
+      ],
+    },
+    options: {
+      maintainAspectRatio: false,
+      plugins: {
         legend: {
-          display: false,
+          display: true, // 상단에 labels 표시
+          position: "top", // 위치 설정 (top, bottom, left, right 중 선택)
+          labels: {
+            font: {
+              family: "Nunito",
+              size: 14,
+            },
+          },
         },
-        cutoutPercentage: 80,
+        tooltip: {
+          enabled: true, // 마우스 오버 시 이름과 데이터 표시
+          callbacks: {
+            label(tooltipItem) {
+              const label = tooltipItem.label || "";
+              const value = tooltipItem.raw;
+              return `${label}: ${value}`;
+            },
+          },
+        },
       },
-    });
-  
-    // 플러그인 추가
-    Chart.plugins.register({
-      beforeDraw: function (chart) {
-        if (chart.config.type === 'doughnut') {
-          const width = chart.chart.width;
-          const height = chart.chart.height;
-          const ctx = chart.chart.ctx;
-  
-          ctx.restore();
-          const fontSize = 24;
-          ctx.font = fontSize + "px Nunito";
-          ctx.textBaseline = "middle";
-  
-          // 중앙에 표시할 텍스트
-          const total = chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
-          const text = total + "%";
-          const textX = Math.round((width - ctx.measureText(text).width) / 2);
-          const textY = height / 2;
-  
-          ctx.fillText(text, textX, textY);
-          ctx.save();
-        }
-      },
-    });
-  
-    return myPieChart;
-  };
-  
+      cutout: "50%", // 도넛 중앙 크기
+    },
+  });
 
-// Pie Chart Example
-// var ctx = document.getElementById("myPieChart");
-// var myPieChart = new Chart(ctx, {
-//   type: 'doughnut',
-//   data: {
-//     labels: ["tesla", "google", "amazon","apple","microsoft"],
-//     datasets: [{
-//       data: [55, 30, 15,5,7],
-//       backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc','#E74A3B','#F6C23E'],
-//       hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
-//       hoverBorderColor: "rgba(234, 236, 244, 1)",
-//     }],
-//   },
-//   options: {
-//     maintainAspectRatio: false,
-//     tooltips: {
-//       backgroundColor: "rgb(255,255,255)",
-//       bodyFontColor: "#858796",
-//       borderColor: '#dddfeb',
-//       borderWidth: 1,
-//       xPadding: 15,
-//       yPadding: 15,
-//       displayColors: false,
-//       caretPadding: 10,
-//     },
-//     legend: {
-//       display: false
-//     },
-//     cutoutPercentage: 80,
-//   },
-// });
-
-// // 플러그인 추가 - 특정 차트에만 중앙 텍스트 표시
-// myPieChart.pluginService = Chart.plugins.register({
-//   beforeDraw: function(chart) {
-//     if (chart.config.type === 'doughnut') { // 특정 차트 유형에만 적용
-//       var width = chart.chart.width,
-//           height = chart.chart.height,
-//           ctx = chart.chart.ctx;
-
-//       ctx.restore();
-//       var fontSize = 24;
-//       ctx.font = fontSize + "px Nunito";
-//       ctx.textBaseline = "middle";
-
-//       // 중앙에 표시할 텍스트 - 총합 계산
-//       var total = chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
-//       var text = total + "%";
-//       var textX = Math.round((width - ctx.measureText(text).width) / 2);
-//       var textY = height / 2;
-
-//       ctx.fillText(text, textX, textY);
-//       ctx.save();
-//     }
-//   }
-// });
+  return myPieChart;
+};
