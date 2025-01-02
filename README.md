@@ -1,4 +1,4 @@
-﻿﻿![header](https://capsule-render.vercel.app/api?type=waving&height=300&color=gradient&text=Across%20the%20Pacific&textBg=false)
+﻿![header](https://capsule-render.vercel.app/api?type=waving&height=300&color=gradient&text=Across%20the%20Pacific&textBg=false)
 # 📈Across The Pacific (미국 주식 포트폴리오 공유 앱)
 
 
@@ -202,6 +202,14 @@ Across The Pacific은 위의 문제점들을 보완하여 꾸준히 높아지는
 ![CreatePortfolio](./images/CrreatePortfolio.gif)
 
 ![Updatefolio](./images/UpdatePortfolio.gif)
+
+</details>
+
+<details>
+<summary>포트폴리오 상세 페이지 조회/수정/삭제/댓글달기</summary>
+
+![PortfolioDetail](./images/portfoliodetail.gif)
+
 
 </details>
 
