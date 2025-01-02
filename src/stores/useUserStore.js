@@ -10,7 +10,8 @@ export const useUserStore = defineStore("user", {
     actions: {
         async login(email, password) {
             const response = await axios
-                .post("/sample/auth/login.json", {
+                .get("/sample/auth/login.json", {
+                //.post("/sample/auth/login.json", {
                     "email": email,
                     "password": password
                 },)
