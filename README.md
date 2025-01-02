@@ -199,9 +199,9 @@ Across The Pacific은 위의 문제점들을 보완하여 꾸준히 높아지는
 <details>
 <summary>포트폴리오 생성/수정</summary>
 
-![CreatePortfolio](./images/CrreatePortfolio.gif)
+![CreatePortfolio](./images/portfolioCreate.gif)
 
-![Updatefolio](./images/UpdatePortfolio.gif)
+![Updatefolio](./images/portfolioUpdate.gif)
 
 </details>
 
