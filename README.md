@@ -193,7 +193,7 @@ Across The Pacific은 위의 문제점들을 보완하여 꾸준히 높아지는
 
 ## 🖥️ 화면 설계서
 
-[Figma](https://www.figma.com/design/3Sd4e1wUNbijDcJtUTHPPG/Across-The-Pacific?node-id=150-1351&m=dev&t=AZ3xA7JFLWjHrHM0-1)
+🔗[Figma](https://www.figma.com/design/3Sd4e1wUNbijDcJtUTHPPG/Across-The-Pacific?node-id=150-1351&m=dev&t=AZ3xA7JFLWjHrHM0-1)
 
 ## 🔧 기능 테스트
 
