@@ -3,15 +3,17 @@ import axios from "axios";
 
 /**  작성자 : 경윤
  * 원 모듈인 useStockListStore와 다르게 샘플 json이 없어도 됨, 현재 기본값으로 차이를 둘 수 있음
- * 
+ *
  */
 
 export const useStockLikesStore = defineStore("stockLikes", {
   state: () => ({
     offset: 0, // 페이지네이션 오프셋
     sortType: "ascending", // 정렬 기능 대비용 필드, 현재는 Mock 상태
-    stockList: [{ id: 1, name: "Apple Inc.", code: "AAPL", market: "nasdaq", price: "460000", likes: 1216, doILikeThis: false },
-      { id: 2, name: "Tesla", code: "TSLA", market: "nasdaq", price: "246000", likes: 216, doILikeThis: false }],
+    stockList: [
+      { id: 1, name: "Apple Inc.", code: "AAPL", market: "nasdaq", price: "460000", likes: 1216, doILikeThis: false },
+      { id: 2, name: "Tesla", code: "TSLA", market: "nasdaq", price: "246000", likes: 216, doILikeThis: false },
+    ],
     totalLength: 2,
   }),
   persist: {

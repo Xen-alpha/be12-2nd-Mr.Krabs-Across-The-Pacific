@@ -1,6 +1,6 @@
 <script setup>
 import { ref, reactive, computed, onMounted, watch } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRoute , useRouter } from 'vue-router';
 import { Doughnut } from 'vue-chartjs';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { usePortCreateStore } from '../stores/usePortCreateStore';
@@ -12,12 +12,16 @@ import "vue3-toastify/dist/index.css";
 const stockList = useStockListStore();
 const loadingStore = useLoadingStore();
 const portCreate = usePortCreateStore();
+const route = useRoute();
 const router = useRouter();
 // TODO : 유저 정보 받아와서 해당 params에 접근 가능한지 검증
 // TODO : 추후 유저 idx 받아오는 식으로 변경
 //현재 로그인한 사용자가 장원영이라고 가정
 const userInfo = ref({
-    "username" : "장원영"});
+    "username" : "장원영"
+});
+
+const portStatus = history.state.portStatus;
 
 const stockData = ref({ //주식 데이터
     stocks: [{
@@ -86,7 +90,6 @@ const nameRemove = (dataType, index) => {
 };
 
 // NOTE : create 모드와 update 모드를 구분하기 위한 임시 함수와 변수
-const portStatus = ref(true); //true면 포트폴리오 생성 페이지, false면 포트폴리오 수정 페이지
 const resetData = () => { //버튼 누를 때마다 데이터 초기화
     stockData.value = {
         stocks: [{
@@ -141,9 +144,9 @@ const loadPortfolio = async () => {
     }
 };
 // 포트폴리오 상태가 변경될 때마다 불러오기
-watch(portStatus, () => {
-    loadPortfolio();
-});
+// watch(portStatus, () => {
+//     loadPortfolio();
+// });
 // onMounted 내에서 최초 데이터 로드 (필요시)
 onMounted(() => {
     if (portStatus.value === false) {
@@ -450,12 +453,12 @@ const chartOptions = ref({
             <div class="donut">
                 <Doughnut :data="chartData" :options="chartOptions" />
             </div>
-            <div>
+            <!-- <div>
                 <button @click="statusBtn">On/Off</button>
             </div>
-                <p>On : 포트폴리오 신규 생성, Off : 기존 포트폴리오 수정</p>
-                </div>
+                <p>On : 포트폴리오 신규 생성, Off : 기존 포트폴리오 수정</p> -->
             </div>
+        </div>
 
         <div class="right-section"> <!-- Right Section -->
             <div class="field-labels"> <!-- Field Labels Row -->

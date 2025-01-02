@@ -247,6 +247,13 @@ Across The Pacific은 위의 문제점들을 보완하여 꾸준히 높아지는
 
 </details>
 
+<details>
+<summary>프로필 및 설정</summary>
+
+![profile-layout](https://github.com/user-attachments/assets/a6672cc0-9dcb-447a-b2ae-91ca7c50e936)
+
+</details>
+
 
 ## 📄 기타 문서
 [👉🏼 프로젝트 기획안](https://docs.google.com/document/d/10S8pPWJzgGtz6S1djeimFvKHkFpN2KdOCY7mrUeAtj4/edit?pli=1&tab=t.b3v4vsjloy9)

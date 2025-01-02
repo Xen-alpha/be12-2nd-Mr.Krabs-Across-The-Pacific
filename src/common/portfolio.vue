@@ -2,10 +2,13 @@
 import { defineProps, ref, reactive } from 'vue';
 
 const props = defineProps({
-    portfolio:{
-        type:Object,
-        required: true,
-    }
+  portfolio:{
+    type:Object,
+    required: true,
+  },
+  showBookmarks:{
+    type: Boolean,
+    default: false }, // 북마크만 표시 여부
 });
 
 //const portfolio_id = props.portfolio.idx; // 동적으로 바인딩할 ID (예: props로 전달받거나 데이터에서 가져옴)
