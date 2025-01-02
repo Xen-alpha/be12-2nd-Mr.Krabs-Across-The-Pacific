@@ -64,10 +64,17 @@ const submitReply = async () => {
 
 const username = '멍자';
 const portfolioIdx = 1;
+// const updateBtn = () => {
+//   router.push({
+//     path: '/editport',
+//     state: { username:"멍자", portfolioIdx: 1, portStatus: false},
+//   });
+// };
 const updateBtn = () => {
   router.push({
-    path: '/editport',
-    state: { username:"멍자", portfolioIdx: 1, portStatus: false},
+    name: 'Portfolio', // 라우트 이름
+    params: { mode: 'update' },
+    state: { username:"멍자", portfolioIdx: 1,}
   });
 };
 

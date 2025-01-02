@@ -67,17 +67,19 @@ const userStore = useUserStore();
               <!-- <font-awesome-icon :icon="['fas', 'chevron-right']" /> -->
             </a>
             <ul class="dropdown-menu">
-              <li>
-                <router-link to="/" class="dropdown-item"> 모든 포트폴리오 보기 </router-link>
-              </li>
               <!-- 링크 수정(khj) -->
               <li>
-                <router-link :to="{ path: '/editport', state: { portfolioIdx: 1, portStatus: true } }" class="dropdown-item"
-                  >포트폴리오 만들기</router-link
-                >
+                <router-link :to="`/portfoliolist/${username}`" class="dropdown-item"> 내 포트폴리오 </router-link>
               </li>
               <li>
                 <router-link to="/bookmarks" class="dropdown-item"> 북마크 포트폴리오 </router-link>
+              </li>
+              <li>
+                <!-- <router-link :to="{ path: '/editport', state: { portfolioIdx: 1, portStatus: true } }" class="dropdown-item">
+                  포트폴리오 만들기</router-link> -->
+                  <router-link :to="{ name: 'Portfolio', params: { mode: 'create' }, }" class="dropdown-item">
+                  포트폴리오 생성
+                </router-link  -link>
               </li>
               <li>
                 <router-link to="/themes/landing-pages" class="dropdown-item"> 명예의 전당 </router-link>

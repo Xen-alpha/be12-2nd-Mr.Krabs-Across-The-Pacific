@@ -17,19 +17,32 @@ const route = useRoute();
 const router = useRouter();
 // TODO : 유저 정보 받아와서 해당 params에 접근 가능한지 검증
 // TODO : 추후 유저 idx 받아오는 식으로 변경
-//현재 로그인한 사용자가 장원영이라고 가정
-const userInfo = ref({
-  "username": "장원영"
-});
-
 const portStatus = ref({
-  portStatus: history.state?.portStatus ?? true, // 기본값 true
+  portStatus: route.params.mode ?? true,
   username: history.state?.username ?? "null",  // 기본값 "null"
 });
-const isEditMode = computed(() => portStatus.value && !portStatus.value.portStatus); //포트폴리오 수정
+const mode = computed(() => route.params.mode ?? 'create'); // 기본값 'create'
+const isCreateMode = computed(() => mode.value === 'create');
+const isEditMode = computed(() => mode.value === 'update');
 
-portStatus.value.portStatus = history.state.portStatus;
-portStatus.value.username = history.state.username;
+watch(() => route.params.mode, (newMode, oldMode) => {
+  console.log('현재 모드:', isCreateMode.value ? '생성' : '수정');
+  if (newMode !== oldMode) {
+    resetData();
+    if (newMode === 'update') {
+      loadPortfolio(); // 업데이트 모드일 때 데이터 로드
+    } 
+  }
+});
+// 페이지 렌더링 시 동작 분기
+onMounted(() => {
+  console.log('현재 모드:', isCreateMode.value ? '생성' : '수정');
+  if (isEditMode.value) {
+    loadPortfolio();
+  } else if(isCreateMode){
+    resetData();
+  }
+});
 
 const stockData = ref({ //주식 데이터
   stocks: [{
@@ -53,6 +66,36 @@ const portfolioData = ref({//포트폴리오 데이터 (포트폴리오 업데�
   isEditing: false, // 편집 모드 상태
   editName: '', // 편집 중인 이름
 });
+
+const resetData = () => { //버튼 누를 때마다 데이터 초기화
+  chartData.value = {
+    labels: ['No Data'],
+    datasets: [
+      {
+        data: [0],
+        backgroundColor: ['#CCCCCC'],
+        hoverBackgroundColor: ['#CCCCCC'],
+      },
+    ],
+  };
+
+  stockData.value = {
+    stocks: [{
+      name: '',
+      quantity: 0,
+      price: 0,
+      date: '',
+      isCh: true,
+    }],
+  };
+  portfolioData.value = {
+    name: '포트폴리오',
+    username: '',
+    stocks: [],
+    isEditing: false,
+    editName: '',
+  };
+};
 
 //주식 검색을 위한 설정
 const isListVisible = ref(false);
@@ -89,9 +132,9 @@ const hideList = () => {
 };
 //주식 이름 지우기
 const nameRemove = (dataType, index) => {
-  if (dataType === 'portCreate') {
+  if (dataType === 'create') {
     stockData.value.stocks[index].name = '';
-  } else if (dataType === 'portUpdate') {
+  } else if (dataType === 'update') {
     portfolioData.value.stocks[index].name = '';
   }
   isListVisible.value = false;
@@ -105,7 +148,7 @@ const loadPortfolio = async () => {
   isRequestInProgress = true;
 
   try {
-    if (!portStatus.value.portStatus) {
+    if (isEditMode) {
       console.log("포트폴리오 불러오기");
       loadingStore.startLoading();
       await portCreate.getPortfolio(portStatus.value.username);  // 포트폴리오 데이터 불러오기
@@ -124,16 +167,6 @@ const loadPortfolio = async () => {
     loadingStore.stopLoading();
   }
 };
-// 포트폴리오 상태가 변경될 때마다 불러오기
-watch(portStatus, () => {
-  loadPortfolio();
-});
-// onMounted 내에서 최초 데이터 로드 (필요시)
-onMounted(() => {
-  if (!portStatus.value.portStatus) {
-    loadPortfolio();
-  }
-});
 
 //주식 리스트 가져오기
 const stocks = ref([]);
@@ -470,7 +503,7 @@ ChartJS.register(hideCenterTextPlugin); // 플러그인 등록
               <input type="text" placeholder="Enter stock name" v-model="portStock.name"
                 @focus="showList(index, 'portfolio')" @input="showList(index, 'portfolio')" @blur="hideList" />
               <img :class="['xmark', portStock.name === '' ? 'xmarkhide' : 'xmarkshow']" src="../images/x.svg"
-                @click="nameRemove('portUpdate', index)" />
+                @click="nameRemove('update', index)" />
               <ul v-if="isListVisible === index && activeListType === 'portfolio'">
                 <li v-if="filteredStocks[index] === 0">>검색 결과가 없습니다</li>
                 <li v-for="(stock, i) in filteredStocks[index]" :key="i" @click="selectStock(stock.name, index)">
@@ -505,7 +538,7 @@ ChartJS.register(hideCenterTextPlugin); // 플러그인 등록
               <input type="text" placeholder="Enter stock name" v-model="stock.name" @focus="showList(index, 'create')"
                 @input="showList(index, 'create')" @blur="hideList" />
               <img :class="['xmark', stock.name === '' ? 'xmarkhide' : 'xmarkshow']" src="../images/x.svg"
-                @click="nameRemove('portCreate', index)" />
+                @click="nameRemove('create', index)" />
               <ul v-if="isListVisible === index && activeListType === 'create'">
                 <li v-if="filteredStocks[index].length == 0">검색 결과가 없습니다</li>
                 <li v-for="(stock, i) in filteredStocks[index]" :key="i" @click="selectStock(stock.name, index)">
@@ -534,7 +567,7 @@ ChartJS.register(hideCenterTextPlugin); // 플러그인 등록
         <div class="stock_sum">구매 금액 합계 : {{ sum }}</div>
         <!--TODO : updateBtn 동작 확인(for문의 영역에 맞춰 각각 나눠서 반영이 되는지)-->
         <div class="field-input">
-          <button v-if="isEditMode" class="add-field-button createBtn">Update</button>
+          <button v-if="isEditMode" @click=updateBtn class="add-field-button createBtn">Update</button>
           <button v-else @click="createBtn(addCount - 1)" class="add-field-button createBtn">Create</button>
           <button @click="addBtn" class="add-field-button addBtn">+</button>
         </div>
