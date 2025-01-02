@@ -37,7 +37,7 @@ export const usePortfolioRepliesStore = defineStore('portfolioReplies',{
         //포트폴리오id로 조회
         async getPortfolioRepliesByCreatedAt(idx) {
             const response = await axios.get(`/public/sample/portfolioreply/replies.json`);
-            this.portfolioReplies = response.data; // 댓글 데이터
+            this.portfolioReplies = response.data.replies; // 댓글 데이터
         },
         //입력한 댓글 저장 , idx == 포트폴리오 id(portfolioId)
         async setPortfolioReply(portfolioId, newReply) {  

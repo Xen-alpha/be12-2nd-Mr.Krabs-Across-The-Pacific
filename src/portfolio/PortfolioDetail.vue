@@ -19,7 +19,7 @@ const portfolioStocks = ref([]);
 const portfolioReplies = ref([]);
 
 onMounted(async () => {
-  try {
+  console.log("HI");
     // Portfolio detail 데이터 가져오기
     await portfolioDetailStore.getportfolioDetail(route.params.idx);
     console.log("Portfolio Detail Loaded:", portfolioDetailStore.portfolioItem);
@@ -27,18 +27,11 @@ onMounted(async () => {
     // Portfolio replies 데이터 가져오기
     await portfolioRepliesStore.getPortfolioRepliesByCreatedAt(route.params.idx);
     console.log("Portfolio Replies Loaded:", portfolioRepliesStore.portfolioReplies);
-
     // 데이터를 vue의 상태에 반영
     portfolioStocks.value = portfolioDetailStore.portfolioItem.portfolio_quantity || {};
     portfolioReplies.value = portfolioRepliesStore.portfolioReplies || [];
-
-  } catch (error) {
-    console.error("Error in onMounted:", error);
-    portfolioStocks.value = {}; // 기본값 설정 (객체 형태로 초기화)
-    portfolioReplies.value = []; // 기본값 설정
-  }
-  
 });
+
 const newReplyContent = ref(""); // 새 댓글 내용
 // 댓글 내용 업데이트 핸들러
 const updateContent = (event) => {
@@ -98,13 +91,12 @@ const deleteBtn = () => {
             <div class="container-fluid1">
               <!-- Page Heading -->
               <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                <router-link
-                  :to="`/portfoliolist/${username}`" >
-                    <img alt="profile" fetchpriority="high" width="128" height="128" decoding="async" data-nimg="1"
+                <router-link :to="`/portfoliolist/${username}`">
+                  <img alt="profile" fetchpriority="high" width="128" height="128" decoding="async" data-nimg="1"
                     style="color:transparent" src="../images/멍자.png" />
                 </router-link>
                 <div>
-                  <h1 class="h3 mb-0 text-gray-800">{{username}} 포트폴리오</h1>
+                  <h1 class="h3 mb-0 text-gray-800">{{ username }} 포트폴리오</h1>
                 </div>
                 <div>
                   <button class="updateBtn" @click="updateBtn">수정</button>
@@ -224,10 +216,10 @@ const deleteBtn = () => {
                     <!-- Card Body -->
                     <div class="card-body" style="white-space:pre-wrap; overflow-wrap: break-word;">
                       <!-- <div class="chart-pie pt-2 pb-2">                   -->
-                        <!-- <canvas id="myPieChart"></canvas> -->
-                         <!-- canvas -->
-                        <PortfolioStockChart />                        
-                        <!-- </div> -->
+                      <!-- <canvas id="myPieChart"></canvas> -->
+                      <!-- canvas -->
+                      <PortfolioStockChart />
+                      <!-- </div> -->
 
                       <!-- <div class="mt-4 text-center small">
                         <span class="mr-2">
@@ -299,57 +291,46 @@ const deleteBtn = () => {
 
       </div>
 
-              <!-- Reply -->
-              <div class="reply">
-  <div class="compose-wrapper">
-    <div class="avatar">
-      <span class="user user--refresh">
-        <!-- 아바타 -->
-      </span>
-    </div>
-    <div class="textarea-outer-wrapper textarea-outer-wrapper--refresh">
-      <div class="textarea-wrapper textarea-wrapper--embedv2" data-role="textarea" dir="auto">
-        <div class="_container_ylcfx_1">
-          <div class="_editor-container-expanded_ylcfx_37">
-            <!-- Placeholder -->
-            <div class="_placeholder_s9avi_1" v-if="!newReplyContent.trim()">댓글을 입력하세요</div>
-            
-            <!-- Contenteditable div -->
-            <div
-              role="textbox"
-              aria-multiline="true"
-              class="_editor-expanded_ylcfx_13 border"
-              spellcheck="true"
-              data-slate-editor="true"
-              data-slate-node="value"
-              contenteditable="true"
-              zindex="-1"
-              style="background-color: white; position: relative; white-space: pre-wrap; overflow-wrap: break-word;"
-              @input="updateContent"
-            ></div>
+      <!-- Reply -->
+      <div class="reply">
+        <div class="compose-wrapper">
+          <div class="avatar">
+            <span class="user user--refresh">
+              <!-- 아바타 -->
+            </span>
           </div>
-          <div class="container-btn _toolbar_k0g7a_47">
-            <div class="_toolbar-primary_k0g7a_51">
-              <div class="_actions_k0g7a_78">
-                <button
-                  @click="submitReply"
-                  class="comment-btn _button_8fv5d_1 _button-fill_8fv5d_15 _submit_k0g7a_84 bt"
-                  type="button"
-                >
-                  <span class="_submit-text_k0g7a_122" style="color: white;">Comment</span>
-                </button>
+          <div class="textarea-outer-wrapper textarea-outer-wrapper--refresh">
+            <div class="textarea-wrapper textarea-wrapper--embedv2" data-role="textarea" dir="auto">
+              <div class="_container_ylcfx_1">
+                <div class="_editor-container-expanded_ylcfx_37">
+                  <!-- Placeholder -->
+                  <div class="_placeholder_s9avi_1" v-if="!newReplyContent.trim()">댓글을 입력하세요</div>
+
+                  <!-- Contenteditable div -->
+                  <div role="textbox" aria-multiline="true" class="_editor-expanded_ylcfx_13 border" spellcheck="true"
+                    data-slate-editor="true" data-slate-node="value" contenteditable="true" zindex="-1"
+                    style="background-color: white; position: relative; white-space: pre-wrap; overflow-wrap: break-word;"
+                    @input="updateContent"></div>
+                </div>
+                <div class="container-btn _toolbar_k0g7a_47">
+                  <div class="_toolbar-primary_k0g7a_51">
+                    <div class="_actions_k0g7a_78">
+                      <button @click="submitReply"
+                        class="comment-btn _button_8fv5d_1 _button-fill_8fv5d_15 _submit_k0g7a_84 bt" type="button">
+                        <span class="_submit-text_k0g7a_122" style="color: white;">Comment</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div class="reply-section-title">댓글</div>
               </div>
             </div>
           </div>
-          <div class="reply-section-title">댓글</div>
         </div>
-      </div>
-    </div>
-  </div>
 
-                <div class="row">
-                  <!-- Approach -->
-                  <PortfolioReply :replies="portfolioReplies" />
+        <div class="row">
+          <!-- Approach -->
+          <PortfolioReply v-for="reply in portfolioRepliesStore.portfolioReplies":reply="reply" />
 
 
         </div>
@@ -359,45 +340,6 @@ const deleteBtn = () => {
     </div>
     <!-- End of Main Content -->
 
-    <!-- End of Footer -->
-
-    <!-- </div> -->
-    <!-- End of Content Wrapper -->
-    <!-- Footer -->
-    <footer class="sticky-footer bg-white">
-      <div class="container my-auto">
-        <div class="copyright text-center my-auto">
-          <span>Copyright &copy; Across The pacific 2024</span>
-        </div>
-      </div>
-    </footer>
-    <!-- </div> -->
-    <!-- End of Page Wrapper -->
-
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-      <i class="fas fa-angle-up"></i>
-    </a>
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-      aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
-          <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-          <div class="modal-footer">
-            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-            <a class="btn btn-primary" href="login.html">Logout</a>
-          </div>
-        </div>
-      </div>
-    </div>
 
   </div>
 
