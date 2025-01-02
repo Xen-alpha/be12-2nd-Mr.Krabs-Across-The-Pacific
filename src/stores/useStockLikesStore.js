@@ -1,13 +1,20 @@
 import { defineStore } from "pinia";
 import axios from "axios";
 
-export const useStockListStore = defineStore("stockList", {
+/**  작성자 : 경윤
+ * 원 모듈인 useStockListStore와 다르게 샘플 json이 없어도 됨, 현재 기본값으로 차이를 둘 수 있음
+ *
+ */
+
+export const useStockLikesStore = defineStore("stockLikes", {
   state: () => ({
     offset: 0, // 페이지네이션 오프셋
     sortType: "ascending", // 정렬 기능 대비용 필드, 현재는 Mock 상태
-    stockList: [{ id: 1, name: "Apple Inc.", code: "AAPL", market: "nasdaq", price: "460000", likes: 16, doILikeThis: false },
-      { id: 2, name: "Tesla", code: "TSLA", market: "nasdaq", price: "246000", likes: 16, doILikeThis: false }],
-    totalLength: 3,
+    stockList: [
+      { id: 1, name: "Apple Inc.", code: "AAPL", market: "nasdaq", price: "460000", likes: 1216, doILikeThis: false },
+      { id: 2, name: "Tesla", code: "TSLA", market: "nasdaq", price: "246000", likes: 216, doILikeThis: false },
+    ],
+    totalLength: 2,
   }),
   persist: {
     storage: sessionStorage,
@@ -23,7 +30,7 @@ export const useStockListStore = defineStore("stockList", {
       // 렌더링 및 링크 목적의 단일한 항목의 정보를 요청하여 반환
       try {
         // TODO: 크롤링 서버 URL로 바꾸기
-        const response = await axios.get("/sample/stocklist/get.json", {
+        const response = await axios.get("/sample/stocklikeslist/get.json", {
           params: {
             id: id,
           },
@@ -38,7 +45,7 @@ export const useStockListStore = defineStore("stockList", {
       // 전체 리스트를 반환
       try {
         // TODO: 크롤링 서버 URL로 바꾸기
-        const response = await axios.get("/sample/stocklist/get.json", {
+        const response = await axios.get("/sample/stocklikeslist/get.json", {
           params: {
             text: text,
             offset: offset,
@@ -57,17 +64,23 @@ export const useStockListStore = defineStore("stockList", {
         return this.stockList;
       }
     },
-    //Note : KHJ
+    /*
     async getStocks() {
       try {
         // TODO: 크롤링 서버 URL로 바꾸기
-        const response = await axios.get("/sample/stockList.json",);
-        return response.data;
-        // return response.data.result;
+        const response = await axios.get("/sample/stocklikeslist/get.json", {
+          params: {
+            text: text,
+            offset: 0,
+            requestLength: false,
+          },
+        });
+        return response.data.result;
       } catch (e) {
         return this.stockList;
       }
     },
+    */
     async getNextList() {
       // 다음 리스트로 페이지네이션을 위해 변경
       this.offset = this.offset + 30;
@@ -93,7 +106,7 @@ export const useStockListStore = defineStore("stockList", {
       // Note: 이 함수는 만약 종목 목록에서 직접 좋아요를 누를 경우를 대비해 만들었으며, 필요 없을 수도 있음
       try {
         // TODO: 진짜 서버 URL로 바꾸기
-        const result = await axios.post("https://aaefca20-f361-4d2c-bc81-3db58a3ae355.mock.pstmn.io/stock", {
+        const result = await axios.post("https://aaefca20-f361-4d2c-bc81-3db58a3ae355.mock.pstmn.io/stocklikes", {
           params: {
             id: id,
             action: "like",
@@ -113,7 +126,7 @@ export const useStockListStore = defineStore("stockList", {
       // Note: 이 함수는 만약 종목 목록에서 직접 좋아요를 해제할 경우를 대비해 만들었으며, 필요 없을 수도 있음
       try {
         // TODO: 진짜 서버 URL로 바꾸기
-        const result = await axios.post("https://aaefca20-f361-4d2c-bc81-3db58a3ae355.mock.pstmn.io/stock", {
+        const result = await axios.post("https://aaefca20-f361-4d2c-bc81-3db58a3ae355.mock.pstmn.io/stocklikes", {
           params: {
             id: id,
             action: "dislike",
