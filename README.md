@@ -13,11 +13,14 @@
 5. [🖥️ 화면 설계서](#-화면-설계서)  
 6. [🔧 기능 테스트](#-기능-테스트)
 7. [📄 기타 문서](#-기타-문서)
+   
 
 ## 배포 링크
 🔗[Across The Pacific](https://celarim.kro.kr)
 
+
 ## 💻 기술 스택
+
 
 ### ☑️ 기획
 <img src="https://img.shields.io/badge/figma-%23F24E1E.svg?&style=for-the-badge&logo=figma&logoColor=white" />
@@ -54,7 +57,9 @@
 
 
 ## 📊 프로젝트 개요
+
 ### 1️⃣ 소개
+
 "모두가 함께 성장하는 투자 플랫폼, Across The Pacific"
 
 ![이미지](images/across_the_Pacific.PNG)
