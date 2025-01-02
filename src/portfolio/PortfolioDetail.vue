@@ -2,7 +2,8 @@
 import { ref, onMounted } from 'vue';
 import PortfolioReply from './PortfolioReply.vue';
 import PortfolioStock from './PortfolioStock.vue';
-import PortfolioStockChart from './PortfolioStockChart.vue';
+import PortfolioPieChart from './PortfolioPieChart.vue';
+import PortfolioAreaChart from './PortfolioAreaChart.vue';
 import { usePortfolioDetailStore } from '../stores/usePortfolioDetailStore';
 import { usePortfolioRepliesStore } from '../stores/usePortfolioRepliesStore';
 import { useRoute } from 'vue-router';
@@ -21,11 +22,12 @@ const portfolioReplies = ref([]);
 onMounted(async () => {
   console.log("HI");
     // Portfolio detail 데이터 가져오기
-    await portfolioDetailStore.getportfolioDetail(route.params.idx);
+    // await portfolioDetailStore.getportfolioDetail(route.params.idx);
+    await portfolioRepliesStore.getPortfolioRepliesByCreatedAt(route.params.idx);
     console.log("Portfolio Detail Loaded:", portfolioDetailStore.portfolioItem);
 
     // Portfolio replies 데이터 가져오기
-    await portfolioRepliesStore.getPortfolioRepliesByCreatedAt(route.params.idx);
+    portfolioReplies.value = await portfolioRepliesStore.getPortfolioRepliesByCreatedAt(route.params.idx);
     console.log("Portfolio Replies Loaded:", portfolioRepliesStore.portfolioReplies);
     // 데이터를 vue의 상태에 반영
     portfolioStocks.value = portfolioDetailStore.portfolioItem.portfolio_quantity || {};
@@ -152,7 +154,7 @@ const deleteBtn = () => {
                           </div>
                           <div class="row no-gutters align-items-center">
                             <div class="col-auto">
-                              <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">+150%</div>
+                              <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">+112%</div>
                             </div>
                             <div class="col">
                               <div class="progress progress-sm mr-2">
@@ -215,29 +217,7 @@ const deleteBtn = () => {
                     </div>
                     <!-- Card Body -->
                     <div class="card-body" style="white-space:pre-wrap; overflow-wrap: break-word;">
-                      <!-- <div class="chart-pie pt-2 pb-2">                   -->
-                      <!-- <canvas id="myPieChart"></canvas> -->
-                      <!-- canvas -->
-                      <PortfolioStockChart />
-                      <!-- </div> -->
-
-                      <!-- <div class="mt-4 text-center small">
-                        <span class="mr-2">
-                          <i class="fas fa-circle text-primary"></i> 테슬라
-                        </span>
-                        <span class="mr-2">
-                          <i class="fas fa-circle text-success"></i> 아마존
-                        </span>
-                        <span class="mr-2">
-                          <i class="fas fa-circle text-info"></i> 구글
-                        </span>
-                        <span class="mr-2">
-                          <i class="fas fa-circle text-danger"></i> 애플
-                        </span>
-                        <span class="mr-2">
-                          <i class="fas fa-circle text-warning"></i> 마이크로소프트
-                        </span>
-                      </div> -->
+                      <PortfolioPieChart />
                     </div>
                   </div>
                 </div>
@@ -256,38 +236,36 @@ const deleteBtn = () => {
         </div>
 
 
-      </div>
-      <!-- Content Row -->
-      <div class="row">
-        <!-- Area Chart -->
-        <div class="col-xl-12 col-lg-12">
-          <div class="card shadow mb-4">
-            <!-- Card Header - Dropdown -->
-            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-              <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
-              <div class="dropdown no-arrow">
-                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                  aria-haspopup="true" aria-expanded="false">
-                  <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                  aria-labelledby="dropdownMenuLink">
-                  <div class="dropdown-header">Dropdown Header:</div>
-                  <a class="dropdown-item" href="#">Action</a>
-                  <a class="dropdown-item" href="#">Another action</a>
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+              <!-- Content Row -->
+              <div class="row">
+                <!-- Area Chart -->
+                <div class="col-xl-12 col-lg-12">
+                  <div class="card shadow mb-4">
+                    <!-- Card Header - Dropdown -->
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                      <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
+                      <div class="dropdown no-arrow">
+                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                          aria-haspopup="true" aria-expanded="false">
+                          <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                          aria-labelledby="dropdownMenuLink">
+                          <div class="dropdown-header">Dropdown Header:</div>
+                          <a class="dropdown-item" href="#">Action</a>
+                          <a class="dropdown-item" href="#">Another action</a>
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item" href="#">Something else here</a>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- Card Body -->
+                    <div class="card-body" style="white-space:pre-wrap; overflow-wrap: break-word;">
+                        <PortfolioAreaChart />
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            <!-- Card Body -->
-            <div class="card-body">
-              <div class="chart-area">
-                <canvas id="myAreaChart1"></canvas>
-              </div>
-            </div>
-          </div>
-        </div>
 
       </div>
 
