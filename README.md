@@ -1,4 +1,4 @@
-﻿﻿![header](https://capsule-render.vercel.app/api?type=waving&height=300&color=gradient&text=Across%20the%20Pacific&textBg=false)
+﻿![header](https://capsule-render.vercel.app/api?type=waving&height=300&color=gradient&text=Across%20the%20Pacific&textBg=false)
 # 📈Across The Pacific (미국 주식 포트폴리오 공유 앱)
 
 
@@ -13,14 +13,29 @@
 5. [🖥️ 화면 설계서](#-화면-설계서)  
 6. [🔧 기능 테스트](#-기능-테스트)
 7. [📄 기타 문서](#-기타-문서)
+   
+<br>
 
 ## 배포 링크
 🔗[Across The Pacific](https://celarim.kro.kr)
 
+<br>
+
 ## 💻 기술 스택
 
+
+### ☑️ 기획
+<img src="https://img.shields.io/badge/figma-%23F24E1E.svg?&style=for-the-badge&logo=figma&logoColor=white" />
+
+<br>
+
+### ☑️ 배포
+<img src="https://img.shields.io/badge/amazonaws-232F3E?style=for-the-badge&logo=amazonaws&logoColor=white"><img src="https://img.shields.io/badge/ubuntu-%23E95420.svg?&style=for-the-badge&logo=ubuntu&logoColor=white" />
+
+<br>
+
 ### ☑️ FRONT END
-<img src="https://img.shields.io/badge/html5-%23E34F26.svg?&style=for-the-badge&logo=html5&logoColor=white" /><img src="https://img.shields.io/badge/css3-%231572B6.svg?&style=for-the-badge&logo=css3&logoColor=white" /><img src="https://img.shields.io/badge/vue.js-%234FC08D.svg?&style=for-the-badge&logo=vue.js&logoColor=white" /><img src="https://img.shields.io/badge/nginx-%23269539.svg?&style=for-the-badge&logo=nginx&logoColor=white" />
+<img src="https://img.shields.io/badge/html5-%23E34F26.svg?&style=for-the-badge&logo=html5&logoColor=white" /><img src="https://img.shields.io/badge/css3-%231572B6.svg?&style=for-the-badge&logo=css3&logoColor=white" /><img src="https://img.shields.io/badge/vue.js-%234FC08D.svg?&style=for-the-badge&logo=vue.js&logoColor=white" /><img src="https://img.shields.io/badge/nginx-%23269539.svg?&style=for-the-badge&logo=nginx&logoColor=white" /><img src="https://img.shields.io/badge/bootstrap-%237952B3.svg?&style=for-the-badge&logo=bootstrap&logoColor=white" /><img src="https://img.shields.io/badge/postman-%23FF6C37.svg?&style=for-the-badge&logo=postman&logoColor=white" />
 
 <br>
 
@@ -42,9 +57,12 @@
 </table>
 
 
+<br>
 
 ## 📊 프로젝트 개요
+
 ### 1️⃣ 소개
+
 "모두가 함께 성장하는 투자 플랫폼, Across The Pacific"
 
 ![이미지](images/across_the_Pacific.PNG)
@@ -165,6 +183,7 @@ Across The Pacific은 위의 문제점들을 보완하여 꾸준히 높아지는
 
 </details>
 
+<br>
 
 ## 📁 요구사항 명세서
 
@@ -181,9 +200,13 @@ Across The Pacific은 위의 문제점들을 보완하여 꾸준히 높아지는
 
 +) 만일 마스터 DB 서버가 멈출 경우 복제 DB 서버의 동기화가 끊어지는 상황이 있을 수 있다. 이에 대비해 DB Server들은 HAProxy와 같은 로드 밸런서를 통해 가상의 IP를 통해 백엔드와 통신하게 하여, 마스터가 멈추더라도 남은 슬레이브 DB들을 통해 단순한 포트폴리오 조회 작업 정도는 가능하게 만드는 등의 논의를 진행 중
 
+<br>
+
 ## 🖥️ 화면 설계서
 
-[Figma](https://www.figma.com/design/3Sd4e1wUNbijDcJtUTHPPG/Across-The-Pacific?node-id=150-1351&m=dev&t=AZ3xA7JFLWjHrHM0-1)
+🔗[Figma](https://www.figma.com/design/3Sd4e1wUNbijDcJtUTHPPG/Across-The-Pacific?node-id=150-1351&m=dev&t=AZ3xA7JFLWjHrHM0-1)
+
+<br>
 
 ## 🔧 기능 테스트
 
@@ -199,9 +222,17 @@ Across The Pacific은 위의 문제점들을 보완하여 꾸준히 높아지는
 <details>
 <summary>포트폴리오 생성/수정</summary>
 
-![CreatePortfolio](./images/CrreatePortfolio.gif)
+![CreatePortfolio](./images/portfolioCreate.gif)
 
-![Updatefolio](./images/UpdatePortfolio.gif)
+![Updatefolio](./images/portfolioUpdate.gif)
+
+</details>
+
+<details>
+<summary>포트폴리오 상세 페이지 조회/수정/삭제/댓글달기</summary>
+
+![PortfolioDetail](./images/portfoliodetail.gif)
+
 
 </details>
 
@@ -254,6 +285,7 @@ Across The Pacific은 위의 문제점들을 보완하여 꾸준히 높아지는
 
 </details>
 
+<br>
 
 ## 📄 기타 문서
 [👉🏼 프로젝트 기획안](https://docs.google.com/document/d/10S8pPWJzgGtz6S1djeimFvKHkFpN2KdOCY7mrUeAtj4/edit?pli=1&tab=t.b3v4vsjloy9)
