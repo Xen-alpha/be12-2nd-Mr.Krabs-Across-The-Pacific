@@ -8,10 +8,24 @@ export const useUserStore = defineStore("user", {
         storage: sessionStorage,
     },
     actions: {
+        async signup(email, password) {
+            console.log("hi")
+            const response = await axios
+                .post("/api/user/signup", {
+                    "email": email,
+                    "password": password
+                })
+                .catch((error) => {
+                    console.log(error);
+                    return null;
+                })
+                console.log("hi")
+        },
         async login(email, password) {
             const response = await axios
-                .get("/sample/auth/login.json", {
+                //.get("/sample/auth/login.json", {
                 //.post("/sample/auth/login.json", {
+                .post("/api/login", {
                     "email": email,
                     "password": password
                 },)
@@ -21,15 +35,15 @@ export const useUserStore = defineStore("user", {
                 })
             console.log(response);
             if (response === null) return false;
-            this.userId = response.data.userId;
-            this.image = response.data.image;
+            this.userIdx = response.data.userIdx;
+            //this.image = response.data.image;
             this.isLogin = true;
             return true;
         },
 
         async logout() {
             const response = await axios
-                .get("/sample/auth/logout.json",)
+                .get("/api/logout.json",)
                 .catch((error) => {
                     console.error(error);
                     return null
@@ -43,7 +57,8 @@ export const useUserStore = defineStore("user", {
         },
         async checkLogin() {
             //axios
-            const response = await axios.get("/sample/auth/check.json", {
+            //const response = await axios.get("/sample/auth/check.json", {
+            const response = await axios.get("test/user/check", {
                 withCredentials: true,
             }).catch((error) => {
                 //console.error(error);

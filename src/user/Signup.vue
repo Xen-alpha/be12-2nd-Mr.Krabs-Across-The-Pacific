@@ -11,7 +11,7 @@ const password = ref('');
 const passwordconfirm = ref('');
 
 const signup = async () => {
-    //const result = await userStore.signup(email.value, password.value);
+    const result = await userStore.signup(email.value, password.value);
     //메인페이지로 보내기
     const currentPosition = router.options.history.state.position;
     console.log(currentPosition)

@@ -79,7 +79,7 @@ const dislikeReply = async (replyId) => {
                 </div>
             </div>
             <small class="replycard-info text-black-50">
-                작성일자: {{ reply.createdAt }}
+                작성일자: {{ new Date(reply.createdAt).toISOString().split('T')[0] }}
             </small>
             <small v-if="reply.createdAt != reply.updatedAt" class="text-right replycard-info text-black-50">
                 (수정됨)

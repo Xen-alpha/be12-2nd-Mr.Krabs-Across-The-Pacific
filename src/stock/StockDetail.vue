@@ -38,7 +38,9 @@ const draw = async () => {
 
 
 onMounted(async () => {
-    await stockDetailStore.getStockDetail();
+    console.log(route.params.idx);
+    await stockDetailStore.getStockDetail(route.params.idx);
+    
     await stockReplyStore.getStockReplyListByCreatedAt(route.params.idx, offset.value);
     await draw();
 });
