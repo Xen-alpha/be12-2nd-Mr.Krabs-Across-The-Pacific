@@ -11,10 +11,7 @@ const props = defineProps({
     default: false }, // 북마크만 표시 여부
 });
 
-//const portfolio_id = props.portfolio.idx; // 동적으로 바인딩할 ID (예: props로 전달받거나 데이터에서 가져옴)
-const portfolio_id = 1;
-const username = '장원영';
-
+console.log(props.portfolio);
 const isBookmarked = ref(false); // true면 북마크
 const heartsContainer = ref(null); // 하트 컨테이너 참조
 const bookBtn = () => {
@@ -48,7 +45,7 @@ const bookBtn = () => {
             <img class="img" src="../images/sample.jpg" alt="Portfolio Image" />
         </a> -->
         <router-link class="portfolio"
-        :to="`/portfolio/${portfolio_id}`" >
+        :to="`/portfolio/${portfolio.idx}`" >
             <img class="img" src="../images/sample.jpg" alt="Portfolio Image" />
         </router-link>
         <div class="bottom">
@@ -63,7 +60,7 @@ const bookBtn = () => {
                 </div>
             </div>
             <div class="bottom_right">
-                <p class="view">👀 {{ portfolio.view }}</p>
+                <p class="view">👀 {{ portfolio.viewCnt }}</p>
                 <button class="bookmark" :class="{ 'active': isBookmarked }"
                 @click="bookBtn">♥️ {{ props.portfolio.bookmark }}</button>
                 <!-- 하트 애니메이션 컨테이너 -->
