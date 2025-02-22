@@ -1,8 +1,11 @@
 <script setup>
 import { defineProps, ref, reactive } from 'vue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const props = defineProps({
-  portfolio:{
+    portfolio:{
     type:Object,
     required: true}
 });
@@ -10,6 +13,11 @@ const props = defineProps({
 const isBookmarked = props.portfolio.bookmark;
 
 const heartsContainer = ref(null); // 하트 컨테이너 참조
+
+const navigateToPortfolio = (idx) => {
+    router.push(`/portfolio/${idx}`);
+};
+
 const bookBtn = () => {
 };
 </script>
@@ -20,13 +28,12 @@ const bookBtn = () => {
         <!-- <a  class="portfolio" href="/portfolio/1">
             <img class="img" src="../images/sample.jpg" alt="Portfolio Image" />
         </a> -->
-        <router-link class="portfolio"
-        :to="`/portfolio/${portfolio.idx}`" >
+        <div class="portfolio" @click="navigateToPortfolio(portfolio.idx)">
             <div class="image-container">
             <img class="img base-img" src="../images/sample.jpg" alt="Base Image" />
             <img class="img overlay-img" src="../images/badge1.webp" alt="Overlay Image" />
         </div>
-        </router-link>
+        </div>
         <div class="bottom">
             <div class="bottom_left">
                 <div class="p_name">{{portfolio.name}}</div>
