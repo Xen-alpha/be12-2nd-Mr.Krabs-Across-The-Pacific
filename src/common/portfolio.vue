@@ -11,8 +11,8 @@ const props = defineProps({
     default: false }, // 북마크만 표시 여부
 });
 
-console.log(props.portfolio);
-const isBookmarked = ref(false); // true면 북마크
+const isBookmarked = props.portfolio.bookmark;
+
 const heartsContainer = ref(null); // 하트 컨테이너 참조
 const bookBtn = () => {
     // 상태에 따라 bookmark 값을 증가 또는 감소

@@ -12,7 +12,7 @@ const currentPage = ref(1);
 // 페이지 로딩 시 포트폴리오 목록 불러오기
 onMounted(async () => {
     loadingStore.startLoading();
-    await portfolioList.getPortfolioList(currentPage.value, 'viewCnt');
+    await portfolioList.getPortfolioList(currentPage.value-1, 'viewCnt');
     loadingStore.stopLoading();
 });
 
@@ -20,7 +20,7 @@ onMounted(async () => {
 const selectOption = async (option) => {
     selectedOption.value = option;
     loadingStore.startLoading();
-    await portfolioList.getPortfolioList(currentPage.value, selectedOption.value);
+    await portfolioList.getPortfolioList(currentPage.value-1, selectedOption.value);
     loadingStore.stopLoading();
 };
 
@@ -28,7 +28,7 @@ const selectOption = async (option) => {
 const changePage = async (page) => {
     currentPage.value = page;
     loadingStore.startLoading();
-    await portfolioList.getPortfolioList(currentPage.value, selectedOption.value);
+    await portfolioList.getPortfolioList(currentPage.value-1, selectedOption.value);
     loadingStore.stopLoading();
 };
 </script>
