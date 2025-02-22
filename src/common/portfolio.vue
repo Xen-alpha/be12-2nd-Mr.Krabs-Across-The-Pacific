@@ -22,19 +22,16 @@ const bookBtn = () => {
         </a> -->
         <router-link class="portfolio"
         :to="`/portfolio/${portfolio.idx}`" >
-            <img class="img" src="../images/sample.jpg" alt="Portfolio Image" />
+            <div class="image-container">
+            <img class="img base-img" src="../images/sample.jpg" alt="Base Image" />
+            <img class="img overlay-img" src="../images/badge1.webp" alt="Overlay Image" />
+        </div>
         </router-link>
         <div class="bottom">
             <div class="bottom_left">
                 <div class="p_name">{{portfolio.name}}</div>
-                <div class="badge">
-                    <!--TODO : 포트폴리오 뱃지 데이터 가져오기-->
-                    <img src="../images/badge1.webp" alt="badge1" class="badge_img">
-                    <img src="../images/badge2.webp" alt="badge2" class="badge_img">
-                    <img src="../images/badge3.webp" alt="badge3" class="badge_img">
-                </div>
+                <div class="rate"> 평가 손익 : {{ portfolio.rate }}%</div>
             </div>
-            <div class="rate"> 평가 손익 : {{ portfolio.rate }}%</div>
             <div class="bottom_right">
                 <p class="view">{{ portfolio.viewCnt }} 👀</p>
                 <!-- <button class="bookmark" @click="bookBtn">♥️</button> -->
