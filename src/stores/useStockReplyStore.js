@@ -7,8 +7,8 @@ export const useStockReplyStore = defineStore("stockReply", {
     actions: {
         async getStockReplyListByCreatedAt(stockId, offset) {
             const response = await axios
-            .get("/test/stock/reply?stockId="+stockId);
-            //.get("/sample/stockreply/get.json")
+            //.get("/test/stock/reply?stockId="+stockId);
+            .get("/sample/stockreply/get.json")
             //.get("https://637b1d88-d99f-48ca-b187-81bb20e3ae05.mock.pstmn.io/stockreply"+"?stockId="+stockId+"&offset="+offset)
             this.replies = response.data.replies;
         },

@@ -5,11 +5,12 @@ export const useStockDetailStore = defineStore("stockDetail", {
         name: "테슬라",
         code: "TSLA",
         market: "NASDAQ",
+        replies: []
     }),
     actions: {
         async getStockDetail(stockId) {
             const response = await axios
-                .get('/test/stock/detail?idx='+stockId)
+                .get('/api/stock/detail/'+stockId)
                     .catch((error)=> {
                         console.log(error);
                     })
@@ -20,6 +21,7 @@ export const useStockDetailStore = defineStore("stockDetail", {
             this.name = response.data.result.name;
             this.code = response.data.result.code;
             this.market = response.data.result.market;
+            this.replies = response.data.result.replies;
         }
     }
 })

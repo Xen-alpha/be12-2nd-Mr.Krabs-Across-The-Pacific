@@ -41,7 +41,7 @@ onMounted(async () => {
     console.log(route.params.idx);
     await stockDetailStore.getStockDetail(route.params.idx);
     
-    await stockReplyStore.getStockReplyListByCreatedAt(route.params.idx, offset.value);
+    //await stockReplyStore.getStockReplyListByCreatedAt(route.params.idx, offset.value);
     await draw();
 });
 
@@ -137,7 +137,7 @@ const setReply = async () => {
                 <div class="reply">
                     <div class="row">
                         <!-- Approach -->
-                        <StockReply v-for="reply in stockReplyStore.replies" :reply="reply"></StockReply>
+                        <StockReply v-for="reply in stockDetailStore.replies" :reply="reply"></StockReply>
                     </div>
                 </div>
             </div>
