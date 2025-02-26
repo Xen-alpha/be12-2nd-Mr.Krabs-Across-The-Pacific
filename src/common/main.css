@@ -169,7 +169,8 @@ hr{
   z-index: 2; /* 겹치는 이미지가 위에 오도록 설정 */
   opacity: 0.9; /* 투명도를 줄 수 있음 */
   width: 15%;
-  margin-left: 1rem;
+  margin-left: 0.3rem;
+  margin-top: 0.3rem;
 }
 
 .inside:hover .portfolio {

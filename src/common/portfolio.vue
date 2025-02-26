@@ -31,7 +31,7 @@ const bookBtn = () => {
         <div class="portfolio" @click="navigateToPortfolio(portfolio.idx)">
             <div class="image-container">
             <img class="img base-img" src="../images/sample.jpg" alt="Base Image" />
-            <img class="img overlay-img" src="../images/badge1.webp" alt="Overlay Image" />
+            <img class="img overlay-img" src="/images/badge1.png" alt="Overlay Image" />
         </div>
         </div>
         <div class="bottom">
