@@ -3,7 +3,6 @@ import axios from 'axios';
 
 export const usePortCreateStore = defineStore('portcreate', {
     state: () => ({
-       
     }),
 
     actions: {
@@ -11,7 +10,9 @@ export const usePortCreateStore = defineStore('portcreate', {
         async setPortfolio(payload) {
             try {
                 this.isLoading = true; // 로딩 상태 시작
+                console.log("입력값 : ", payload);
                 const response = await axios.post(`/api/portfolio/register`, payload);
+                console.log(response.data);
                 return response.data.result;
             } catch (error) {
                 console.log("code : ", response.data.code);
