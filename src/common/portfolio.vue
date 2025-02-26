@@ -15,7 +15,7 @@ const isBookmarked = props.portfolio.bookmark;
 const heartsContainer = ref(null); // 하트 컨테이너 참조
 
 const navigateToPortfolio = (idx) => {
-    router.push(`/portfolio/${idx}`);
+    router.push(`/portfolio/detail/${idx}`);
 };
 
 const bookBtn = () => {
