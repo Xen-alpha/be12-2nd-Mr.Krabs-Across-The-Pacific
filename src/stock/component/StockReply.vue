@@ -20,34 +20,47 @@ const likesCount = ref(props.reply?.likesCount || 0);
 const heartsContainer = ref(null); // 하트 컨테이너 참조
 
 
+// 현재 수정중인지 아닌지를 켜고 끄는 함수
 const changeUpdate = () => {
     isUpdate.value = !isUpdate.value;
 }
 
+
+//댓글 수정 함수
 const updateReply = async (replyId) => {
     const content = document.querySelector('#comment'+replyId).innerHTML;
     const result = await stockReplyStore.updateStockReply(replyId, content);
     router.go(0);
 }
 
+//댓글 삭제 함수
 const deleteReply = async (replyId) => {
     await stockReplyStore.deleteStockReply(replyId);
     router.go(0);
 }
 
+//댓글 좋아요 누르기
 const likeReply = async (replyId) => {
     //로그인 안했으면 못누른다.
-    if (userStore.userId == null) return;
+    //console.log(userStore.userId);
+    //if (userStore.userId == null) return;
 
     //withcredential이용으로 일단 막아둠
-    //await stockReplyStore.setReplyLikes(replyId);
+    const response = await stockReplyStore.setReplyLikes(replyId);
+    if (!response.isSuccess) {
+        return;
+    }
     isLiked.value = true;
     likesCount.value = likesCount.value + 1;
+
+    //하트모양 올라가는 애니매이션션
     const heart = document.createElement('div');
     heart.textContent = '♥️'; // 하트 모양
     heart.classList.add('flying-heart');
     heartsContainer.value.appendChild(heart);
 }
+
+//댓글 좋아요 취소
 const dislikeReply = async (replyId) => {
     //await stockReplyStore.deleteReplyLikes(replyId);
     isLiked.value = false;
@@ -62,6 +75,7 @@ const dislikeReply = async (replyId) => {
             <div style="display: flex; justify-content: space-between;">
                 <h5 class="m-0 font-weight-bold text-primary">{{ reply.userName }}</h5>
 
+                <!-- 댓글 작성 유저가 현재 로그인 한 유저라면 수정, 삭제 토글이 보이게 하자. -->
                 <div v-if="userStore.userId==reply.userId">
                     <div class="dropdown no-arrow">
                         <a class="dropdown-toggle nav-link " href="#" role="button" data-bs-toggle="dropdown"
@@ -78,6 +92,7 @@ const dislikeReply = async (replyId) => {
                     </div>
                 </div>
             </div>
+            <!-- 댓글 작성일자, 수정되었으면 수정됨을 붙인다. -->
             <small class="replycard-info text-black-50">
                 작성일자: {{ new Date(reply.createdAt).toISOString().split('T')[0] }}
             </small>
@@ -85,12 +100,13 @@ const dislikeReply = async (replyId) => {
                 (수정됨)
             </small>
 
+            <!-- 좋아요 버튼튼 -->
             <div>
                 <div style="display: flex; align-items: center;" class="me-auto align-items-lg-center">
                     <button class="like-btn ">
-                        <font-awesome-icon class="like-icon" v-if="isLiked" @click="dislikeReply(reply.replyId)"
+                        <font-awesome-icon class="like-icon" v-if="isLiked" @click="dislikeReply(reply.idx)"
                             :icon="['fas', 'heart']" />
-                        <font-awesome-icon class="like-icon" v-else @click="likeReply(reply.replyId)"
+                        <font-awesome-icon class="like-icon" v-else @click="likeReply(reply.idx)"
                             :icon="['far', 'heart']" />
                         <div class="hearts-container" ref="heartsContainer"></div>
                     </button>
@@ -107,9 +123,11 @@ const dislikeReply = async (replyId) => {
             </div>
 
         </div>
+        <!-- 수정중이 아니면 현재 댓글의 내용을 보여준다. -->
         <div v-if="!isUpdate" class="card-body">
             <div v-html="reply.content"></div>
         </div>
+        <!-- 수정 중이라면 현재 댓글의 내용을 담고 댓글을 수정할 수 있는 화면이 나온다. -->
         <div v-else class="card-body">
             <div :id="'comment'+reply.replyId" role="textbox" aria-multiline="true" class="_editor-expanded_ylcfx_13 border overflow-scroll"
                 spellcheck="true" data-slate-editor="true" data-slate-node="value" contenteditable="true" zindex="-1"

@@ -26,7 +26,7 @@ export const useUserStore = defineStore("user", {
                 //.get("/sample/auth/login.json", {
                 //.post("/sample/auth/login.json", {
                 .post("/api/login", {
-                    "email": email,
+                    "id": email,
                     "password": password
                 },)
                 .catch((error) => {
@@ -43,16 +43,16 @@ export const useUserStore = defineStore("user", {
 
         async logout() {
             const response = await axios
-                .get("/api/logout.json",)
+                .get("/api/logout",)
                 .catch((error) => {
                     console.error(error);
                     return null
                 })
             console.log(response);
-            if (response === null) return false;
             this.userId = null;
             this.image = null;
             this.isLogin = false;
+            if (response === null) return false;
             return true;
         },
         async checkLogin() {
