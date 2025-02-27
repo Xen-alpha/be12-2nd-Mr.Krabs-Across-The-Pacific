@@ -27,21 +27,40 @@ const bookmarkBtn = () => {
 
 <template>
     <div class="inside">
-        <!-- 뒤에 /:idx 추가 -> 전체 포트폴리오에서 클릭하면 이동  -->
-        <!-- <a  class="portfolio" href="/portfolio/1">
-            <img class="img" src="../images/sample.jpg" alt="Portfolio Image" />
-        </a> -->
         <div class="portfolio">
             <div class="image-container">
-            <img class="img base-img" @click="navigateToPortfolio(portfolio.idx)" src="../images/sample.jpg" alt="Base Image" />
-            <img class="img overlay-img" src="../images/badge1.png" alt="Overlay Image" />
-            <button v-if="!isBookmarked" @click="bookmarkBtn(portfolio.idx)" class="bookmark">
-                <!-- <img id="starIcon" src="../images/white-star.svg" class="bookmarkImg"/> -->
-            </button>
-            <button v-if="isBookmarked" @click="bookmarkBtn(portfolio.idx)" class="bookmark bookmarkTrue">
-                <!-- <img id="starIcon" src="../images/yellow-star-filled.svg"/> -->
-            </button>
+                <img class="img base-img" @click="navigateToPortfolio(portfolio.idx)" src="../images/sample.jpg" alt="Base Image" />
+                <div class="badge-container">
+    <!-- badgeList가 비어있지 않은 경우에만 렌더링 -->
+    <div v-if="portfolio.badgeList && portfolio.badgeList.length > 0">
+        <!-- badgeList 배열을 순회 -->
+        <div v-for="badge in portfolio.badgeList" :key="badge.idx">
+            
+            <!-- Badge idx에 따라 다른 이미지를 표시 -->
+            <template v-if="badge.idx === 1">
+                <img class="badge-img" src="../images/badge1.png" alt="Badge 1" />
+            </template>
+            <template v-else-if="badge.idx === 2">
+                <img class="badge-img" src="../images/badge2.png" alt="Badge 2" />
+            </template>
+            <template v-else-if="badge.idx === 3">
+                <img class="badge-img" src="../images/badge3.png" alt="Badge 3" />
+            </template>
+            <template v-else>
+                <!-- idx가 예상하지 않은 값일 때 기본 이미지 또는 빈 요소 처리 -->
+                <img class="badge-img" src="../images/default-badge.png" alt="Default Badge" />
+            </template>
+
         </div>
+    </div>
+</div>
+                <button v-if="!isBookmarked" @click="bookmarkBtn(portfolio.idx)" class="bookmark">
+                    <!-- <img id="starIcon" src="../images/white-star.svg" class="bookmarkImg"/> -->
+                </button>
+                <button v-if="isBookmarked" @click="bookmarkBtn(portfolio.idx)" class="bookmark bookmarkTrue">
+                    <!-- <img id="starIcon" src="../images/yellow-star-filled.svg"/> -->
+                </button>
+            </div>
         </div>
         <div class="bottom">
             <div class="bottom_left">

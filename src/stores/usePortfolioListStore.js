@@ -13,6 +13,7 @@ export const usePortfolioListStore = defineStore("portfolioList", {
             hasPrevious: false,
         },
         portfolios: [],
+        badges: []
     }),
     actions: {
         async getPortfolioList(page, option) {
@@ -27,8 +28,7 @@ export const usePortfolioListStore = defineStore("portfolioList", {
                     throw new Error("잘못된 응답 형식입니다.");
                 }
             } catch (error) {
-                console.log("code : ", response.data.code);
-                console.log("message : ", response.data.message);
+                console.error;
             } finally {
                 this.isLoading = false;
             }
