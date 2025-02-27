@@ -270,7 +270,7 @@ const createBtn = async (index) => {
       "hideProgressBar": true
     })
     setTimeout(() => {
-      router.push(`/portfolio/${response}`); //만들어진 포트폴리오 페이지로 이동
+      router.push(`/portfolio/detail/${response}`); //만들어진 포트폴리오 페이지로 이동
     }, 1000); // 1초 (autoClose와 같은 시간으로 맞춤)
   } catch (error) {
     toast("error", {

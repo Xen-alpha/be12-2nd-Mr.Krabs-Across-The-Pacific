@@ -24,12 +24,15 @@ const selectOption = async (option) => {
     loadingStore.stopLoading();
 };
 
-// 페이지 변경 시 데이터를 새로 로드
 const changePage = async (page) => {
+    if (isLoading.value) return; // 중복 요청 방지
     currentPage.value = page;
-    loadingStore.startLoading();
-    await portfolioList.getPortfolioList(currentPage.value-1, selectedOption.value);
-    loadingStore.stopLoading();
+    isLoading.value = true;    
+    try {
+        await portfolioList.getPortfolioList(currentPage.value - 1, selectedOption.value);
+    } finally {
+        isLoading.value = false;
+    }
 };
 </script>
 
@@ -60,9 +63,9 @@ const changePage = async (page) => {
         </div>
         <!-- 페이징 버튼 -->
         <div class="pagination">
-            <button :disabled="!(portfolioList.pagination?.hasPrevious)" @click="changePage(currentPage-1)"><</button>
+            <button :disabled="!portfolioList.pagination?.hasPrevious || isLoading" @click="changePage(currentPage-1)"><</button>
             <span>페이지 {{ currentPage }}  / {{ portfolioList.pagination?.totalPages }}</span>
-            <button :disabled="!(portfolioList.pagination?.hasNext)" @click="changePage(currentPage+1)">></button>
+            <button :disabled="!portfolioList.pagination?.hasNext || isLoading" @click="changePage(currentPage+1)">></button>
         </div>
     </div>
 </template>
