@@ -28,10 +28,16 @@ const bookBtn = () => {
         <!-- <a  class="portfolio" href="/portfolio/1">
             <img class="img" src="../images/sample.jpg" alt="Portfolio Image" />
         </a> -->
-        <div class="portfolio" @click="navigateToPortfolio(portfolio.idx)">
+        <div class="portfolio">
             <div class="image-container">
-            <img class="img base-img" src="../images/sample.jpg" alt="Base Image" />
-            <img class="img overlay-img" src="../images//badge1.png" alt="Overlay Image" />
+            <img class="img base-img" @click="navigateToPortfolio(portfolio.idx)" src="../images/sample.jpg" alt="Base Image" />
+            <img class="img overlay-img" src="../images/badge1.png" alt="Overlay Image" />
+            <button v-if="!isBookmarked" @click.prevent="onWishButton(book)" class="bookmark">
+                <!-- <img id="starIcon" src="../images/white-star.svg" class="bookmarkImg"/> -->
+            </button>
+            <button v-if="isBookmarked" @click.prevent="onWishButton(book)" class="bookmark bookmarkTrue">
+                <!-- <img id="starIcon" src="../images/yellow-star-filled.svg"/> -->
+            </button>
         </div>
         </div>
         <div class="bottom">
@@ -42,12 +48,6 @@ const bookBtn = () => {
             <div class="bottom_right">
                 <p class="view">{{ portfolio.viewCnt }} 👀</p>
                 <!-- <button class="bookmark" @click="bookBtn">♥️</button> -->
-                <button v-if="!isBookmarked" @click.prevent="onWishButton(book)" class="bookmark">
-                    <img id="starIcon" src="../images/black-star-filled.svg" />
-                </button>
-                <button v-if="isBookmarked" @click.prevent="onWishButton(book)" class="bookmark">
-                    <img id="starIcon" src="../images/yellow-star-filled.svg"/>
-                </button>
             </div>
         </div>                
     </div>
