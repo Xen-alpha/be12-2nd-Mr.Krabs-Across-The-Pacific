@@ -1,8 +1,10 @@
 <script setup>
 import { defineProps, ref, reactive } from 'vue';
 import { useRouter } from 'vue-router';
+import { usePortfolioDetailStore } from '../stores/usePortfolioDetailStore';
 
 const router = useRouter();
+const portfolioDetail = usePortfolioDetailStore();
 
 const props = defineProps({
     portfolio:{
@@ -10,15 +12,16 @@ const props = defineProps({
     required: true}
 });
 
-const isBookmarked = props.portfolio.bookmark;
+const isBookmarked = ref(props.portfolio.bookmark);
 
-const heartsContainer = ref(null); // 하트 컨테이너 참조
-
-const navigateToPortfolio = (idx) => {
+const navigateToPortfolio = async (idx) => {
+    await portfolioDetail.getPortfolioDetail(idx);
     router.push(`/portfolio/detail/${idx}`);
 };
 
-const bookBtn = () => {
+const bookmarkBtn = () => {
+    isBookmarked.value = !isBookmarked.value;
+    console.log(isBookmarked.value);
 };
 </script>
 
@@ -32,10 +35,10 @@ const bookBtn = () => {
             <div class="image-container">
             <img class="img base-img" @click="navigateToPortfolio(portfolio.idx)" src="../images/sample.jpg" alt="Base Image" />
             <img class="img overlay-img" src="../images/badge1.png" alt="Overlay Image" />
-            <button v-if="!isBookmarked" @click.prevent="onWishButton(book)" class="bookmark">
+            <button v-if="!isBookmarked" @click="bookmarkBtn(portfolio.idx)" class="bookmark">
                 <!-- <img id="starIcon" src="../images/white-star.svg" class="bookmarkImg"/> -->
             </button>
-            <button v-if="isBookmarked" @click.prevent="onWishButton(book)" class="bookmark bookmarkTrue">
+            <button v-if="isBookmarked" @click="bookmarkBtn(portfolio.idx)" class="bookmark bookmarkTrue">
                 <!-- <img id="starIcon" src="../images/yellow-star-filled.svg"/> -->
             </button>
         </div>

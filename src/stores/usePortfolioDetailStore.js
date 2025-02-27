@@ -45,9 +45,10 @@ export const usePortfolioDetailStore = defineStore("portfolioDetail", {
   }),
 
   actions: {
-    async getportfolioDetail(idx) {
+    async getPortfolioDetail(idx) {
       try {
-        const response = await axios.get(`/public/sample/portfoliodetail/portfoliodetail.json`);
+        const response = await axios.get(`/api/portfolio/${idx}`);
+        console.log("포트폴리오 정보 : ", response.data);
         this.products = response.data;
       } catch (error) {
         console.error("Error fetching portfolio details:", error);
