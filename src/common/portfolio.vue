@@ -31,7 +31,7 @@ const bookBtn = () => {
         <div class="portfolio" @click="navigateToPortfolio(portfolio.idx)">
             <div class="image-container">
             <img class="img base-img" src="../images/sample.jpg" alt="Base Image" />
-            <img class="img overlay-img" src="/images/badge1.png" alt="Overlay Image" />
+            <img class="img overlay-img" src="../images//badge1.png" alt="Overlay Image" />
         </div>
         </div>
         <div class="bottom">
@@ -43,10 +43,10 @@ const bookBtn = () => {
                 <p class="view">{{ portfolio.viewCnt }} 👀</p>
                 <!-- <button class="bookmark" @click="bookBtn">♥️</button> -->
                 <button v-if="!isBookmarked" @click.prevent="onWishButton(book)" class="bookmark">
-                    <img id="starIcon" src="/images/black-star-filled.svg" />
+                    <img id="starIcon" src="../images/black-star-filled.svg" />
                 </button>
                 <button v-if="isBookmarked" @click.prevent="onWishButton(book)" class="bookmark">
-                    <img id="starIcon" src="/images/yellow-star-filled.svg"/>
+                    <img id="starIcon" src="../images/yellow-star-filled.svg"/>
                 </button>
             </div>
         </div>                
