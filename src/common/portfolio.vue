@@ -22,8 +22,8 @@ const navigateToPortfolio = async (idx) => {
 };
 
 const bookmarkBtn = async (idx, bookmark) => {
-    await portfolioList.getPortfolioBookmark(idx, bookmark);
-    isBookmarked.value = !isBookmarked.value;
+    const result = await portfolioList.getPortfolioBookmark(idx, bookmark);
+    isBookmarked.value = result;
 };
 </script>
 
