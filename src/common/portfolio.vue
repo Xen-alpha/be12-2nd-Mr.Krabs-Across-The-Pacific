@@ -21,11 +21,9 @@ const navigateToPortfolio = async (idx) => {
     router.push(`/portfolio/detail/${idx}`);
 };
 
-const bookmarkBtn = async (idx) => {
+const bookmarkBtn = async (idx, bookmark) => {
+    await portfolioList.getPortfolioBookmark(idx, bookmark);
     isBookmarked.value = !isBookmarked.value;
-    const result = await portfolioList.getPortfolioBookmark(idx);
-    console.log(result);
-    isBookmarked.value = result;
 };
 </script>
 
@@ -58,10 +56,10 @@ const bookmarkBtn = async (idx) => {
                         </div>
                     </div>
                 </div>
-                <button v-if="!isBookmarked" @click="bookmarkBtn(portfolio.idx)" class="bookmark">
+                <button v-if="!isBookmarked" @click="bookmarkBtn(portfolio.idx, isBookmarked)" class="bookmark">
                     <!-- <img id="starIcon" src="../images/white-star.svg" class="bookmarkImg"/> -->
                 </button>
-                <button v-if="isBookmarked" @click="bookmarkBtn(portfolio.idx)" class="bookmark bookmarkTrue">
+                <button v-if="isBookmarked" @click="bookmarkBtn(portfolio.idx, isBookmarked)" class="bookmark bookmarkTrue">
                     <!-- <img id="starIcon" src="../images/yellow-star-filled.svg"/> -->
                 </button>
             </div>
