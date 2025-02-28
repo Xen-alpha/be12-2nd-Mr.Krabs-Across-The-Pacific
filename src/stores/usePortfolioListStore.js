@@ -41,8 +41,11 @@ export const usePortfolioListStore = defineStore("portfolioList", {
                     portfolioIdx: idx,
                     bookmark: bookmark
                 });
+                console.log(response.data);
                 return response.data.result;
             } catch (error) {
+                if(error.response.status === 403)
+                    window.location.href = "/login";
                 console.error;
             } finally {
                 this.isLoading = false;

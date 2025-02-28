@@ -3,10 +3,12 @@ import { defineProps, ref, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import { usePortfolioDetailStore } from '../stores/usePortfolioDetailStore';
 import { usePortfolioListStore } from '../stores/usePortfolioListStore';
+import { useUserStore } from "../stores/useUserStore";
 
 const portfolioList = usePortfolioListStore();
 const router = useRouter();
 const portfolioDetail = usePortfolioDetailStore();
+const userStore = useUserStore();
 
 const props = defineProps({
     portfolio:{

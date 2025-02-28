@@ -27,7 +27,7 @@ export const useUserStore = defineStore("user", {
 
         async logout() {
             const response = await axios
-                .get("/api/logout",)
+                .post("/api/logout",)
                 .catch((error) => {
                     console.error(error);
                     return null
