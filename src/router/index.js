@@ -2,6 +2,8 @@ import { createWebHistory, createRouter } from "vue-router";
 import { useUserStore } from "../stores/useUserStore";
 
 // Import Components
+import Signup from '../user/Signup.vue';
+import EndSignup from '../user/EndSignup.vue';
 import Main from "../common/Main.vue";
 import PortfolioDetail from "../portfolio/PortfolioDetail.vue";
 import StockDetail from "../stock/StockDetail.vue";
@@ -60,6 +62,8 @@ const routes = [
   { path: "/stock/:idx", component: StockDetail },
   { path: "/stockList", component: StockList },
   // { path: '/editport', component: CreatePortfolio, beforeEnter: checkLogin }, //로그인 되었는지 확인
+  { path: '/signup', component: Signup },
+  { path: '/endsignup', component: EndSignup},
   {
     path: '/portfolio/:mode', // mode: create 또는 update
     name: 'Portfolio',

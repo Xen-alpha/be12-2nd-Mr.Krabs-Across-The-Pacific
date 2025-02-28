@@ -1,7 +1,8 @@
 <script setup>
-import { onMounted, ref } from "vue";
-import { useUserStore } from "../stores/useUserStore";
-const searchQuery = ref("");
+import { onMounted, ref } from 'vue';
+import { useUserStore } from '../stores/useUserStore'
+import { useRouter } from 'vue-router';
+const searchQuery = ref('');
 const alerts = [
   {
     date: "December 12, 2019",
@@ -24,6 +25,21 @@ const alerts = [
 ];
 
 const userStore = useUserStore();
+const closeNavbar = () => {
+      const navbarCollapse = document.querySelector(".navbar-collapse");
+      if (navbarCollapse && navbarCollapse.classList.contains("show")) {
+        navbarCollapse.classList.remove("show"); // Bootstrap의 'show' 클래스 제거
+      }
+    };
+
+onMounted(() => {
+      // 라우터 이벤트를 감지하여 Navbar 닫기
+      const router = useRouter();
+      router.afterEach(() => {
+        closeNavbar();
+      });
+    });
+
 </script>
 
 <template>
@@ -54,15 +70,9 @@ const userStore = useUserStore();
 
         <!-- Main Navigation -->
         <ul class="navbar-nav me-auto">
-          <li class="nav-item dropdown">
-            <a
-              id="navbarDropdownThemes"
-              class="dropdown-toggle nav-link pointer"
-              href="#"
-              role="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
+          <li class="nav-item dropdown no-arrow">
+            <a id="navbarDropdownThemes" class="dropdown-toggle nav-link pointer" href="#" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
               Portfolio
               <!-- <font-awesome-icon :icon="['fas', 'chevron-right']" /> -->
             </a>
@@ -86,16 +96,10 @@ const userStore = useUserStore();
               </li>
             </ul>
           </li>
-          <li class="nav-item dropdown">
-            <a
-              id="navbarDropdownTemplates"
-              class="dropdown-toggle nav-link pointer"
-              href="#"
-              role="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              Stocks
+          <li class="nav-item dropdown no-arrow">
+            <a id="navbarDropdownTemplates" class="dropdown-toggle nav-link pointer" href="#" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              Stock
               <!-- <font-awesome-icon :icon="['fas', 'chevron-right']" /> -->
             </a>
             <ul class="dropdown-menu">

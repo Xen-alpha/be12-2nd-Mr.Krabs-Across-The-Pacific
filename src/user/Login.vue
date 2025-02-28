@@ -28,7 +28,7 @@ const login = async () => {
                 <div class="container">
                     <div class="row justify-content-center">
                         <div size="large" style="display: flex;justify-content: center;">
-                            <div class="col-xl-10 col-lg-12">
+                            <div class="col-xl-10 col-lg-12" style="display: flex;justify-content: center;">
                                 <div class="main-card">
                                     <div class="card-body under">
                                         <div class="row justify-content-center">
@@ -85,8 +85,8 @@ const login = async () => {
                                     <hr class="my-0">
                                     <div class="card-body px-5 py-4">
                                         <div class="small text-center">New user?
-                                            <a routerlink="../register" href="/auth/register">Create an
-                                                account!</a>
+                                            <router-link to="/signup">Create an
+                                                account!</router-link>
                                         </div>
                                     </div>
                                 </div>
