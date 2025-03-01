@@ -3,6 +3,8 @@ import axios from "axios";
 
 export const usePortfolioRepliesStore = defineStore('portfolioReplies',{
     state: () => ({
+        result:{
+        },
         portfolioReplies: [
             {
                 id: 1,
@@ -35,9 +37,17 @@ export const usePortfolioRepliesStore = defineStore('portfolioReplies',{
 
     actions: {
         //포트폴리오id로 조회
-        async getPortfolioRepliesByCreatedAt(idx) {
-            const response = await axios.get(`/public/sample/portfolioreply/replies.json`);
-            this.portfolioReplies = response.data.replies; // 댓글 데이터
+        async getPortfolioRepliesByCreatedAt(idx, page, size) {
+            const response = await axios.get(`/api/portfolio/reply/${idx}`,{
+                params: { page: page, size: size }
+            });
+            if(response.data?.result){
+                this.result = response.data.result;
+                return this.result.content;
+            }else{
+                throw new Error("잘못된 응답 형식입니다.");
+            }
+            // this.portfolioReplies = response.data.replies; // 댓글 데이터
         },
         //입력한 댓글 저장 , idx == 포트폴리오 id(portfolioId)
         async setPortfolioReply(portfolioId, newReply) {  
