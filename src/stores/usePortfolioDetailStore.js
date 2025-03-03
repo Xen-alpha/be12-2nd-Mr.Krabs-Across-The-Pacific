@@ -68,6 +68,18 @@ export const usePortfolioDetailStore = defineStore("portfolioDetail", {
       // Implementation for creating a new portfolio detail
     },
 
+    //포트폴리오 클릭시 조회수 증가
+    async getPortfolioViewCnt(idx) {
+      try {
+        await axios.get(`/api/portfolio/view/${idx}`);
+      } catch (error) {
+        console.error("Error fetching portfolio details:", error);
+      }
+    },
+    async setportfolioDetail(idx) {
+      // Implementation for creating a new portfolio detail
+    },
+
     async updateportfolioDetail(idx) {
       // Implementation for updating an existing portfolio detail
     },
