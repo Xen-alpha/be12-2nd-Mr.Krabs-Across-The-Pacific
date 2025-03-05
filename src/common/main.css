@@ -176,7 +176,7 @@ hr{
 .badge-img {
   z-index: 2; /* 겹치는 이미지가 위에 오도록 설정 */
   opacity: 0.9; /* 투명도를 줄 수 있음 */
-  width: 15%;
+  max-width: 80px
 }
 
 .bookmark {

@@ -12,8 +12,7 @@ export const usePortfolioListStore = defineStore("portfolioList", {
             hasNext: false,
             hasPrevious: false,
         },
-        portfolios: [],
-        badges: []
+        portfolios: []
     }),
     actions: {
         async getPortfolioList(page, option) {
