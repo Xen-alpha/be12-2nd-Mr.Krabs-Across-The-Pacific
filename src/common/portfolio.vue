@@ -66,7 +66,7 @@ const badgeList = (badges) => computed(() =>
         <div class="bottom">
             <div class="bottom_left">
                 <div class="p_name">{{portfolio.name}}</div>
-                <div class="rate"> 평가 손익 : {{ portfolio.rate }}% badgeList 값: {{ badgeList(portfolio.badges) }}</div>
+                <div class="rate"> 평가 손익 : {{ portfolio.rate }}%</div>
             </div>
             <div class="bottom_right">
                 <p class="view">{{ portfolio.viewCnt }} 👀</p>
