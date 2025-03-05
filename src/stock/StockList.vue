@@ -18,7 +18,7 @@ const text = ref(!props.text ? "" : props.text);
 
 const stockListStore = useStockListStore();
 const loadingStore = useLoadingStore();
-let itemlist = reactive(props.initialList ? props.initialList : stockListStore.stockListResult);
+let itemlist = ref([]);
 let totalLength = ref(stockListStore.stockListOffset);
 
 let canMoveLeft = computed(() => {
@@ -27,16 +27,15 @@ let canMoveLeft = computed(() => {
 let canMoveRight = computed(() => {
   return ref(offset < Math.floor(totalLength / 30));
 });
-
-onBeforeMount(async () => {
-  loadingStore.startLoading();
-  await stockListStore.getStockList(offset, text);
-  loadingStore.stopLoading();
+stockListStore.getStockList(offset, text).then((result) => {
+  itemlist.value = result;
 })
+
 
 onMounted(async () => {
   loadingStore.startLoading();
   await stockListStore.getStockList(offset, text);
+  itemlist.value = stockListStore.stockListResult;
   loadingStore.stopLoading();
 });
 
@@ -60,7 +59,7 @@ const onmoveNext = async () => {
 <template>
   <div class="container">
     <h1>검색 결과</h1>
-    <div v-for="item in itemlist">
+    <div :v-bind=itemlist v-for="item in itemlist">
       <stockListItem :information="item" />
     </div>
     <span class="pagination">
