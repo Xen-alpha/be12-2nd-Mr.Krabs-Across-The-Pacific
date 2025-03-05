@@ -5,8 +5,7 @@ export const useStockListStore = defineStore("stockList", {
   state: () => ({
     offset: 0, // 페이지네이션 오프셋
     sortType: "ascending", // 정렬 기능 대비용 필드, 현재는 Mock 상태
-    stockList: [{ id: 1, name: "Apple Inc.", code: "AAPL", market: "nasdaq", price: "460000", likes: 16, doILikeThis: false },
-      { id: 2, name: "Tesla", code: "TSLA", market: "nasdaq", price: "246000", likes: 16, doILikeThis: false }],
+    stockList: [],
     totalLength: 3,
   }),
   persist: {
@@ -129,5 +128,19 @@ export const useStockListStore = defineStore("stockList", {
         return this.stockList[id].likes; // 변경하지 않음
       }
     },
+    async getStockGraph(code) {
+      try {
+        // TODO: 진짜 서버 URL로 바꾸기
+        const result = await axios.get(`/api/stockgraph/${code}`, {
+        });
+        if (result.status === 200) {
+          return result.data.result;
+        } else {
+          return null;
+        }
+      } catch (e) {
+        return null;
+      }
+    }
   },
 });

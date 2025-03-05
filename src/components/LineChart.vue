@@ -11,9 +11,11 @@ ChartJS.register(Title, Tooltip, Legend, LineElement, PointElement, CategoryScal
 
 const props = defineProps({
   id: Number,
+  code: String
 });
 
 let id = props.id ? props.id : 0;
+let code = props.code ? props.code : "AAPL";
 
 let labelList = reactive([]);
 let dataList = reactive([]);
@@ -53,11 +55,11 @@ const chartOptions = ref({
 onMounted(async () => {
   // 차트 데이터 가져오기
   loadingStore.startLoading();
-  const response = await axios.get(`/sample/stocklist/get_AAPL.json`, { params: { id: id } });
-  const result = Object.entries(Object.entries(response.data)[0][1]).sort((a, b) => (b > a ? -1 : 1));
+  const response = await axios.get(`/api/stockgraph/${code}`);
+  const result = response.data.result;
   // console.log(result);
-  const result_data = result.map((value) => parseFloat(value[1]["4. close"]));
-  const result_label = result.map((value) => value[0]);
+  const result_data = result.prices;
+  const result_label = result.dates;
   const length = result_label.length;
   // 적용하기
   let chart = ChartJS.getChart(document.getElementsByClassName("graphchart")[id - 1]);

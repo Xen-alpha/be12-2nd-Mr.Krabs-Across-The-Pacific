@@ -40,7 +40,7 @@ const scrollToTop = () => {
       </div>
     </div>
     <!-- TODO: 그래프? -->
-    <LineChart :id="id" />
+    <LineChart :id="id" :code="code" />
     <div class="card-body bold-weight" style="max-width: 160px">
       <div class="listbox-item">
         최근 가격:<br />
