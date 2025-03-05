@@ -36,18 +36,16 @@ export const useStockListStore = defineStore("stockList", {
     async getStockList(offset = 0, text = "") {
       // 전체 리스트를 반환
       try {
-        // TODO: 크롤링 서버 URL로 바꾸기
-        const response = await axios.get("/sample/stocklist/get.json", {
-          params: {
-            text: text,
-            offset: offset,
-            requestLength: false,
-          },
-        });
+        const response = await axios.get("https://api.nasdaq.com/api/screener/stocks?tableonly=true&limit=50&offset=0&exchange=nasdaq&download=true"
+        );
         // console.log(response.data);
         // TODO: 조건에 따른 정렬 기능 추가?(아래는 좋아요 개수 많은 순서대로 정렬이 필요한 경우)
         // response.data.result.sort((a, b) => b.likes - a.likes);
-        this.stockList = response.data.result;
+        this.stockList = response.data.data.rows.map((value, index) => {
+          value.id = index + 1;
+          value.price = value.lastsale;
+          return value;
+        });
         this.offset = offset;
         this.totalLength = response.data.result.length;
         return response.data.result.slice(this.offset, this.offset + 30);
@@ -141,6 +139,19 @@ export const useStockListStore = defineStore("stockList", {
       } catch (e) {
         return null;
       }
-    }
+    },
+    async getRecentPrice(code) {
+      try {
+        // TODO: 진짜 서버 URL로 바꾸기
+        const result = await axios.get(`/api/stock/recent/${code}`);
+        if (result.status === 200) {
+          return result.data.result;
+        } else {
+          return null;
+        }
+      } catch (e) {
+        return null;
+      }
+    },
   },
 });
