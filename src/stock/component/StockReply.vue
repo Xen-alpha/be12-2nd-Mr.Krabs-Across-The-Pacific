@@ -40,16 +40,13 @@ const deleteReply = async (replyId) => {
 }
 
 //댓글 좋아요 누르기
-const likeReply = async (replyId) => {
+const likeReply = (replyId) => {
     //로그인 안했으면 못누른다.
     //console.log(userStore.userId);
     //if (userStore.userId == null) return;
 
     //withcredential이용으로 일단 막아둠
-    const response = await stockReplyStore.setReplyLikes(replyId);
-    if (!response.isSuccess) {
-        return;
-    }
+    const response = stockReplyStore.setReplyLikes(replyId);
     isLiked.value = true;
     likesCount.value = likesCount.value + 1;
 
@@ -125,7 +122,7 @@ const dislikeReply = async (replyId) => {
         </div>
         <!-- 수정중이 아니면 현재 댓글의 내용을 보여준다. -->
         <div v-if="!isUpdate" class="card-body">
-            <div v-html="reply.content"></div>
+            <div v-html="reply.contents"></div>
         </div>
         <!-- 수정 중이라면 현재 댓글의 내용을 담고 댓글을 수정할 수 있는 화면이 나온다. -->
         <div v-else class="card-body">
