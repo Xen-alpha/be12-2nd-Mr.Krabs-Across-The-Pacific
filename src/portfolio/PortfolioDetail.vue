@@ -21,6 +21,8 @@ const portfolioStocks = ref([]);
 const portfolioDetail = ref({
   idx:'',
   name:'',
+  own:'',
+  profileImage:'',
   acquisitionList:[]
 })
 
@@ -162,14 +164,14 @@ const deleteBtn = () => {
               <div class="d-sm-flex align-items-center justify-content-between mb-4">
                 <router-link :to="`/portfoliolist/${username}`">
                   <img alt="profile" fetchpriority="high" width="128" height="128" decoding="async" data-nimg="1"
-                    style="color:transparent" src="../images/멍자.png" />
+                    style="color:transparent" :src="portfolioDetail.profileImage || '/images/멍자.png'"  />
                 </router-link>
                 <div>
                   <h1 class="h3 mb-0 text-gray-800">{{ portfolioDetail.name }}</h1>
                 </div>
                 <div>
-                  <button class="updateBtn" @click="updateBtn">수정</button>
-                  <button class="deleteBtn" @click="deleteBtn">삭제</button>
+                  <button v-if="portfolioDetail.own" class="updateBtn" @click="updateBtn">수정</button>
+                  <button v-if="portfolioDetail.own" class="deleteBtn" @click="deleteBtn">삭제</button>
                 </div>
               </div>
               <!-- Content Row -->
@@ -376,7 +378,10 @@ const deleteBtn = () => {
         <div class="row">
           <!-- Approach -->
           <PortfolioReply v-for="reply in portfolioReplies" :reply="reply" :key="reply.idx" />
-          <InfiniteLoading @infinite="loadReplies"/>
+          <!-- <InfiniteLoading @infinite="loadReplies"/> -->
+          <InfiniteLoading @infinite="loadReplies">
+            <template #complete><div></div></template>
+          </InfiniteLoading>
         </div>
 
         <!-- /.container-fluid -->

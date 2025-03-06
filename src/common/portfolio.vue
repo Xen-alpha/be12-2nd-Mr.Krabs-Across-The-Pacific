@@ -49,9 +49,9 @@ const badgeList = (badges) => computed(() =>
                         <div v-for="badge in badgeList(portfolio.badges).value" :key="badge">
                             <!-- Badge idx에 따라 다른 이미지를 표시 -->
                             <div class="badge-img">
-                                <img v-if="badge === 1"  src="../images/badge1.png" alt="Badge 1" />
-                                <img v-else-if="badge === 2"  src="../images/badge2.png" alt="Badge 2" />
-                                <img v-else-if="badge === 3" src="../images/badge3.png" alt="Badge 3" />
+                                <img v-if="badge === 1"  src="/images/badge1.png" alt="Badge 1" />
+                                <img v-else-if="badge === 2"  src="/images/badge2.png" alt="Badge 2" />
+                                <img v-else-if="badge === 3" src="/images/badge3.png" alt="Badge 3" />
                             </div>
                         </div>
                     </div>
