@@ -8,10 +8,11 @@ const userStore = useUserStore();
 
 const email = ref('');
 const password = ref('');
+const name = ref('');
 const passwordconfirm = ref('');
 
 const signup = async () => {
-    const result = await userStore.signup(email.value, password.value);
+    const result = await userStore.signup(email.value, password.value, name.value, "/images/apple.png");
     //메인페이지로 보내기
     const currentPosition = router.options.history.state.position;
     console.log(currentPosition)
@@ -32,6 +33,13 @@ const signup = async () => {
                                             <h1 class="font-weight-bold">Start ATP</h1>
                                         </div>
                                         <form novalidate="" class="ng-untouched ng-pristine ng-invalid">
+                                            <div class="mb-3"><label for="emailInput" class="text-gray-600 small">Name</label>
+                                                <input id="emailInput" data-cy="emailInput" type="email"
+                                                    aria-describedby="emailHelp" formcontrolname="email" v-model="name"
+                                                    class="input-control form-control-solid ng-untouched ng-pristine ng-invalid">
+                                                <div class="invalid-feedback">Email required.
+                                                </div>
+                                            </div>
                                             <div class="mb-3"><label for="emailInput" class="text-gray-600 small">Email
                                                     address</label>
                                                 <input id="emailInput" data-cy="emailInput" type="email"

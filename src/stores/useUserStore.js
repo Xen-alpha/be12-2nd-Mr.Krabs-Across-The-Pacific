@@ -8,12 +8,14 @@ export const useUserStore = defineStore("user", {
         storage: sessionStorage,
     },
     actions: {
-        async signup(email, password) {
+        async signup(email, password, name, image) {
             console.log("hi")
             const response = await axios
                 .post("/api/user/signup", {
                     "email": email,
-                    "password": password
+                    "password": password,
+                    "name" : name,
+                    "image" : image
                 })
                 .catch((error) => {
                     console.log(error);
@@ -35,8 +37,8 @@ export const useUserStore = defineStore("user", {
                 })
             console.log(response);
             if (response === null) return false;
-            this.userIdx = response.data.userIdx;
-            //this.image = response.data.image;
+            this.userIdx = response.data.result.idx;
+            this.image = response.data.result.image;
             this.isLogin = true;
             return true;
         },
