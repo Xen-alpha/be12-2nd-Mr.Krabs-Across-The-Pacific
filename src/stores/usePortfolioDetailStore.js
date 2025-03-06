@@ -3,6 +3,11 @@ import axios from "axios";
 
 export const usePortfolioDetailStore = defineStore("portfolioDetail", {
   state: () => ({
+    result:{
+      idx:'',
+      name:'',
+      acquisitionList:[],
+    },
     portfolioItem: 
     {
       "idx": 1,
@@ -45,10 +50,25 @@ export const usePortfolioDetailStore = defineStore("portfolioDetail", {
   }),
 
   actions: {
-    async getportfolioDetail(idx) {
+    async getPortfolioDetail(idx) {
       try {
-        const response = await axios.get(`/public/sample/portfoliodetail/portfoliodetail.json`);
-        this.products = response.data;
+        const response = await axios.get(`/api/portfolio/${idx}`);
+        if(response.data?.result){
+          this.result = response.data.result;
+          console.log("포트폴리오 정보 : ", this.result);
+          return this.result;
+        }else{
+          throw new Error("잘못된 응답 형식입니다.");
+        }
+      } catch (error) {
+        console.error("Error fetching portfolio details:", error);
+      }
+    },
+
+    //포트폴리오 클릭시 조회수 증가
+    async getPortfolioViewCnt(idx) {
+      try {
+        await axios.get(`/api/portfolio/view/${idx}`);
       } catch (error) {
         console.error("Error fetching portfolio details:", error);
       }

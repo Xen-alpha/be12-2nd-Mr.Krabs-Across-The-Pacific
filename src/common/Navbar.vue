@@ -1,8 +1,12 @@
 <script setup>
-import { onMounted, ref } from 'vue';
-import { useUserStore } from '../stores/useUserStore'
-import { useRouter } from 'vue-router';
-const searchQuery = ref('');
+
+import { onMounted, ref } from "vue";
+import { useUserStore } from "../stores/useUserStore";
+import { useRouter } from "vue-router";
+
+const searchQuery = ref("");
+const router = useRouter();
+
 const alerts = [
   {
     date: "December 12, 2019",
@@ -25,6 +29,14 @@ const alerts = [
 ];
 
 const userStore = useUserStore();
+
+const searchPortfolio = (event) => {
+  if (!searchQuery.value.trim()) {
+    alert("검색어를 입력하세요.");
+    return;
+  }
+  router.push({ path: "/", query: { keyword: searchQuery.value } }); // 검색어를 쿼리로 전달
+};
 const closeNavbar = () => {
       const navbarCollapse = document.querySelector(".navbar-collapse");
       if (navbarCollapse && navbarCollapse.classList.contains("show")) {
@@ -110,7 +122,7 @@ onMounted(() => {
           </li>
         </ul>
         <div class="search-nobottom my-navbar-search navbar-nav">
-          <form class="d-sm-inline-block form-inline vw-75 mw-100 navbar-search">
+          <form @submit.prevent="searchPortfolio" class="d-sm-inline-block form-inline vw-75 mw-100 navbar-search">
             <div class="input-group">
               <input
                 v-model="searchQuery"
@@ -119,7 +131,8 @@ onMounted(() => {
                 placeholder="검색어를 입력하세요"
                 aria-label="Search"
               />
-              <button class="btn btn-primary" type="button">
+              <button class="btn btn-primary" type="button" 
+              @click="searchPortfolio">
                 <font-awesome-icon :icon="['fas', 'magnifying-glass']" />
               </button>
             </div>
