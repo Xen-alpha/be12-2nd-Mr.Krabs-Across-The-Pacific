@@ -19,6 +19,8 @@ const portfolioRepliesStore = usePortfolioRepliesStore();
 const portfolioStocks = ref([]);
 const portfolioReplies = ref([]);
 
+let prevAsset = ref(null);
+let currAsset = ref(null);
 let profit = ref(null);
 onMounted(async () => {
   console.log("HI");
@@ -28,15 +30,20 @@ onMounted(async () => {
   console.log("Portfolio Detail Loaded:", portfolioDetailStore.portfolioItem);
 
   // 계산해서 총 수익률 구하기
+  prevAsset.value = portfolioDetailStore.portfolioItem.acquisitionList.reduce((prev, curr) => {
+    prev += curr.quantity * curr.price;
+    return prev;
+  }, 0);
 
   Promise.all(portfolioDetailStore.portfolioItem.acquisitionList
     .map((value) => [value.stockCode, value.price, value.quantity])
     .map(async ([code, price, quantity]) => {
       const recentprice = await portfolioDetailStore.getRecentPrice(code);
-      return (price - recentprice) * quantity;
-    })).then((responses) => { profit.value = responses.reduce((prev, curr) => prev + curr, 0).toFixed(2); });
-
-
+      return [recentprice * quantity, (price - recentprice) * quantity];
+    })).then((response) => {
+      currAsset.value = response.reduce((prev, curr) => prev + curr[0], 0).toFixed(2);
+      profit.value = ((currAsset.value / prevAsset.value - 1) * 100).toFixed(2);
+    });
 
   // Portfolio replies 데이터 가져오기
   portfolioReplies.value = await portfolioRepliesStore.getPortfolioRepliesByCreatedAt(route.params.idx);
@@ -134,7 +141,7 @@ const deleteBtn = () => {
                         <div class="col mr-2">
                           <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                             STARTED WITH(투자 금액)</div>
-                          <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                          <div class="h5 mb-0 font-weight-bold text-gray-800">${{ prevAsset }}</div>
                         </div>
                         <div class="col-auto">
                           <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -152,7 +159,7 @@ const deleteBtn = () => {
                         <div class="col mr-2">
                           <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                             CURRENT ASSETS(현재 자산)</div>
-                          <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                          <div class="h5 mb-0 font-weight-bold text-gray-800">${{ currAsset }}</div>
                         </div>
                         <div class="col-auto">
                           <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -236,7 +243,7 @@ const deleteBtn = () => {
                     </div>
                     <!-- Card Body -->
                     <div class="card-body" style="white-space:pre-wrap; overflow-wrap: break-word;">
-                      <PortfolioPieChart :portfolioStocks="portfolioStocks" />
+                      <PortfolioPieChart :portfolioStocks="portfolioStocks" :profit="profit" />
                     </div>
                   </div>
                 </div>

@@ -46,7 +46,8 @@ export const usePortfolioDetailStore = defineStore("portfolioDetail", {
       "total_dividend": "$500",
       "total_tax": "$100",
       "rank": 1
-  }
+  },
+  stockgraphList: []
   }),
   actions: {
     async getportfolioDetail(idx) {
@@ -61,6 +62,15 @@ export const usePortfolioDetailStore = defineStore("portfolioDetail", {
     async getRecentPrice(code) {
       try {
         const response = await axios.get(`/api/stock/recent/${code}`);
+        this.stockgraphList = response.data.result;
+        return response.data.result;
+      } catch (error) {
+        console.error("Error fetching portfolio details:", error);
+      }
+    },
+    async getPriceList(code) {
+      try {
+        const response = await axios.get(`/api/stockgraph/${code}` );
         return response.data.result;
       } catch (error) {
         console.error("Error fetching portfolio details:", error);

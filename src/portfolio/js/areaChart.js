@@ -29,14 +29,14 @@ function generateRandomData(count, min, max) {
 }
 
 // Initialize Area Chart
-export const initializeAreaChart = (ctx) => {
+export const initializeAreaChart = (ctx, datalist) => {
   return new Chart(ctx, {
     type: 'line',
     data: {
-      labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+      labels: new Array(datalist.length).fill(""),
       datasets: [{
         label: "Earnings",
-        tension: 0.3,
+        tension: 0.01,
         backgroundColor: "rgba(78, 115, 223, 0.05)",
         borderColor: "rgba(78, 115, 223, 1)",
         pointRadius: 3,
@@ -47,7 +47,7 @@ export const initializeAreaChart = (ctx) => {
         pointHoverBorderColor: "rgba(78, 115, 223, 1)",
         pointHitRadius: 10,
         pointBorderWidth: 2,
-        data: generateRandomData(12, -500, 500), // -500에서 500 사이의 데이터 생성
+        data: datalist, // 인수로 받은 값 리스트를 반환
       }],
     },
     options: {

@@ -14,7 +14,7 @@ const centerTextPlugin = {
       ctx.textBaseline = "middle"; // 텍스트 세로 정렬 기준
 
       // 중앙에 표시할 텍스트
-      const total = chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+      const total = chart.data.datasets[1].data;
       const text = `${total}%`;
 
       // 텍스트 중앙 좌표 계산
@@ -32,7 +32,7 @@ const centerTextPlugin = {
 Chart.register(centerTextPlugin);
 
 // 차트 초기화
-export const initializePieChart = (ctx, acquisitionList) => {
+export const initializePieChart = (ctx, acquisitionList, profit) => {
   console.log(acquisitionList);
   const myPieChart = new Chart(ctx, {
     type: "doughnut",
@@ -53,6 +53,10 @@ export const initializePieChart = (ctx, acquisitionList) => {
           hoverBorderColor: "rgba(234, 236, 244, 1)",
           borderWidth: 4, // 도넛의 외곽선 두께
         },
+        {
+          type: null,
+          data: parseFloat(profit),
+        }
       ],
     },
     options: {
