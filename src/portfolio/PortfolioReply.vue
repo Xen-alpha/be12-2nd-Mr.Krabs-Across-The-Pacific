@@ -91,7 +91,7 @@ const dislikeReply = async (replyId) => {
       </div>
     </div>
       <div class="card-body">
-        <p>{{ reply.content }}</p>
+        <p>{{ reply.contents }}</p>
       </div>
     </div>
   </div>

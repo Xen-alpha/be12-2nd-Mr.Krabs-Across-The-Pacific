@@ -14,6 +14,7 @@ const centerTextPlugin = {
       ctx.textBaseline = "middle"; // 텍스트 세로 정렬 기준
 
       // 중앙에 표시할 텍스트
+      //TODO: 추후 수익률 계산이 되면 수익률로 변경하기
       const total = chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
       const text = `${total}%`;
 
@@ -32,14 +33,18 @@ const centerTextPlugin = {
 Chart.register(centerTextPlugin);
 
 // 차트 초기화
-export const initializePieChart = (ctx) => {
+export const initializePieChart = (ctx, stock) => {
+  const labels = stock.map(item => item.stockName); // labels에 주식 이름 설정
+  const data = stock.map(item => item.totalStockPrice); // data에 각 주식의 비율 설정
   const myPieChart = new Chart(ctx, {
     type: "doughnut",
     data: {
-      labels: ["Tesla", "Google", "Amazon", "Apple", "Microsoft"],
+      // labels: ["Tesla", "Google", "Amazon", "Apple", "Microsoft"],
+      labels: labels,
       datasets: [
         {
-          data: [55, 30, 15, 5, 7],
+          // data: [55, 30, 15, 5, 7],
+          data: data,
           backgroundColor: [
             "#4e73df",
             "#1cc88a",

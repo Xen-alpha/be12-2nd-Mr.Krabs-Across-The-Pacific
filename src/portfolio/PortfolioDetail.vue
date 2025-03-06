@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import PortfolioReply from './PortfolioReply.vue';
 import PortfolioStock from './PortfolioStock.vue';
 import PortfolioPieChart from './PortfolioPieChart.vue';
@@ -9,7 +9,6 @@ import { usePortfolioRepliesStore } from '../stores/usePortfolioRepliesStore';
 import { useRoute } from 'vue-router';
 import { useRouter } from 'vue-router';
 
-
 const route = useRoute();
 const router = useRouter();
 
@@ -17,22 +16,86 @@ const portfolioDetailStore = usePortfolioDetailStore();
 const portfolioRepliesStore = usePortfolioRepliesStore();
 
 const portfolioStocks = ref([]);
+// const portfolioReplies = ref([]);
+
+const portfolioDetail = ref({
+  idx:'',
+  name:'',
+  own:'',
+  profileImage:'',
+  topStocks:[]
+})
+
 const portfolioReplies = ref([]);
+const page = ref(0); // 현재 페이지 번호
+const size = 10; // 한 번에 불러올 개수
 
 onMounted(async () => {
-  console.log("HI");
     // Portfolio detail 데이터 가져오기
     // await portfolioDetailStore.getportfolioDetail(route.params.idx);
-    await portfolioRepliesStore.getPortfolioRepliesByCreatedAt(route.params.idx);
-    console.log("Portfolio Detail Loaded:", portfolioDetailStore.portfolioItem);
+    // await portfolioRepliesStore.getPortfolioRepliesByCreatedAt(route.params.idx);
+    // console.log("Portfolio Detail Loaded:", portfolioDetailStore.portfolioItem);
 
+    // const response =  await portfolioDetailStore.getPortfolioDetail(route.params.idx);
+    // console.log("포트폴리오 이름 : ", response.name);
+    // result.value.name = response.name;
+    
     // Portfolio replies 데이터 가져오기
-    portfolioReplies.value = await portfolioRepliesStore.getPortfolioRepliesByCreatedAt(route.params.idx);
-    console.log("Portfolio Replies Loaded:", portfolioRepliesStore.portfolioReplies);
-    // 데이터를 vue의 상태에 반영
+    // portfolioReplies.value = await portfolioRepliesStore.getPortfolioRepliesByCreatedAt(route.params.idx);
+    // console.log("Portfolio Replies Loaded:", portfolioReplies.value);
     portfolioStocks.value = portfolioDetailStore.portfolioItem.portfolio_quantity || {};
-    portfolioReplies.value = portfolioRepliesStore.portfolioReplies || [];
+    // portfolioReplies.value = portfolioRepliesStore.portfolioReplies || [];
+
+
+    //포트폴리오 상세 정보 가져오기
+    await portfolioDetailStore.getPortfolioDetail(route.params.idx);
+    portfolioDetail.value = portfolioDetailStore.result;
+    // 포트폴리오 댓글 가져오기 (초기 로드)
+    // await loadReplies();
 });
+
+const loadReplies = async $state => {
+  try {
+    const response = await portfolioRepliesStore.getPortfolioRepliesByCreatedAt(route.params.idx, page.value, size);
+    if (response.length < 1) {
+      console.log("더 이상 불러올 데이터 없음.");
+      $state.complete();
+    }else{
+      portfolioReplies.value.push(...response);
+      // portfolioReplies.value = [...portfolioReplies.value, ...response];
+      $state.loaded();
+    }
+    page.value++;
+  } catch (error) {
+    console.error("댓글 불러오기 실패:", error);
+    $state.error();
+  }
+};
+
+
+// 포트폴리오 댓글 불러오기 (페이지네이션)
+// const loadReplies = async () => {
+//   if (isLoading.value || !portfolioReplies.value.hasNext) return; // 중복 요청 방지, 다음 페이지 없으면 중단
+//   isLoading.value = true;
+
+//   try {
+//     await portfolioRepliesStore.getPortfolioRepliesByCreatedAt(route.params.idx, page.value, size);
+
+//     const newReplies = portfolioRepliesStore.result.content;
+//     portfolioReplies.value.content.push(...newReplies); // 기존 댓글 목록에 추가
+//     portfolioReplies.value.hasNext = portfolioRepliesStore.result.hasNext; // 다음 페이지 여부 업데이트
+
+//     if (portfolioReplies.value.hasNext) {
+//       page.value++; // 다음 페이지 증가
+//     }
+//   } catch (error) {
+//     console.error("댓글 불러오기 실패:", error);
+//   } finally {
+//     isLoading.value = false;
+//   }
+// };
+
+
 
 const newReplyContent = ref(""); // 새 댓글 내용
 // 댓글 내용 업데이트 핸들러
@@ -63,7 +126,6 @@ const submitReply = async () => {
 };
 
 const username = '멍자';
-const portfolioIdx = 1;
 // const updateBtn = () => {
 //   router.push({
 //     path: '/editport',
@@ -102,14 +164,14 @@ const deleteBtn = () => {
               <div class="d-sm-flex align-items-center justify-content-between mb-4">
                 <router-link :to="`/portfoliolist/${username}`">
                   <img alt="profile" fetchpriority="high" width="128" height="128" decoding="async" data-nimg="1"
-                    style="color:transparent" src="../images/멍자.png" />
+                    style="color:transparent" :src="portfolioDetail.profileImage || '/images/멍자.png'"  />
                 </router-link>
                 <div>
-                  <h1 class="h3 mb-0 text-gray-800">{{ username }} 포트폴리오</h1>
+                  <h1 class="h3 mb-0 text-gray-800">{{ portfolioDetail.name }}</h1>
                 </div>
                 <div>
-                  <button class="updateBtn" @click="updateBtn">수정</button>
-                  <button class="deleteBtn" @click="deleteBtn">삭제</button>
+                  <button v-if="portfolioDetail.own" class="updateBtn" @click="updateBtn">수정</button>
+                  <button v-if="portfolioDetail.own" class="deleteBtn" @click="deleteBtn">삭제</button>
                 </div>
               </div>
               <!-- Content Row -->
@@ -224,7 +286,7 @@ const deleteBtn = () => {
                     </div>
                     <!-- Card Body -->
                     <div class="card-body" style="white-space:pre-wrap; overflow-wrap: break-word;">
-                      <PortfolioPieChart />
+                      <PortfolioPieChart :portfolioStocks="portfolioDetail.topStocks"/>
                     </div>
                   </div>
                 </div>
@@ -233,7 +295,8 @@ const deleteBtn = () => {
                   <!-- 포트폴리오 종목 카드 -->
                   <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                      <PortfolioStock :portfolioStocks="portfolioDetailStore.portfolioItem.portfolio_Stocks" />
+                      <!-- <PortfolioStock :portfolioStocks="portfolioDetailStore.portfolioItem.portfolio_Stocks" /> -->
+                      <PortfolioStock :portfolioStocks="portfolioDetail.topStocks" />
                     </div>
                   </div>
                 </div>
@@ -315,10 +378,13 @@ const deleteBtn = () => {
 
         <div class="row">
           <!-- Approach -->
-          <PortfolioReply v-for="reply in portfolioRepliesStore.portfolioReplies":reply="reply" />
-
-
+          <PortfolioReply v-for="reply in portfolioReplies" :reply="reply" :key="reply.idx" />
+          <!-- <InfiniteLoading @infinite="loadReplies"/> -->
+          <InfiniteLoading @infinite="loadReplies">
+            <template #complete><div></div></template>
+          </InfiniteLoading>
         </div>
+
         <!-- /.container-fluid -->
 
       </div>

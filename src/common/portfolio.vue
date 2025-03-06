@@ -1,77 +1,79 @@
 <script setup>
-import { defineProps, ref, reactive } from 'vue';
+import { defineProps, ref, reactive, computed} from 'vue';
+import { useRouter } from 'vue-router';
+import { usePortfolioDetailStore } from '../stores/usePortfolioDetailStore';
+import { usePortfolioListStore } from '../stores/usePortfolioListStore';
+import { useUserStore } from "../stores/useUserStore";
+
+const portfolioList = usePortfolioListStore();
+const router = useRouter();
+const portfolioDetail = usePortfolioDetailStore();
+const userStore = useUserStore();
 
 const props = defineProps({
-  portfolio:{
+    portfolio:{
     type:Object,
-    required: true,
-  },
-  showBookmarks:{
-    type: Boolean,
-    default: false }, // 북마크만 표시 여부
+    required: true}
 });
 
-//const portfolio_id = props.portfolio.idx; // 동적으로 바인딩할 ID (예: props로 전달받거나 데이터에서 가져옴)
-const portfolio_id = 1;
-const username = '장원영';
+const isBookmarked = ref(props.portfolio.bookmark);
 
-const isBookmarked = ref(false); // true면 북마크
-const heartsContainer = ref(null); // 하트 컨테이너 참조
-const bookBtn = () => {
-    // 상태에 따라 bookmark 값을 증가 또는 감소
-    if (isBookmarked.value) {
-        props.portfolio.bookmark--;
-    } else {
-        props.portfolio.bookmark++;
-
-        // 하트 애니메이션 추가 (북마크가 활성화될 때만 실행)
-        const heart = document.createElement('div');
-        heart.textContent = '♥️'; // 하트 모양
-        heart.classList.add('flying-heart');
-        heartsContainer.value.appendChild(heart);
-
-        // 애니메이션이 끝나면 하트를 제거
-        heart.addEventListener('animationend', () => {
-            heart.remove();
-        });
-    }
-
-    // 북마크 상태 토글
-    isBookmarked.value = !isBookmarked.value;
+const navigateToPortfolio = async (idx) => {
+    await portfolioDetail.getPortfolioViewCnt(idx);
+    router.push(`/portfolio/detail/${idx}`);
 };
+
+const bookmarkBtn = async (idx, bookmark) => {
+    const result = await portfolioList.getPortfolioBookmark(idx, bookmark);
+    isBookmarked.value = result;
+};
+
+// 뱃지 표시를 위한 함수
+const badgeList = (badges) => computed(() => 
+    (badges !== undefined && badges !== null) // ❗ undefined/null 체크
+    ? [...badges.toString(2)]
+        .reverse()
+        .reduce((acc, bit, index) => (bit === '1' ? [...acc, index] : acc), [])
+    : []
+);
+
 </script>
 
 <template>
     <div class="inside">
-        <!-- 뒤에 /:idx 추가 -> 전체 포트폴리오에서 클릭하면 이동  -->
-        <!-- <a  class="portfolio" href="/portfolio/1">
-            <img class="img" src="../images/sample.jpg" alt="Portfolio Image" />
-        </a> -->
-        <router-link class="portfolio"
-        :to="`/portfolio/${portfolio_id}`" >
-            <img class="img" src="../images/sample.jpg" alt="Portfolio Image" />
-        </router-link>
+        <div class="portfolio">
+            <div class="image-container">
+                <img class="img base-img" @click="navigateToPortfolio(portfolio.idx)" src="../images/sample.jpg" alt="Base Image" />
+                <!-- badgeList가 비어있지 않은 경우에만 렌더링 -->
+                    <div v-if="portfolio.badges!==0" class="badge-container">
+                        <div v-for="badge in badgeList(portfolio.badges).value" :key="badge">
+                            <!-- Badge idx에 따라 다른 이미지를 표시 -->
+                            <div class="badge-img">
+                                <img v-if="badge === 1"  src="/images/badge1.png" alt="Badge 1" />
+                                <img v-else-if="badge === 2"  src="/images/badge2.png" alt="Badge 2" />
+                                <img v-else-if="badge === 3" src="/images/badge3.png" alt="Badge 3" />
+                            </div>
+                        </div>
+                    </div>
+                <button v-if="!isBookmarked" @click="bookmarkBtn(portfolio.idx, isBookmarked)" class="bookmark">
+                    <!-- <img id="starIcon" src="../images/white-star.svg" class="bookmarkImg"/> -->
+                </button>
+                <button v-if="isBookmarked" @click="bookmarkBtn(portfolio.idx, isBookmarked)" class="bookmark bookmarkTrue">
+                    <!-- <img id="starIcon" src="../images/yellow-star-filled.svg"/> -->
+                </button>
+            </div>
+        </div>
         <div class="bottom">
             <div class="bottom_left">
                 <div class="p_name">{{portfolio.name}}</div>
-                <div class="badge">
-                    <!--TODO : 포트폴리오 뱃지 데이터 가져오기-->
-                    <img src="../images/badge1.webp" alt="badge1" class="badge_img">
-                    <img src="../images/badge2.webp" alt="badge2" class="badge_img">
-                    <img src="../images/badge3.webp" alt="badge3" class="badge_img">
-                    <div class="rate"> 수익률 : {{ portfolio.rate }}%</div>
-                </div>
+                <div class="rate"> 평가 손익 : {{ portfolio.rate }}%</div>
             </div>
             <div class="bottom_right">
-                <p class="view">👀 {{ portfolio.view }}</p>
-                <button class="bookmark" :class="{ 'active': isBookmarked }"
-                @click="bookBtn">♥️ {{ props.portfolio.bookmark }}</button>
-                <!-- 하트 애니메이션 컨테이너 -->
-                <div class="hearts-container" ref="heartsContainer"></div>
+                <p class="view">{{ portfolio.viewCnt }} 👀</p>
+                <!-- <button class="bookmark" @click="bookBtn">♥️</button> -->
             </div>
         </div>                
     </div>
-
 </template>
 
 
