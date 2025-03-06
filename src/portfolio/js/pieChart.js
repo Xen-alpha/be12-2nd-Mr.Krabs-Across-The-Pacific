@@ -32,22 +32,24 @@ const centerTextPlugin = {
 Chart.register(centerTextPlugin);
 
 // 차트 초기화
-export const initializePieChart = (ctx) => {
+export const initializePieChart = (ctx, acquisitionList) => {
+  console.log(acquisitionList);
   const myPieChart = new Chart(ctx, {
     type: "doughnut",
     data: {
-      labels: ["Tesla", "Google", "Amazon", "Apple", "Microsoft"],
+      labels: acquisitionList.map((value) => value.stockName),
       datasets: [
         {
-          data: [55, 30, 15, 5, 7],
+          data: acquisitionList.map((value) => value.quantity),
           backgroundColor: [
             "#4e73df",
             "#1cc88a",
             "#36b9cc",
             "#E74A3B",
             "#F6C23E",
+            "#A549E4",
           ],
-          hoverBackgroundColor: ["#2e59d9", "#17a673", "#2c9faf", "#E7483B", "#F6B23D"],
+          hoverBackgroundColor: ["#2e59d9", "#17a673", "#2c9faf", "#E7483B", "#F6B23D", "#4549E4"],
           hoverBorderColor: "rgba(234, 236, 244, 1)",
           borderWidth: 4, // 도넛의 외곽선 두께
         },

@@ -1,13 +1,18 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, reactive, onMounted } from 'vue';
 import { initializePieChart } from './js/pieChart.js'; // 모듈 가져오기
+import { useRoute } from 'vue-router';
+import { usePortfolioDetailStore } from '../stores/usePortfolioDetailStore.js';
 
 const chartRef = ref(null);
+const route = useRoute();
+const portfolioDetailStore = usePortfolioDetailStore();
 
-onMounted(() => {
+onMounted(async () => {
+  await portfolioDetailStore.getportfolioDetail(route.params.idx);
   if (chartRef.value) {
     const ctx = chartRef.value.getContext('2d');
-    initializePieChart(ctx); // Chart 초기화 함수 호출
+    initializePieChart(ctx, portfolioDetailStore.$state.portfolioItem.acquisitionList); // Chart 초기화 함수 호출
   }
 });
 </script>

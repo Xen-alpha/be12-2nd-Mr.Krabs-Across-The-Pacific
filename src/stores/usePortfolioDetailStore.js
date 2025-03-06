@@ -10,7 +10,7 @@ export const usePortfolioDetailStore = defineStore("portfolioDetail", {
       "created_at": "2024-10-02 00:00:00",
       "updated_at": "2024-10-05 12:00:00",
       "author": "User123",
-      "portfolio_Stocks": [
+      "acquisitionList": [ // TODO: acquisitionList로 변경
           {
               "image": "https://images.therich.io/images/logo/us/AAPL.png",
               "name": "Apple",
@@ -43,12 +43,16 @@ export const usePortfolioDetailStore = defineStore("portfolioDetail", {
       "rank": 1
   }
   }),
+  getter: {
+    acquisitionList: (state) => state.portfolioItem.acquisitionList,
+  },
 
   actions: {
     async getportfolioDetail(idx) {
       try {
         const response = await axios.get(`/api/portfolio/${idx}`);
         this.portfolioItem = response.data.result;
+        return response.data;
       } catch (error) {
         console.error("Error fetching portfolio details:", error);
       }

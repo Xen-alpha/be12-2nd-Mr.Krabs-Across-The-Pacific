@@ -19,6 +19,7 @@ const portfolioRepliesStore = usePortfolioRepliesStore();
 const portfolioStocks = ref([]);
 const portfolioReplies = ref([]);
 
+
 onMounted(async () => {
   console.log("HI");
   // Portfolio detail 데이터 가져오기
@@ -224,7 +225,7 @@ const deleteBtn = () => {
                     </div>
                     <!-- Card Body -->
                     <div class="card-body" style="white-space:pre-wrap; overflow-wrap: break-word;">
-                      <PortfolioPieChart />
+                      <PortfolioPieChart :portfolioStocks="portfolioStocks" />
                     </div>
                   </div>
                 </div>
