@@ -33,7 +33,7 @@ Chart.register(centerTextPlugin);
 
 // 차트 초기화
 export const initializePieChart = (ctx, acquisitionList, profit) => {
-  console.log(acquisitionList);
+  // console.log(acquisitionList);
   const myPieChart = new Chart(ctx, {
     type: "doughnut",
     data: {

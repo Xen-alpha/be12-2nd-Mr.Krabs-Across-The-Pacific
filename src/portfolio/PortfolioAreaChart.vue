@@ -26,17 +26,16 @@ onMounted(async () => {
         return [datelist, reversedprofitlist];
       }).reduce((prev, curr) => {
         for (let i = 0; i < curr[1].length; i++) {
-          if (prev[i]) prev[i] += curr[1][i];
-          else prev.push(curr[1][i]);
+          prev[i] += curr[1][i];
         }
         return prev;
-      }, []).reverse();
-      console.log(graphvalues.value);
+      }, new Array(730).fill(0)).reverse().filter((value) => value !== 0).map((value, index, array) => value);
+      // console.log(graphvalues.value);
+      if (chartRef.value) {
+        const ctx = chartRef.value.getContext('2d');
+        initializeAreaChart(ctx, graphvalues.value); // Chart 초기화
+      }
     });
-  if (chartRef.value) {
-    const ctx = chartRef.value.getContext('2d');
-    initializeAreaChart(ctx, graphvalues.value.slice(0, 60)); // Chart 초기화
-  }
 });
 </script>
 

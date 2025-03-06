@@ -1,4 +1,6 @@
-import { Chart } from 'chart.js';
+import { Chart, registerables } from 'chart.js';
+
+Chart.register(...registerables); // Chart.js 기본 구성 등록
 
 // Number formatting function
 function number_format(number, decimals, dec_point, thousands_sep) {
@@ -30,6 +32,7 @@ function generateRandomData(count, min, max) {
 
 // Initialize Area Chart
 export const initializeAreaChart = (ctx, datalist) => {
+  console.log(datalist);
   return new Chart(ctx, {
     type: 'line',
     data: {
@@ -39,14 +42,8 @@ export const initializeAreaChart = (ctx, datalist) => {
         tension: 0.01,
         backgroundColor: "rgba(78, 115, 223, 0.05)",
         borderColor: "rgba(78, 115, 223, 1)",
-        pointRadius: 3,
-        pointBackgroundColor: "rgba(78, 115, 223, 1)",
-        pointBorderColor: "rgba(78, 115, 223, 1)",
-        pointHoverRadius: 3,
-        pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
-        pointHoverBorderColor: "rgba(78, 115, 223, 1)",
-        pointHitRadius: 10,
-        pointBorderWidth: 2,
+        pointStyle: null,
+        pointRadius : 0,
         data: datalist, // 인수로 받은 값 리스트를 반환
       }],
     },
