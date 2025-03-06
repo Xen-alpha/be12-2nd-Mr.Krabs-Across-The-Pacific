@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps } from 'vue';
+import { defineProps, onMounted,watch, ref, computed } from 'vue';
 
 // Props로 portfolioStocks 데이터를 받습니다.
 const props = defineProps({
@@ -8,6 +8,8 @@ const props = defineProps({
     required: true,
   },
 });
+console.log("상위 주식 목록 : ", props.portfolioStocks);
+
 </script>
 
 <template>
@@ -21,12 +23,12 @@ const props = defineProps({
         class="list-group-item d-flex justify-content-between align-items-center"
       >
         <img 
-          :src="stock.image" 
+          :src="stock.image||'/images/멍자.png'"
           alt="Stock Image" 
           style="width: 40px; height: 40px; margin-right: 10px;"
         />
-        <span>{{ stock.name }}</span>
-        <span class="ml-auto font-weight-bold">{{ stock.quantity }}%</span>
+        <span>{{ stock.stockName }}</span>
+        <span class="ml-auto font-weight-bold">{{ stock.percentage }}%</span>
       </li>
     </ul>
   </div>

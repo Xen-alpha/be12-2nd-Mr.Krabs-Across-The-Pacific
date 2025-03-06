@@ -23,7 +23,7 @@ const portfolioDetail = ref({
   name:'',
   own:'',
   profileImage:'',
-  acquisitionList:[]
+  topStocks:[]
 })
 
 const portfolioReplies = ref([]);
@@ -286,7 +286,7 @@ const deleteBtn = () => {
                     </div>
                     <!-- Card Body -->
                     <div class="card-body" style="white-space:pre-wrap; overflow-wrap: break-word;">
-                      <PortfolioPieChart />
+                      <PortfolioPieChart :portfolioStocks="portfolioDetail.topStocks"/>
                     </div>
                   </div>
                 </div>
@@ -295,7 +295,8 @@ const deleteBtn = () => {
                   <!-- 포트폴리오 종목 카드 -->
                   <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                      <PortfolioStock :portfolioStocks="portfolioDetailStore.portfolioItem.portfolio_Stocks" />
+                      <!-- <PortfolioStock :portfolioStocks="portfolioDetailStore.portfolioItem.portfolio_Stocks" /> -->
+                      <PortfolioStock :portfolioStocks="portfolioDetail.topStocks" />
                     </div>
                   </div>
                 </div>
