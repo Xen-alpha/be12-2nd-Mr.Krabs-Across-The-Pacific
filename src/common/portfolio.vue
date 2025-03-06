@@ -19,7 +19,7 @@ const props = defineProps({
 const isBookmarked = ref(props.portfolio.bookmark);
 
 const navigateToPortfolio = async (idx) => {
-    // await portfolioDetail.getPortfolioDetail(idx);
+    await portfolioDetail.getPortfolioViewCnt(idx);
     router.push(`/portfolio/detail/${idx}`);
 };
 
