@@ -19,13 +19,24 @@ const portfolioRepliesStore = usePortfolioRepliesStore();
 const portfolioStocks = ref([]);
 const portfolioReplies = ref([]);
 
-
+let profit = ref(null);
 onMounted(async () => {
   console.log("HI");
   // Portfolio detail 데이터 가져오기
   await portfolioDetailStore.getportfolioDetail(route.params.idx);
   await portfolioRepliesStore.getPortfolioRepliesByCreatedAt(route.params.idx);
   console.log("Portfolio Detail Loaded:", portfolioDetailStore.portfolioItem);
+
+  // 계산해서 총 수익률 구하기
+
+  Promise.all(portfolioDetailStore.portfolioItem.acquisitionList
+    .map((value) => [value.stockCode, value.price, value.quantity])
+    .map(async ([code, price, quantity]) => {
+      const recentprice = await portfolioDetailStore.getRecentPrice(code);
+      return (price - recentprice) * quantity;
+    })).then((responses) => { profit.value = responses.reduce((prev, curr) => prev + curr, 0).toFixed(2); });
+
+
 
   // Portfolio replies 데이터 가져오기
   portfolioReplies.value = await portfolioRepliesStore.getPortfolioRepliesByCreatedAt(route.params.idx);
@@ -162,7 +173,7 @@ const deleteBtn = () => {
                           </div>
                           <div class="row no-gutters align-items-center">
                             <div class="col-auto">
-                              <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">+112%</div>
+                              <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ profit }}%</div>
                             </div>
                             <div class="col">
                               <div class="progress progress-sm mr-2">

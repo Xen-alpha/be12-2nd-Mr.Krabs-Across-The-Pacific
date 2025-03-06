@@ -14,26 +14,31 @@ export const usePortfolioDetailStore = defineStore("portfolioDetail", {
           {
               "image": "https://images.therich.io/images/logo/us/AAPL.png",
               "name": "Apple",
+              "stockCode": "AAPL",
               "quantity": 5
           },
           {
               "image": "https://images.therich.io/images/logo/us/MSFT.png",
               "name": "Microsoft",
+              "stockCode": "MSFT",
               "quantity": 30
           },
           {
               "image": "https://images.therich.io/images/logo/us/GOOGL.png",
               "name": "Google",
+              "stockCode": "GOOGL",
               "quantity": 30
           },
           {
               "image": "https://images.therich.io/images/logo/us/TSLA.png",
               "name": "Tesla",
+              "stockCode": "TSLA",
               "quantity": 80
           },
           {
               "image": "https://images.therich.io/images/logo/us/AMZN.png",
               "name": "Amazon",
+              "stockCode": "AMZN",
               "quantity": 100
           }
       ],
@@ -43,19 +48,20 @@ export const usePortfolioDetailStore = defineStore("portfolioDetail", {
       "rank": 1
   }
   }),
-  getter: {
-    acquisitionList: (state) => state.portfolioItem.acquisitionList,
-    recentprices: (state) => state.portfolioItem.acquisitionList.map((value) => {
-      return {"price": value.price, "quantity": value.quantity};
-    })
-  },
-
   actions: {
     async getportfolioDetail(idx) {
       try {
         const response = await axios.get(`/api/portfolio/${idx}`);
         this.portfolioItem = response.data.result;
         return response.data;
+      } catch (error) {
+        console.error("Error fetching portfolio details:", error);
+      }
+    },
+    async getRecentPrice(code) {
+      try {
+        const response = await axios.get(`/api/stock/recent/${code}`);
+        return response.data.result;
       } catch (error) {
         console.error("Error fetching portfolio details:", error);
       }
