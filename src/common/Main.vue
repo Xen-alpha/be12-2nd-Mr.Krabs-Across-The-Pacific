@@ -1,13 +1,15 @@
 <script setup>
 import Portfolio from './Portfolio.vue';
 import { usePortfolioListStore } from '../stores/usePortfolioListStore';
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, watch, watchEffect} from 'vue'
 import { useLoadingStore } from '../stores/useLoadingStore'
+import { useRoute } from "vue-router";
 
 const selectedOption = ref('View');
 const loadingStore = useLoadingStore();
 const portfolioList = usePortfolioListStore();
 const currentPage = ref(1);
+const route = useRoute();
 
 // 페이지 로딩 시 포트폴리오 목록 불러오기
 onMounted(async () => {
@@ -34,6 +36,19 @@ const changePage = async (page) => {
         isLoading.value = false;
     }
 };
+
+//Navbar.vue에서 포트폴리오 검색 반영
+const searchPortfolioList = async () => {
+  loadingStore.startLoading();
+  await portfolioList.searchPortfolioList(currentPage.value-1, route.query.keyword); // 첫 번째 페이지로 검색 실행
+  loadingStore.stopLoading();
+};
+watch(() => {
+  const newKeyword = route.query.keyword;
+  if (newKeyword) searchPortfolioList(newKeyword);
+});
+
+
 </script>
 
 <template>

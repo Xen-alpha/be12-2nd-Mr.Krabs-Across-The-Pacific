@@ -49,6 +49,24 @@ export const usePortfolioListStore = defineStore("portfolioList", {
             } finally {
                 this.isLoading = false;
             }
-        }
+        },
+        async searchPortfolioList(page, keyword) {
+            this.isLoading = true;
+            try {
+                const response = await axios.get(`/api/portfolio/search/${keyword}?page=`+Number(page));
+                if (response.data?.result) {
+                    const { portfolioList, ...pagination } = response.data.result;
+                    this.portfolios = portfolioList; // 포트폴리오 목록
+                    this.pagination = pagination; // 페이지네이션 데이터
+                    console.log("결과", response.data.result);
+                } else {
+                    throw new Error("잘못된 응답 형식입니다.");
+                }
+            } catch (error) {
+                console.error;
+            } finally {
+                this.isLoading = false;
+            }
+        },
     },
 });
