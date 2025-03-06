@@ -37,7 +37,7 @@ export const initializePieChart = (ctx, acquisitionList) => {
   const myPieChart = new Chart(ctx, {
     type: "doughnut",
     data: {
-      labels: acquisitionList.map((value) => value.stockName),
+      labels: acquisitionList.map((value) => value.stockName.slice(0,10)).slice(0,6),
       datasets: [
         {
           data: acquisitionList.map((value) => value.quantity),

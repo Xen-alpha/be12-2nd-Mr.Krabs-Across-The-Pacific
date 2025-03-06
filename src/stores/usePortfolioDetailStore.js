@@ -45,6 +45,9 @@ export const usePortfolioDetailStore = defineStore("portfolioDetail", {
   }),
   getter: {
     acquisitionList: (state) => state.portfolioItem.acquisitionList,
+    recentprices: (state) => state.portfolioItem.acquisitionList.map((value) => {
+      return {"price": value.price, "quantity": value.quantity};
+    })
   },
 
   actions: {
