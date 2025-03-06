@@ -36,7 +36,8 @@ onBeforeMount(async () => {
 
 onMounted(async () => {
   loadingStore.startLoading();
-  await stockListStore.getStockList(offset, text);
+  //await stockListStore.getStockList(offset, text);
+  await stockListStore.getStocks();
   loadingStore.stopLoading();
 });
 
