@@ -53,7 +53,7 @@ export const usePortfolioRepliesStore = defineStore('portfolioReplies',{
         async setPortfolioReply(portfolioId, newReply) {  
             try {
             const response = await axios.post(
-              `/public/sample/portfolioreply/newreply.json`,
+              `/sample/portfolioreply/newreply.json`,
               newReply
             );
             // 성공적으로 저장되면, 응답 데이터를 리스트에 추가
