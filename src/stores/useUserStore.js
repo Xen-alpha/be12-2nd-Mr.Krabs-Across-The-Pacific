@@ -19,8 +19,8 @@ export const useUserStore = defineStore("user", {
                 })
             console.log(response);
             if (response === null) return false;
-            this.userId = response.data.userId;
-            this.image = response.data.image;
+            this.userId = response.data.result.idx;
+            this.image = response.data.result.image;
             this.isLogin = true;
             return true;
         },

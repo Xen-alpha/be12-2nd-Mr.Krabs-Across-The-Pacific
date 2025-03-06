@@ -38,7 +38,6 @@ const goToMyPortfolio=()=>{
   }
 }
 
-
 const searchPortfolio = () => {
   if (!searchQuery.value.trim()) {
     alert("검색어를 입력하세요.");
@@ -66,13 +65,19 @@ const resetSearch = () => {
   searchQuery.value = ""; // 검색어 상태 초기화
   router.push({ path: "/" }); // 🔥 keyword 파라미터 제거하여 전체 리스트 표시
 };
+
+const goToMyPortpolio = () =>{
+  console.log(userStore.userId);
+  router.push({ path: "/portfolio/list/"+userStore.userId });
+}
+
 </script>
 
 <template>
   <nav class="navbar navbar-marketing navbar-expand-lg shadow bg-white navbar-light fixed-top">
     <div class="nav-container">
       <!-- Logo -->
-      <router-link to="/" class="navbar-brand text-black"  @click="resetSearch">>
+      <router-link to="/" class="navbar-brand text-black"  @click="resetSearch">
         <img src="../images/money.png" alt="Across The Pacific Logo"/>
         <span class="ms-2">Across The Pacific</span>
       </router-link>
@@ -103,10 +108,11 @@ const resetSearch = () => {
               <!-- <font-awesome-icon :icon="['fas', 'chevron-right']" /> -->
             </a>
             <ul class="dropdown-menu">
-              <li><button class="dropdown-item" @click="goToMyPortfolio">
-                내 포트폴리오
-              </button>
+
+              <!-- 링크 수정(khj) -->
+              <li>
                 <!-- <router-link :to="`/portfolio/list/${userIdx}`" class="dropdown-item"> 내 포트폴리오 </router-link> -->
+                <button class="dropdown-item" @click="goToMyPortpolio"> 내 포트폴리오 </button>
               </li>
               <li>
                 <router-link to="/bookmarks" class="dropdown-item"> 북마크 포트폴리오 </router-link>
