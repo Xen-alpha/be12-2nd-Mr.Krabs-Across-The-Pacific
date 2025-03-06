@@ -39,13 +39,11 @@ const routes = [
         component: Main,
       },
       {
-        path: "portfoliolist/:username",
+        path: "portfolio/list/:userIdx",
+        name: "UserPortfolioList",
         components: {
           default: Main,
           user: UserPort,
-        },
-        props: {
-          user: true,
         },
       },
       {

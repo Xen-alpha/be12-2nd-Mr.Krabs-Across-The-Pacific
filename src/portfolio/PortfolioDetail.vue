@@ -1,13 +1,12 @@
 <script setup>
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, watch, computed } from 'vue';
 import PortfolioReply from './PortfolioReply.vue';
 import PortfolioStock from './PortfolioStock.vue';
 import PortfolioPieChart from './PortfolioPieChart.vue';
 import PortfolioAreaChart from './PortfolioAreaChart.vue';
 import { usePortfolioDetailStore } from '../stores/usePortfolioDetailStore';
 import { usePortfolioRepliesStore } from '../stores/usePortfolioRepliesStore';
-import { useRoute } from 'vue-router';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 const route = useRoute();
 const router = useRouter();
@@ -31,27 +30,10 @@ const page = ref(0); // 현재 페이지 번호
 const size = 10; // 한 번에 불러올 개수
 
 onMounted(async () => {
-    // Portfolio detail 데이터 가져오기
-    // await portfolioDetailStore.getportfolioDetail(route.params.idx);
-    // await portfolioRepliesStore.getPortfolioRepliesByCreatedAt(route.params.idx);
-    // console.log("Portfolio Detail Loaded:", portfolioDetailStore.portfolioItem);
-
-    // const response =  await portfolioDetailStore.getPortfolioDetail(route.params.idx);
-    // console.log("포트폴리오 이름 : ", response.name);
-    // result.value.name = response.name;
-    
-    // Portfolio replies 데이터 가져오기
-    // portfolioReplies.value = await portfolioRepliesStore.getPortfolioRepliesByCreatedAt(route.params.idx);
-    // console.log("Portfolio Replies Loaded:", portfolioReplies.value);
     portfolioStocks.value = portfolioDetailStore.portfolioItem.portfolio_quantity || {};
-    // portfolioReplies.value = portfolioRepliesStore.portfolioReplies || [];
-
-
     //포트폴리오 상세 정보 가져오기
     await portfolioDetailStore.getPortfolioDetail(route.params.idx);
     portfolioDetail.value = portfolioDetailStore.result;
-    // 포트폴리오 댓글 가져오기 (초기 로드)
-    // await loadReplies();
 });
 
 const loadReplies = async $state => {
@@ -62,7 +44,6 @@ const loadReplies = async $state => {
       $state.complete();
     }else{
       portfolioReplies.value.push(...response);
-      // portfolioReplies.value = [...portfolioReplies.value, ...response];
       $state.loaded();
     }
     page.value++;
@@ -71,31 +52,6 @@ const loadReplies = async $state => {
     $state.error();
   }
 };
-
-
-// 포트폴리오 댓글 불러오기 (페이지네이션)
-// const loadReplies = async () => {
-//   if (isLoading.value || !portfolioReplies.value.hasNext) return; // 중복 요청 방지, 다음 페이지 없으면 중단
-//   isLoading.value = true;
-
-//   try {
-//     await portfolioRepliesStore.getPortfolioRepliesByCreatedAt(route.params.idx, page.value, size);
-
-//     const newReplies = portfolioRepliesStore.result.content;
-//     portfolioReplies.value.content.push(...newReplies); // 기존 댓글 목록에 추가
-//     portfolioReplies.value.hasNext = portfolioRepliesStore.result.hasNext; // 다음 페이지 여부 업데이트
-
-//     if (portfolioReplies.value.hasNext) {
-//       page.value++; // 다음 페이지 증가
-//     }
-//   } catch (error) {
-//     console.error("댓글 불러오기 실패:", error);
-//   } finally {
-//     isLoading.value = false;
-//   }
-// };
-
-
 
 const newReplyContent = ref(""); // 새 댓글 내용
 // 댓글 내용 업데이트 핸들러
@@ -125,16 +81,9 @@ const submitReply = async () => {
   }
 };
 
-const username = '멍자';
-// const updateBtn = () => {
-//   router.push({
-//     path: '/editport',
-//     state: { username:"멍자", portfolioIdx: 1, portStatus: false},
-//   });
-// };
 const updateBtn = () => {
   router.push({
-    name: 'Portfolio', // 라우트 이름
+name: 'Portfolio', // 라우트 이름
     params: { mode: 'update' },
     state: { username:"멍자", portfolioIdx: 1,}
   });
@@ -143,12 +92,18 @@ const updateBtn = () => {
 const deleteBtn = () => {
   const isConfirmed = confirm('정말로 삭제하시겠습니까?');
   if (isConfirmed) {
-    router.push({
-      path: `/portfoliolist/${username}`
-    });
+    //TODO 
+    router.push({ path: `/`});
   }
 };
 
+const goToUserInfo = async (userIdx, userName) => {
+router.push({
+      name: "UserPortfolioList",
+      params: { userIdx },
+      query: { userName },
+    });
+};
 </script>
 
 <template>
@@ -162,10 +117,16 @@ const deleteBtn = () => {
             <div class="container-fluid1">
               <!-- Page Heading -->
               <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                <router-link :to="`/portfoliolist/${username}`">
+                <!-- <router-link 
+                  :to="userPortfolioRoute" 
+                  @click="goToUserInfo(portfolioDetail.userIdx)">
                   <img alt="profile" fetchpriority="high" width="128" height="128" decoding="async" data-nimg="1"
                     style="color:transparent" :src="portfolioDetail.profileImage || '/images/멍자.png'"  />
-                </router-link>
+                </router-link> -->
+                <div>
+                  <img @click="goToUserInfo(portfolioDetail.userIdx, portfolioDetail.userName)" alt="profile" fetchpriority="high" width="128" height="128" decoding="async" data-nimg="1"
+                    style="color:transparent" :src="portfolioDetail.profileImage || '/images/멍자.png'"  />
+                </div>
                 <div>
                   <h1 class="h3 mb-0 text-gray-800">{{ portfolioDetail.name }}</h1>
                 </div>

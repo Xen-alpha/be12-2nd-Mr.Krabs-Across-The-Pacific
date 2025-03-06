@@ -1,7 +1,8 @@
 <script setup>
-import { onMounted, ref } from "vue";
+import { onMounted, ref, onUnmounted} from "vue";
 import { useUserStore } from "../stores/useUserStore";
 import { useRouter } from "vue-router";
+import Login from "../user/Login.vue";
 
 const searchQuery = ref("");
 const router = useRouter();
@@ -28,8 +29,16 @@ const alerts = [
 ];
 
 const userStore = useUserStore();
+const goToMyPortfolio=()=>{
+  const result = userStore.getUserDetail();
+  console.log(result);
+  if(result===null){
+    router.push("/login")
+  }
+}
 
-const searchPortfolio = (event) => {
+
+const searchPortfolio = () => {
   if (!searchQuery.value.trim()) {
     alert("검색어를 입력하세요.");
     return;
@@ -37,14 +46,19 @@ const searchPortfolio = (event) => {
   router.push({ path: "/", query: { keyword: searchQuery.value } }); // 검색어를 쿼리로 전달
 };
 
+// 로고 클릭 시 검색어 초기화
+const resetSearch = () => {
+  searchQuery.value = ""; // 검색어 상태 초기화
+  router.push({ path: "/" }); // 🔥 keyword 파라미터 제거하여 전체 리스트 표시
+};
 </script>
 
 <template>
   <nav class="navbar navbar-marketing navbar-expand-lg shadow bg-white navbar-light fixed-top">
     <div class="nav-container">
       <!-- Logo -->
-      <router-link to="/" class="navbar-brand text-black">
-        <img src="../images/money.png" alt="Across The Pacific Logo" />
+      <router-link to="/" class="navbar-brand text-black"  @click="resetSearch">>
+        <img src="../images/money.png" alt="Across The Pacific Logo"/>
         <span class="ms-2">Across The Pacific</span>
       </router-link>
 
@@ -80,16 +94,15 @@ const searchPortfolio = (event) => {
               <!-- <font-awesome-icon :icon="['fas', 'chevron-right']" /> -->
             </a>
             <ul class="dropdown-menu">
-              <!-- 링크 수정(khj) -->
-              <li>
-                <router-link :to="`/portfoliolist/${username}`" class="dropdown-item"> 내 포트폴리오 </router-link>
+              <li><button class="dropdown-item" @click="goToMyPortfolio">
+                내 포트폴리오
+              </button>
+                <!-- <router-link :to="`/portfolio/list/${userIdx}`" class="dropdown-item"> 내 포트폴리오 </router-link> -->
               </li>
               <li>
                 <router-link to="/bookmarks" class="dropdown-item"> 북마크 포트폴리오 </router-link>
               </li>
               <li>
-                <!-- <router-link :to="{ path: '/editport', state: { portfolioIdx: 1, portStatus: true } }" class="dropdown-item">
-                  포트폴리오 만들기</router-link> -->
                   <router-link :to="{ name: 'Portfolio', params: { mode: 'create' }, }" class="dropdown-item">
                   포트폴리오 생성
                 </router-link  -link>
