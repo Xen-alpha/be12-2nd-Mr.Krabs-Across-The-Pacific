@@ -4,7 +4,7 @@ import { usePortfolioListStore } from '../stores/usePortfolioListStore';
 import { ref, onMounted, computed } from 'vue'
 import { useLoadingStore } from '../stores/useLoadingStore'
 
-const selectedOption = ref('viewCnt');
+const selectedOption = ref('View');
 const loadingStore = useLoadingStore();
 const portfolioList = usePortfolioListStore();
 const currentPage = ref(1);
@@ -12,7 +12,7 @@ const currentPage = ref(1);
 // 페이지 로딩 시 포트폴리오 목록 불러오기
 onMounted(async () => {
     loadingStore.startLoading();
-    await portfolioList.getPortfolioList(currentPage.value-1, 'viewCnt');
+    await portfolioList.getPortfolioList(currentPage.value-1, 'View');
     loadingStore.stopLoading();
 });
 
@@ -42,13 +42,13 @@ const changePage = async (page) => {
         <div class="p_type">
             <div class="p_category">Category</div>
             <div class="p_btn_group">
-                <label data-cy="showView" class="btn_active" :class="{ selected: selectedOption === 'createdAt' }" @click="selectOption('createdAt')">
+                <label data-cy="showView" class="btn_active" :class="{ selected: selectedOption === 'CreatedAt' }" @click="selectOption('CreatedAt')">
                     New
                 </label>
-                <label data-cy="showLikes" class="btn_active" :class="{ selected: selectedOption === 'viewCnt' }" @click="selectOption('viewCnt')">
+                <label data-cy="showLikes" class="btn_active" :class="{ selected: selectedOption === 'View' }" @click="selectOption('View')">
                     View
                 </label>
-                <label data-cy="showBookM" class="btn_active" :class="{ selected: selectedOption === 'bookmarks' }" @click="selectOption('bookmarks')">
+                <label data-cy="showBookM" class="btn_active" :class="{ selected: selectedOption === 'Bookmark' }" @click="selectOption('Bookmark')">
                     Bookmark
                 </label>
             </div>
