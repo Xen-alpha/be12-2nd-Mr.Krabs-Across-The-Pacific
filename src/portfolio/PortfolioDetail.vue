@@ -21,17 +21,17 @@ const portfolioReplies = ref([]);
 
 onMounted(async () => {
   console.log("HI");
-    // Portfolio detail 데이터 가져오기
-    // await portfolioDetailStore.getportfolioDetail(route.params.idx);
-    await portfolioRepliesStore.getPortfolioRepliesByCreatedAt(route.params.idx);
-    console.log("Portfolio Detail Loaded:", portfolioDetailStore.portfolioItem);
+  // Portfolio detail 데이터 가져오기
+  await portfolioDetailStore.getportfolioDetail(route.params.idx);
+  await portfolioRepliesStore.getPortfolioRepliesByCreatedAt(route.params.idx);
+  console.log("Portfolio Detail Loaded:", portfolioDetailStore.portfolioItem);
 
-    // Portfolio replies 데이터 가져오기
-    portfolioReplies.value = await portfolioRepliesStore.getPortfolioRepliesByCreatedAt(route.params.idx);
-    console.log("Portfolio Replies Loaded:", portfolioRepliesStore.portfolioReplies);
-    // 데이터를 vue의 상태에 반영
-    portfolioStocks.value = portfolioDetailStore.portfolioItem.portfolio_quantity || {};
-    portfolioReplies.value = portfolioRepliesStore.portfolioReplies || [];
+  // Portfolio replies 데이터 가져오기
+  portfolioReplies.value = await portfolioRepliesStore.getPortfolioRepliesByCreatedAt(route.params.idx);
+  console.log("Portfolio Replies Loaded:", portfolioRepliesStore.portfolioReplies);
+  // 데이터를 vue의 상태에 반영
+  portfolioStocks.value = portfolioDetailStore.portfolioItem.portfolio_quantity || {};
+  portfolioReplies.value = portfolioRepliesStore.portfolioReplies || [];
 });
 
 const newReplyContent = ref(""); // 새 댓글 내용
@@ -74,7 +74,7 @@ const updateBtn = () => {
   router.push({
     name: 'Portfolio', // 라우트 이름
     params: { mode: 'update' },
-    state: { username:"멍자", portfolioIdx: 1,}
+    state: { username: "멍자", portfolioIdx: 1, }
   });
 };
 
@@ -233,7 +233,7 @@ const deleteBtn = () => {
                   <!-- 포트폴리오 종목 카드 -->
                   <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                      <PortfolioStock :portfolioStocks="portfolioDetailStore.portfolioItem.portfolio_Stocks" />
+                      <PortfolioStock :portfolioStocks="portfolioDetailStore.portfolioItem.topStocks" />
                     </div>
                   </div>
                 </div>
@@ -243,36 +243,36 @@ const deleteBtn = () => {
         </div>
 
 
-              </div>
-              <!-- Content Row -->
-              <div class="row">
-                <!-- Area Chart -->
-                <div class="col-xl-12 col-lg-12">
-                  <div class="card shadow mb-4">
-                    <!-- Card Header - Dropdown -->
-                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                      <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
-                      <div class="dropdown no-arrow">
-                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                          aria-haspopup="true" aria-expanded="false">
-                          <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                          aria-labelledby="dropdownMenuLink">
-                          <div class="dropdown-header">Dropdown Header:</div>
-                          <a class="dropdown-item" href="#">Action</a>
-                          <a class="dropdown-item" href="#">Another action</a>
-                          <div class="dropdown-divider"></div>
-                          <a class="dropdown-item" href="#">Something else here</a>
-                        </div>
-                      </div>
-                    </div>
-                    <!-- Card Body -->
-                    <div class="card-body" style="white-space:pre-wrap; overflow-wrap: break-word;">
-                        <PortfolioAreaChart />
-                    </div>
-                  </div>
+      </div>
+      <!-- Content Row -->
+      <div class="row">
+        <!-- Area Chart -->
+        <div class="col-xl-12 col-lg-12">
+          <div class="card shadow mb-4">
+            <!-- Card Header - Dropdown -->
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+              <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
+              <div class="dropdown no-arrow">
+                <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
+                  aria-haspopup="true" aria-expanded="false">
+                  <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                  aria-labelledby="dropdownMenuLink">
+                  <div class="dropdown-header">Dropdown Header:</div>
+                  <a class="dropdown-item" href="#">Action</a>
+                  <a class="dropdown-item" href="#">Another action</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#">Something else here</a>
                 </div>
+              </div>
+            </div>
+            <!-- Card Body -->
+            <div class="card-body" style="white-space:pre-wrap; overflow-wrap: break-word;">
+              <PortfolioAreaChart />
+            </div>
+          </div>
+        </div>
 
       </div>
 
@@ -315,7 +315,7 @@ const deleteBtn = () => {
 
         <div class="row">
           <!-- Approach -->
-          <PortfolioReply v-for="reply in portfolioRepliesStore.portfolioReplies":reply="reply" />
+          <PortfolioReply v-for="reply in portfolioRepliesStore.portfolioReplies" :reply="reply" />
 
 
         </div>

@@ -29,15 +29,8 @@ let canMoveRight = computed(() => {
 });
 stockListStore.getStockList(offset, text).then((result) => {
   itemlist.value = result;
+  console.log(result);
 })
-
-
-onMounted(async () => {
-  loadingStore.startLoading();
-  await stockListStore.getStockList(offset, text);
-  itemlist.value = stockListStore.stockListResult;
-  loadingStore.stopLoading();
-});
 
 const onmovePrev = async () => {
   offset.value -= 30;
