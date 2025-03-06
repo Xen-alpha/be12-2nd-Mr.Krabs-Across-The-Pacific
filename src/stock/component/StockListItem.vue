@@ -17,8 +17,8 @@ id.value = response.id;
 code.value = response.code;
 name.value = response.name.replace(" Common Stock", "");
 market.value = response.market;
-price.value = response.price;
-likes.value = response.likes;
+price.value = response.price; 
+likes.value = response.likesCount;
 
 const scrollToTop = () => {
   // 이게 있어야 라우팅 후 맨 위로 자동 스크롤 됨

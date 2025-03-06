@@ -38,6 +38,7 @@ const routes = [
     children: [
       {
         path: "",
+        name: "Portfolio",
         component: Main,
       },
       {

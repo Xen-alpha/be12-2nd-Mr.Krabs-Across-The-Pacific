@@ -8,8 +8,26 @@ export const useUserStore = defineStore("user", {
         storage: sessionStorage,
     },
     actions: {
+        async signup(email, password, name, image) {
+            console.log("hi")
+            const response = await axios
+                .post("/api/user/signup", {
+                    "email": email,
+                    "password": password,
+                    "name" : name,
+                    "image" : image
+                })
+                .catch((error) => {
+                    console.log(error);
+                    return null;
+                })
+                console.log("hi")
+        },
         async login(email, password) {
-            const response = await axios.post("/api/login", {
+            const response = await axios
+                //.get("/sample/auth/login.json", {
+                //.post("/sample/auth/login.json", {
+                .post("/api/login", {
                     "id": email,
                     "password": password
                 },)
@@ -19,8 +37,8 @@ export const useUserStore = defineStore("user", {
                 })
             console.log(response);
             if (response === null) return false;
-            this.userId = response.data.userId;
-            this.image = response.data.image;
+            this.userIdx = response.data.result.idx;
+            this.image = response.data.result.image;
             this.isLogin = true;
             return true;
         },
@@ -33,15 +51,16 @@ export const useUserStore = defineStore("user", {
                     return null
                 })
             console.log(response);
-            if (response === null) return false;
             this.userId = null;
             this.image = null;
             this.isLogin = false;
+            if (response === null) return false;
             return true;
         },
         async checkLogin() {
             //axios
-            const response = await axios.get("/sample/auth/check.json", {
+            //const response = await axios.get("/sample/auth/check.json", {
+            const response = await axios.get("test/user/check", {
                 withCredentials: true,
             }).catch((error) => {
                 //console.error(error);
