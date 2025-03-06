@@ -30,7 +30,7 @@ onMounted(async () => {
   portfolioReplies.value = await portfolioRepliesStore.getPortfolioRepliesByCreatedAt(route.params.idx);
   console.log("Portfolio Replies Loaded:", portfolioRepliesStore.portfolioReplies);
   // 데이터를 vue의 상태에 반영
-  portfolioStocks.value = portfolioDetailStore.portfolioItem.portfolio_quantity || {};
+  portfolioStocks.value = portfolioDetailStore.portfolioItem.acquisitionList || {};
   portfolioReplies.value = portfolioRepliesStore.portfolioReplies || [];
 });
 
@@ -233,7 +233,7 @@ const deleteBtn = () => {
                   <!-- 포트폴리오 종목 카드 -->
                   <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                      <PortfolioStock :portfolioStocks="portfolioDetailStore.portfolioItem.topStocks" />
+                      <PortfolioStock :portfolioStocks="portfolioStocks" />
                     </div>
                   </div>
                 </div>
