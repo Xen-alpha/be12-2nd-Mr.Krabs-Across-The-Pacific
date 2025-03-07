@@ -7,6 +7,9 @@ export const useUserStore = defineStore("user", {
     persist: {
         storage: sessionStorage,
     },
+    getter:{
+        userId: (state) => state.userId
+    },
     actions: {
         async login(email, password) {
             const response = await axios
@@ -21,8 +24,8 @@ export const useUserStore = defineStore("user", {
                 })
             console.log(response);
             if (response === null) return false;
-            this.userId = response.data.userId;
-            this.image = response.data.image;
+            this.userId = response.data.result.idx;
+            this.image = response.data.result.image;
             this.isLogin = true;
             return true;
         },

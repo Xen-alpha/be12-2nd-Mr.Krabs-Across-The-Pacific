@@ -15,9 +15,13 @@ const text = ref(!props.text ? "" : props.text);
 
 const stockLikesStore = useStockLikesStore();
 const loadingStore = useLoadingStore();
-let itemlist = ref(props.initialList ? props.initialList : stockLikesStore.stockListResult);
+let itemlist = ref([]);
 let totalLength = ref(stockLikesStore.stockListOffset);
 
+stockLikesStore.getStockList(offset, text).then((result) => {
+  itemlist.value = result;
+  console.log(result);
+})
 let canMoveLeft = computed(() => {
   return ref(offset > 1);
 });
@@ -25,17 +29,6 @@ let canMoveRight = computed(() => {
   return ref(offset < Math.floor(totalLength / 30));
 });
 
-onBeforeMount(async () => {
-  loadingStore.startLoading();
-  await stockLikesStore.getStockList(offset, text);
-  loadingStore.stopLoading();
-});
-
-onMounted(async () => {
-  loadingStore.startLoading();
-  await stockLikesStore.getStockList(offset, text);
-  loadingStore.stopLoading();
-});
 
 const onmovePrev = () => {
   offset.value -= 30;
@@ -66,7 +59,7 @@ const onmoveNext = () => {
   </div>
 </template>
 <style scoped>
-.container > h1 {
+.container>h1 {
   margin-top: 6rem;
 }
 

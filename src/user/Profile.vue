@@ -53,9 +53,9 @@ onMounted(async () => {
     <div style="text-align: center;">
       <router-link to="/bookmarks"><button class="modifyprofile">북마크한 포트폴리오 보기</button></router-link>
       <br /><br />
-      <router-link to="/mylikes" :initialList="stockLikesList"><button class="modifyprofile">관심 종목
+      <!--<router-link to="/mylikes" :initialList="stockLikesList"><button class="modifyprofile">관심 종목
           보기</button></router-link>
-      <br /><br />
+      <br /><br />-->
       <router-link to="/settings"><button class="modifyprofile">정보 수정</button></router-link>
       <br /><br />
       <button class="danger">회원 탈퇴</button>

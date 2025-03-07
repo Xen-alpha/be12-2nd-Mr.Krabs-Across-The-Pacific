@@ -25,20 +25,23 @@ const alerts = [
 ];
 
 const userStore = useUserStore();
+let userId = ref(0);
 const closeNavbar = () => {
-      const navbarCollapse = document.querySelector(".navbar-collapse");
-      if (navbarCollapse && navbarCollapse.classList.contains("show")) {
-        navbarCollapse.classList.remove("show"); // Bootstrap의 'show' 클래스 제거
-      }
-    };
+  const navbarCollapse = document.querySelector(".navbar-collapse");
+  if (navbarCollapse && navbarCollapse.classList.contains("show")) {
+    navbarCollapse.classList.remove("show"); // Bootstrap의 'show' 클래스 제거
+  }
+};
 
-onMounted(() => {
-      // 라우터 이벤트를 감지하여 Navbar 닫기
-      const router = useRouter();
-      router.afterEach(() => {
-        closeNavbar();
-      });
-    });
+onMounted(async () => {
+  // 라우터 이벤트를 감지하여 Navbar 닫기
+  userId.value = userStore.userId;
+
+  const router = useRouter();
+  router.afterEach(() => {
+    closeNavbar();
+  });
+});
 
 </script>
 
@@ -52,15 +55,8 @@ onMounted(() => {
       </router-link>
 
       <!-- Toggle button for smaller screens -->
-      <button
-        type="button"
-        class="navbar-toggler"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
+      <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <font-awesome-icon :icon="['fas', 'bars']" />
       </button>
 
@@ -79,7 +75,7 @@ onMounted(() => {
             <ul class="dropdown-menu">
               <!-- 링크 수정(khj) -->
               <li>
-                <router-link :to="`/portfoliolist/${username}`" class="dropdown-item"> 내 포트폴리오 </router-link>
+                <router-link :to="`/portfoliolist/${userId}`" class="dropdown-item"> 내 포트폴리오 </router-link>
               </li>
               <li>
                 <router-link to="/bookmarks" class="dropdown-item"> 북마크 포트폴리오 </router-link>
@@ -87,9 +83,9 @@ onMounted(() => {
               <li>
                 <!-- <router-link :to="{ path: '/editport', state: { portfolioIdx: 1, portStatus: true } }" class="dropdown-item">
                   포트폴리오 만들기</router-link> -->
-                  <router-link :to="{ name: 'Portfolio', params: { mode: 'create' }, }" class="dropdown-item">
+                <router-link :to="{ name: 'Portfolio', params: { mode: 'create' }, }" class="dropdown-item">
                   포트폴리오 생성
-                </router-link  -link>
+                </router-link -link>
               </li>
               <li>
                 <router-link to="/themes/landing-pages" class="dropdown-item"> 명예의 전당 </router-link>
@@ -112,13 +108,8 @@ onMounted(() => {
         <div class="search-nobottom my-navbar-search navbar-nav">
           <form class="d-sm-inline-block form-inline vw-75 mw-100 navbar-search">
             <div class="input-group">
-              <input
-                v-model="searchQuery"
-                type="text"
-                class="form-control bg-light border-0 small"
-                placeholder="검색어를 입력하세요"
-                aria-label="Search"
-              />
+              <input v-model="searchQuery" type="text" class="form-control bg-light border-0 small"
+                placeholder="검색어를 입력하세요" aria-label="Search" />
               <button class="btn btn-primary" type="button">
                 <font-awesome-icon :icon="['fas', 'magnifying-glass']" />
               </button>
@@ -135,14 +126,8 @@ onMounted(() => {
         </div>
         <div v-else class="navbar-nav align-items-lg-center nav-right">
           <li class="nav-item dropdown no-arrow mx-1" data-bs-toggle="dropdown">
-            <a
-              class="nav-link dropdown-toggle"
-              href="#"
-              id="alertsDropdown"
-              role="button"
-              data-bs-toggle="dropdown"
-              aria-expanded="true"
-            >
+            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-bs-toggle="dropdown"
+              aria-expanded="true">
               <font-awesome-icon :icon="['fas', 'bell']" />
               <span class="badge badge-danger badge-counter">{{ alerts.length }}+</span>
             </a>
@@ -168,15 +153,8 @@ onMounted(() => {
           <div class="topbar-divider d-none d-sm-block"></div>
           <div>
             <li class="nav-item dropdown no-arrow">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                id="userDropdown"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
+              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
                 <img class="img-profile rounded-circle" :src="userStore.image" />
               </a>
 
