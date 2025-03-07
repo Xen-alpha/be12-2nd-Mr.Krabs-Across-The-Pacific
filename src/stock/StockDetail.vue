@@ -36,12 +36,15 @@ const draw = async () => {
     document.body.appendChild(script);
 }
 
+const moreReply = async () => {
+    await stockReplyStore.getStockReplyListByCreatedAt(route.params.idx);
+}
 
 onMounted(async () => {
     console.log(route.params.idx);
     await stockDetailStore.getStockDetail(route.params.idx);
     
-    //await stockReplyStore.getStockReplyListByCreatedAt(route.params.idx, offset.value);
+    await stockReplyStore.getStockReplyListByCreatedAt(route.params.idx);
     await draw();
 });
 
@@ -115,7 +118,7 @@ const setReply = async () => {
 
 
                 <!-- Reply -->
-                <div v-if="userStore.userId != null || true" class="_editor-container-expanded_ylcfx_37">
+                <div v-if="userStore.userId != null" class="_editor-container-expanded_ylcfx_37">
                     <div class="_placeholder_s9avi_1">댓글을 입력하세요</div>
                     <div role="textbox" aria-multiline="true" class="_editor-expanded_ylcfx_13 border"
                       spellcheck="true" data-slate-editor="true" data-slate-node="value" contenteditable="true"
@@ -137,8 +140,11 @@ const setReply = async () => {
                 <div class="reply">
                     <div class="row">
                         <!-- Approach -->
-                        <StockReply v-for="reply in stockDetailStore.replies" :reply="reply"></StockReply>
+                        <StockReply v-for="reply in stockReplyStore.replies" :reply="reply"></StockReply>
                     </div>
+                </div>
+                <div v-if="!stockReplyStore.isLast" @click="moreReply">
+                    댓글 더보기
                 </div>
             </div>
 
