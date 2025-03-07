@@ -9,8 +9,15 @@ export const usePortfolioListStore = defineStore("portfolioList", {
     }),
     actions: {
         async getPortfolioList() {
-            const response = await axios.get("/sample/portfolioList.json");
-            this.portfolios = response.data;
+            try {
+                const response = await axios.get("/api/portfolio/list");
+                this.portfolios = response.data.result.portfolioList;
+                this.isLoading = true;
+            } catch (e) {
+                this.error = e;
+                this.isLoading = false;
+            }
+            
         },
     },
 });

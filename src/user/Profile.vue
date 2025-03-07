@@ -19,6 +19,8 @@ let stockLikesList = reactive({});
 const stockLikesStore = useStockLikesStore();
 
 stocklikes.value = stockLikesStore.stockListTotalLength;
+const userId = userStore.$state.userId;
+const myport = `/portfoliolist/${userId}`;
 
 onMounted(async () => {
   const response = await userStore.getUserDetail();
@@ -41,7 +43,7 @@ onMounted(async () => {
       <div id="useremail">이메일: {{ email }}</div>
       <div id="usertier">유저 등급: {{ tier }}</div>
       <div id="userportfolio">
-        나의 포트폴리오 수: <router-link to="/myportfolio">{{ portnum }}</router-link>
+        나의 포트폴리오 수: <router-link :to=myport>{{ portnum }}</router-link>
       </div>
       <div id="userlikes-port">
         내가 팔로우한 사용자 수: {{ following }}
