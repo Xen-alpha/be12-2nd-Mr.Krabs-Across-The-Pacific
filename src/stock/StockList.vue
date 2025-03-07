@@ -28,16 +28,12 @@ let canMoveRight = computed(() => {
   return ref(offset < Math.floor(totalLength / 30));
 });
 
-onBeforeMount(async () => {
-  loadingStore.startLoading();
-  await stockListStore.getStockList(offset, text);
-  loadingStore.stopLoading();
-})
-
 onMounted(async () => {
   loadingStore.startLoading();
-  //await stockListStore.getStockList(offset, text);
-  await stockListStore.getStocks();
+  await stockListStore.getStockList(offset, text);
+  console.log(stockListStore.stockList)
+
+  //await stockListStore.getStocks();
   loadingStore.stopLoading();
 });
 

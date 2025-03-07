@@ -38,20 +38,18 @@ export const useStockListStore = defineStore("stockList", {
       // 전체 리스트를 반환
       try {
         // TODO: 크롤링 서버 URL로 바꾸기
-        const response = await axios.get("/sample/stocklist/get.json", {
-          params: {
-            text: text,
-            offset: offset,
-            requestLength: false,
-          },
+        const response = await axios
+        .get("/api/stock/list", {
+        //.get("/sample/stocklist/get.json", {
         });
         // console.log(response.data);
         // TODO: 조건에 따른 정렬 기능 추가?(아래는 좋아요 개수 많은 순서대로 정렬이 필요한 경우)
         // response.data.result.sort((a, b) => b.likes - a.likes);
-        this.stockList = response.data.result;
+        console.log(response.data);
+        this.stockList = response.data.result.instances;
         this.offset = offset;
         this.totalLength = response.data.result.length;
-        return response.data.result.slice(this.offset, this.offset + 30);
+        return response.data.result.instances;
       } catch (e) {
         // console.log(e.message);
         return this.stockList;
@@ -62,7 +60,7 @@ export const useStockListStore = defineStore("stockList", {
       try {
         // TODO: 크롤링 서버 URL로 바꾸기
         //const response = await axios.get("/sample/stockList.json",);
-        const response = await axios.get("/api/stock/list",);
+        const response = await axios.get("/api/stock/list/all",);
         //return response.data;
         this.stockList = response.data.result;
         return response.data.result;

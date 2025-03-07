@@ -15,7 +15,7 @@ let likes = ref(0);
 const response = props.information;
 id.value = response.id;
 code.value = response.code;
-name.value = response.name.replace(" Common Stock", "");
+name.value = response.name;
 market.value = response.market;
 price.value = response.price; 
 likes.value = response.likesCount;
@@ -40,22 +40,7 @@ const scrollToTop = () => {
       </div>
     </div>
     <!-- TODO: 그래프? -->
-    <LineChart :id="id" />
-    <div class="card-body bold-weight" style="max-width: 160px">
-      <div class="listbox-item">
-        최근 가격:<br />
-        {{ price }}
-      </div>
-      <div style="display: inline-flex; margin-left: 1rem">
-        <!-- 좋아요 수 -->
-        <div>
-          <div>❤</div>
-        </div>
-        <div class="small-info">
-          {{ likes }}
-        </div>
-      </div>
-    </div>
+    
   </div>
 </template>
 <style scoped>

@@ -111,9 +111,7 @@ const filteredStocks = computed(() => {
   return sourceData.map((stock) => {
     const searchQuery = stock.name.toLowerCase();
     return stocks.value.filter((s) =>
-      s.name.toLowerCase().includes(searchQuery) ||
-      s.symbol.toLowerCase().includes(searchQuery) ||
-      s.k_name.toLowerCase().includes(searchQuery)
+      s.name.toLowerCase().includes(searchQuery)
     );
   });
 });
@@ -172,7 +170,9 @@ const loadPortfolio = async () => {
 const stocks = ref([]);
 onMounted(async () => {
   loadingStore.startLoading();
+  
   const getStockList = await stockList.getStockListForSearch();
+  console.log(getStockList)
   stocks.value = [...stocks.value, ...getStockList];
   loadingStore.stopLoading();
 });
