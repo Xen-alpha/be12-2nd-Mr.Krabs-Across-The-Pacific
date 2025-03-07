@@ -38,16 +38,15 @@ const routes = [
     children: [
       {
         path: "",
+        name: "Portfolio",
         component: Main,
       },
       {
-        path: "portfoliolist/:username",
+        path: "portfolio/list/:userIdx",
+        name: "UserPortfolioList",
         components: {
           default: Main,
           user: UserPort,
-        },
-        props: {
-          user: true,
         },
       },
       {
@@ -58,18 +57,19 @@ const routes = [
       },
     ],
   },
-  { path: "/portfolio/:idx", component: PortfolioDetail },
-  { path: "/stock/:idx", component: StockDetail },
-  { path: "/stockList", component: StockList },
-  // { path: '/editport', component: CreatePortfolio, beforeEnter: checkLogin }, //로그인 되었는지 확인
-  { path: '/signup', component: Signup },
-  { path: '/endsignup', component: EndSignup},
+  
   {
     path: '/portfolio/:mode', // mode: create 또는 update
     name: 'Portfolio',
     component: CreatePortfolio,
     props: true, // mode를 props로 전달
   },
+  { path: "/portfolio/detail/:idx", component: PortfolioDetail },
+  { path: "/stock/:idx", component: StockDetail },
+  { path: "/stockList", component: StockList },
+  // { path: '/editport', component: CreatePortfolio, beforeEnter: checkLogin }, //로그인 되었는지 확인
+  { path: '/signup', component: Signup },
+  { path: '/endsignup', component: EndSignup},
   { path: "/login", component: Login },
   {
     path: "/:pathMatch(.*)*", // 기타 존재하지 않는 페이지인 경우

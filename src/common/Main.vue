@@ -1,53 +1,48 @@
 <script setup>
-import Portfolio from './portfolio.vue';
+import Portfolio from './Portfolio.vue';
 import { usePortfolioListStore } from '../stores/usePortfolioListStore';
-import { onMounted, computed } from 'vue'
+import { ref, onMounted, computed, watch, watchEffect} from 'vue'
 import { useLoadingStore } from '../stores/useLoadingStore'
-import { ref } from 'vue';
+import { useRoute } from "vue-router";
 
-const selectedOption = ref('view');
+const selectedOption = ref('View');
 const loadingStore = useLoadingStore();
 const portfolioList = usePortfolioListStore();
+const currentPage = ref(1);
+const route = useRoute();
 
-//포트폴리오 목록 동적으로 불러오기
-onMounted(async () => {
-    loadingStore.startLoading()
-    await portfolioList.getPortfolioList()
-    loadingStore.stopLoading()
-})
-
-const selectOption=(option)=>{
-    selectedOption.value = option;
-    currentPage.value = 1; // 카테고리 변경 시 첫 페이지로 이동
-}
-const sortedPortfolios = computed(() => {
-    if (selectedOption.value === 'view') {// 'view' 기준으로 내림차순 정렬
-        return [...portfolioList.portfolios].sort((a, b) => b.view - a.view);
-    } else if (selectedOption.value === 'bookmark') {  // 'bookmark' 기준으로 내림차순 정렬
-        return [...portfolioList.portfolios].sort((a, b) => b.bookmark - a.bookmark);
-    } else { // 기본 정렬 (created_at 기준으로 최신순)
-        return [...portfolioList.portfolios].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+const loadPortfolioList = async () => {
+    loadingStore.startLoading();
+    if (route.query.keyword) { //포트폴리오 검색
+        await portfolioList.searchPortfolioList(currentPage.value - 1, newKeyword);
+    } else if (route.params.userIdx) { //userIdx를 이용한 특정 유저의 포트폴리오 목록 조회
+        await portfolioList.getUserPortfolioList(currentPage.value - 1, selectedOption.value, route.params.userIdx);
+    } else { //기본 페이지
+        await portfolioList.getPortfolioList(currentPage.value - 1, selectedOption.value);
     }
-});
+    loadingStore.stopLoading();
+};
 
-const itemsPerPage = 30; // 한 페이지당 표시할 포트폴리오 개수
-const currentPage = ref(1); // 현재 페이지 번호
-// 현재 페이지의 포트폴리오 리스트
-const paginatedPortfolios = computed(() => {
-    const start = (currentPage.value - 1) * itemsPerPage;
-    const end = start + itemsPerPage;
-    return sortedPortfolios.value.slice(start, end);
-});
+// 🔹 정렬 옵션 변경 시 데이터 다시 불러오기
+const selectOption = async (option) => {
+    selectedOption.value = option;
+    await loadPortfolioList();
+};
 
-// 전체 페이지 수 계산
-const totalPages = computed(() => Math.ceil(sortedPortfolios.value.length / itemsPerPage));
+// 🔹 라우트 변화 감지하여 자동 데이터 로드
+watchEffect(loadPortfolioList);
 
-// 페이지 변경 함수
-const changePage = (page) => {
-    if (page > 0 && page <= totalPages.value) {
-        currentPage.value = page;
+const changePage = async (page) => {
+    if (isLoading.value) return; // 중복 요청 방지
+    currentPage.value = page;
+    isLoading.value = true;    
+    try {
+        await loadPortfolioList();
+    } finally {
+        isLoading.value = false;
     }
 };
+
 </script>
 
 <template>
@@ -56,13 +51,13 @@ const changePage = (page) => {
         <div class="p_type">
             <div class="p_category">Category</div>
             <div class="p_btn_group">
-                <label data-cy="showView" class="btn_active" :class="{ selected: selectedOption === 'new' }" @click="selectOption('new')">
+                <label data-cy="showView" class="btn_active" :class="{ selected: selectedOption === 'CreatedAt' }" @click="selectOption('CreatedAt')">
                     New
                 </label>
-                <label data-cy="showLikes" class="btn_active" :class="{ selected: selectedOption === 'view' }" @click="selectOption('view')">
+                <label data-cy="showLikes" class="btn_active" :class="{ selected: selectedOption === 'View' }" @click="selectOption('View')">
                     View
                 </label>
-                <label data-cy="showBookM" class="btn_active" :class="{ selected: selectedOption === 'bookmark' }" @click="selectOption('bookmark')">
+                <label data-cy="showBookM" class="btn_active" :class="{ selected: selectedOption === 'Bookmark' }" @click="selectOption('Bookmark')">
                     Bookmark
                 </label>
             </div>
@@ -70,16 +65,16 @@ const changePage = (page) => {
         <hr class="line">
         <div class="outline">
             <Portfolio 
-                v-for="(port, index) in paginatedPortfolios" 
+                v-for="(portfolio, index) in portfolioList.portfolios" 
                 :key="index" 
-                :portfolio="port" 
+                :portfolio="portfolio" 
             />
         </div>
         <!-- 페이징 버튼 -->
         <div class="pagination">
-            <button :disabled="currentPage === 1" @click="changePage(currentPage - 1)"><</button>
-            <span>페이지 {{ currentPage }} / {{ totalPages }}</span>
-            <button :disabled="currentPage === totalPages" @click="changePage(currentPage + 1)">></button>
+            <button :disabled="!portfolioList.pagination?.hasPrevious || isLoading" @click="changePage(currentPage-1)"><</button>
+            <span>페이지 {{ currentPage }}  / {{ portfolioList.pagination?.totalPages }}</span>
+            <button :disabled="!portfolioList.pagination?.hasNext || isLoading" @click="changePage(currentPage+1)">></button>
         </div>
     </div>
 </template>

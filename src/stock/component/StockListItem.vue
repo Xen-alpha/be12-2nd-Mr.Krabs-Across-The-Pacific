@@ -20,7 +20,8 @@ id.value = response.id;
 code.value = response.code;
 name.value = response.name.replace(" Common Stock", "");
 market.value = response.market;
-likes.value = response.likes;
+price.value = response.price;
+likes.value = response.likesCount;
 
 stockListStore.getRecentPrice(code.value).then((result) => {
   price.value = "$" + result;

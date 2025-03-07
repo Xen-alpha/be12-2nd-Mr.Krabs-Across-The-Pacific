@@ -3,21 +3,27 @@ import { defineStore } from "pinia";
 
 
 export const useStockReplyStore = defineStore("stockReply", {
-    state: () => ({replies:[]}),
+    state: () => ({replies:[], page:0, isLast:false}),
     actions: {
-        async getStockReplyListByCreatedAt(stockId, offset) {
+        async getStockReplyListByCreatedAt(stockId) {
             const response = await axios
-            .get("/sample/stockreply/get.json")
+            .get("/api/stock/reply/"+stockId+"?page="+this.page)
+            //.get("/test/stock/reply?stockId="+stockId);
+            //.get("/sample/stockreply/get.json")
             //.get("https://637b1d88-d99f-48ca-b187-81bb20e3ae05.mock.pstmn.io/stockreply"+"?stockId="+stockId+"&offset="+offset)
-            this.replies = response.data.replies;
+            console.log(response.data.result);
+            this.replies = this.replies.concat(response.data.result.content);
+            this.page = this.page+1;
+            this.isLast = response.data.result.last;
         },
-        async setStockReply(stockId, content) {
+        async setStockReply(stockId, contents) {
             //axios
+            console.log(stockId, contents)
             const response = await axios
-                .post("/sample/stockreply/post.json",
+                //.post("/sample/stockreply/post.json",
+                .post("/api/stock/reply/"+stockId,
                     {
-                        "stockId": stockId,
-                        "content": content,
+                        "contents": contents,
                     },
                     { withCredentials: true }
                 )
@@ -30,7 +36,6 @@ export const useStockReplyStore = defineStore("stockReply", {
             const response = await axios
                 .put("/sample/stockreply/put.json", 
                     {
-                        "replyId": replyId,
                         "content": content
                     },
                     { withCredentials: true }
@@ -55,9 +60,10 @@ export const useStockReplyStore = defineStore("stockReply", {
             return response.data;
         },
         async setReplyLikes(replyId) {
+            console.log(replyId)
             const response = await axios
-                .post("/sample/stockreplylikes",
-                    { "replyId": replyId },
+                .post("/api/stock/reply/likes/"+replyId,
+                    {},
                     {withCredentials: true}
                 )
                 .catch((error)=> {

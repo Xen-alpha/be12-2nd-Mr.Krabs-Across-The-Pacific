@@ -15,7 +15,9 @@ const centerTextPlugin = {
       ctx.textBaseline = "middle"; // 텍스트 세로 정렬 기준
 
       // 중앙에 표시할 텍스트
-      const total = chart.data.datasets[1].data;
+
+      //TODO: 추후 수익률 계산이 되면 수익률로 변경하기
+      const total = chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
       const text = `${total}%`;
 
       // 텍스트 중앙 좌표 계산

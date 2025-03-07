@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch, computed } from 'vue';
 import PortfolioReply from './PortfolioReply.vue';
 import PortfolioStock from './PortfolioStock.vue';
 import PortfolioPieChart from './PortfolioPieChart.vue';
@@ -11,7 +11,6 @@ import { useRouter } from 'vue-router';
 import { useUserStore } from '../stores/useUserStore';
 import axios from 'axios';
 
-
 const route = useRoute();
 const router = useRouter();
 
@@ -21,7 +20,19 @@ const portfolioRepliesStore = usePortfolioRepliesStore();
 const userStore = useUserStore();
 
 const portfolioStocks = ref([]);
+// const portfolioReplies = ref([]);
+
+const portfolioDetail = ref({
+  idx: '',
+  name: '',
+  own: '',
+  profileImage: '',
+  topStocks: []
+})
+
 const portfolioReplies = ref([]);
+const page = ref(0); // 현재 페이지 번호
+const size = 10; // 한 번에 불러올 개수
 
 
 let portname = ref("");
@@ -32,7 +43,6 @@ let profit = ref(null);
 let topstocks = ref([]);
 let viewers = ref(0);
 onMounted(async () => {
-  console.log("HI");
   // Portfolio detail 데이터 가져오기
   await portfolioDetailStore.getportfolioDetail(route.params.idx);
   await portfolioRepliesStore.getPortfolioRepliesByCreatedAt(route.params.idx);
@@ -70,6 +80,23 @@ onMounted(async () => {
   portfolioReplies.value = portfolioRepliesStore.portfolioReplies || [];
 });
 
+const loadReplies = async $state => {
+  try {
+    const response = await portfolioRepliesStore.getPortfolioRepliesByCreatedAt(route.params.idx, page.value, size);
+    if (response.length < 1) {
+      console.log("더 이상 불러올 데이터 없음.");
+      $state.complete();
+    } else {
+      portfolioReplies.value.push(...response);
+      $state.loaded();
+    }
+    page.value++;
+  } catch (error) {
+    console.error("댓글 불러오기 실패:", error);
+    $state.error();
+  }
+};
+
 const newReplyContent = ref(""); // 새 댓글 내용
 // 댓글 내용 업데이트 핸들러
 const updateContent = (event) => {
@@ -98,14 +125,15 @@ const submitReply = async () => {
   }
 };
 
-// const username = '멍자';
+const username = '멍자';
 const portfolioIdx = portfolioDetailStore.$state.portfolioItem.idx;
-// const updateBtn = () => {
-//   router.push({
-//     path: '/editport',
-//     state: { username:"멍자", portfolioIdx: 1, portStatus: false},
-//   });
-// };
+const updateBtn = () => {
+  router.push({
+    path: '/editport',
+    state: { username: "멍자", portfolioIdx: 1, portStatus: false },
+  });
+};
+
 const updateBtn = () => {
   router.push({
     name: 'Portfolio', // 라우트 이름
@@ -117,12 +145,18 @@ const updateBtn = () => {
 const deleteBtn = () => {
   const isConfirmed = confirm('정말로 삭제하시겠습니까?');
   if (isConfirmed) {
-    router.push({
-      path: `/portfoliolist/${portfolioIdx}`
-    });
+    //TODO
+    router.push({ path: `/` });
   }
 };
 
+const goToUserInfo = async (userIdx, userName) => {
+  router.push({
+    name: "UserPortfolioList",
+    params: { userIdx },
+    query: { userName },
+  });
+};
 </script>
 
 <template>
@@ -136,16 +170,24 @@ const deleteBtn = () => {
             <div class="container-fluid1">
               <!-- Page Heading -->
               <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                <router-link :to="`/portfoliolist/${username}`">
+                <!-- <router-link 
+                  :to="userPortfolioRoute" 
+                  @click="goToUserInfo(portfolioDetail.userIdx)">
                   <img alt="profile" fetchpriority="high" width="128" height="128" decoding="async" data-nimg="1"
-                    style="color:transparent" src="../images/멍자.png" />
-                </router-link>
+                    style="color:transparent" :src="portfolioDetail.profileImage || '/images/멍자.png'"  />
+                </router-link> -->
                 <div>
                   <h1 class="h3 mb-0 text-gray-800">{{ portname }} 포트폴리오</h1>
+                  <img @click="goToUserInfo(portfolioDetail.userIdx, portfolioDetail.userName)" alt="profile"
+                    fetchpriority="high" width="128" height="128" decoding="async" data-nimg="1"
+                    style="color:transparent" :src="portfolioDetail.profileImage || '/images/멍자.png'" />
                 </div>
                 <div>
-                  <button class="updateBtn" @click="updateBtn">수정</button>
-                  <button class="deleteBtn" @click="deleteBtn">삭제</button>
+                  <h1 class="h3 mb-0 text-gray-800">{{ portfolioDetail.name }}</h1>
+                </div>
+                <div>
+                  <button v-if="portfolioDetail.own" class="updateBtn" @click="updateBtn">수정</button>
+                  <button v-if="portfolioDetail.own" class="deleteBtn" @click="deleteBtn">삭제</button>
                 </div>
               </div>
               <!-- Content Row -->
@@ -260,7 +302,7 @@ const deleteBtn = () => {
                     </div>
                     <!-- Card Body -->
                     <div class="card-body" style="white-space:pre-wrap; overflow-wrap: break-word;">
-                      <PortfolioPieChart :portfolioStocks="portfolioStocks" :profit="profit" />
+                      <PortfolioPieChart :portfolioStocks="portfolioDetail.topStocks" />
                     </div>
                   </div>
                 </div>
@@ -269,7 +311,8 @@ const deleteBtn = () => {
                   <!-- 포트폴리오 종목 카드 -->
                   <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                      <PortfolioStock :portfolioStocks="topstocks" />
+                      <!-- <PortfolioStock :portfolioStocks="portfolioDetailStore.portfolioItem.portfolio_Stocks" /> -->
+                      <PortfolioStock :portfolioStocks="portfolioDetail.topStocks" />
                     </div>
                   </div>
                 </div>
@@ -351,9 +394,15 @@ const deleteBtn = () => {
 
         <div class="row">
           <!-- Approach -->
-          <PortfolioReply v-for="reply in portfolioRepliesStore.portfolioReplies" :reply="reply" />
-
+          <PortfolioReply v-for="reply in portfolioReplies" :reply="reply" :key="reply.idx" />
+          <!-- <InfiniteLoading @infinite="loadReplies"/> -->
+          <InfiniteLoading @infinite="loadReplies">
+            <template #complete>
+              <div></div>
+            </template>
+          </InfiniteLoading>
         </div>
+
         <!-- /.container-fluid -->
 
       </div>

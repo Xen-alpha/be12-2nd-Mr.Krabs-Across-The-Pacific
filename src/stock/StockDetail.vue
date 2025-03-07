@@ -36,10 +36,15 @@ const draw = async () => {
     document.body.appendChild(script);
 }
 
+const moreReply = async () => {
+    await stockReplyStore.getStockReplyListByCreatedAt(route.params.idx);
+}
 
 onMounted(async () => {
-    await stockDetailStore.getStockDetail();
-    await stockReplyStore.getStockReplyListByCreatedAt(route.params.idx, offset.value);
+    console.log(route.params.idx);
+    await stockDetailStore.getStockDetail(route.params.idx);
+    
+    await stockReplyStore.getStockReplyListByCreatedAt(route.params.idx);
     await draw();
 });
 
@@ -47,7 +52,7 @@ const setReply = async () => {
     const content = document.querySelector('[contenteditable="true"]').innerHTML;
     const result = await stockReplyStore.setStockReply(route.params.idx, content);
     console.log(result);
-    router.go(0);
+    //router.go(0);
 }
 
 </script>
@@ -137,6 +142,9 @@ const setReply = async () => {
                         <!-- Approach -->
                         <StockReply v-for="reply in stockReplyStore.replies" :reply="reply"></StockReply>
                     </div>
+                </div>
+                <div v-if="!stockReplyStore.isLast" @click="moreReply">
+                    댓글 더보기
                 </div>
             </div>
 

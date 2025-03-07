@@ -1,5 +1,5 @@
 <script setup>
-import { defineProps } from 'vue';
+import { defineProps, onMounted, watch, ref, computed } from 'vue';
 
 // Props로 portfolioStocks 데이터를 받습니다.
 const props = defineProps({
@@ -8,6 +8,8 @@ const props = defineProps({
     required: true,
   },
 });
+console.log("상위 주식 목록 : ", props.portfolioStocks);
+
 </script>
 
 <template>
@@ -17,8 +19,9 @@ const props = defineProps({
       <!-- portfolioStocks 배열을 순회하며 각 종목과 데이터를 표시 -->
       <li v-for="(stock, index) in portfolioStocks" :key="index"
         class="list-group-item d-flex justify-content-between align-items-center">
-        <!-- TODO: 브랜드 이미지 크롤링이 끝나면 다시 활성화 -->
-        <!--<img :src="stock.image" alt="Stock Image" style="width: 40px; height: 40px; margin-right: 10px;" />-->
+        <img :src="stock.image || '/images/멍자.png'" alt="Stock Image"
+          style="width: 40px; height: 40px; margin-right: 10px;" />
+
         <span>{{ stock.stockName }}</span>
         <span class="ml-auto font-weight-bold">{{ stock.percentage }}%</span>
       </li>
