@@ -22,7 +22,7 @@ onMounted(async () => {
       return [datelist, pricelist, price, quantity];
     })).then((reversedArray) => {
       graphvalues.value = reversedArray.map(([datelist, pricelist, price, quantity]) => {
-        const reversedprofitlist = pricelist.map(value => (value - price) * quantity);
+        const reversedprofitlist = pricelist.map(value => price === 0 ? 0 : (value - price) / price * quantity);
         return [datelist, reversedprofitlist];
       }).reduce((prev, curr) => {
         for (let i = 0; i < curr[1].length; i++) {

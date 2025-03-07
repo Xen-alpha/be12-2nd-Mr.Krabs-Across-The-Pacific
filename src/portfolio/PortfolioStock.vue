@@ -19,7 +19,7 @@ const props = defineProps({
         class="list-group-item d-flex justify-content-between align-items-center">
         <img :src="stock.image" alt="Stock Image" style="width: 40px; height: 40px; margin-right: 10px;" />
         <span>{{ stock.stockName }}</span>
-        <span class="ml-auto font-weight-bold">{{ stock.quantity }}%</span>
+        <span class="ml-auto font-weight-bold">{{ stock.percentage }}%</span>
       </li>
     </ul>
   </div>

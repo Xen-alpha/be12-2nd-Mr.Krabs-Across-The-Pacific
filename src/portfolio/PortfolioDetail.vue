@@ -19,9 +19,12 @@ const portfolioRepliesStore = usePortfolioRepliesStore();
 const portfolioStocks = ref([]);
 const portfolioReplies = ref([]);
 
+let portname = ref("");
+let imagelink = ref("");
 let prevAsset = ref(null);
 let currAsset = ref(null);
 let profit = ref(null);
+let topstocks = ref([]);
 onMounted(async () => {
   console.log("HI");
   // Portfolio detail 데이터 가져오기
@@ -34,6 +37,9 @@ onMounted(async () => {
     prev += curr.quantity * curr.price;
     return prev;
   }, 0);
+
+  portname.value = portfolioDetailStore.$state.portfolioItem.name;
+  topstocks.value = portfolioDetailStore.$state.portfolioItem.topStocks;
 
   Promise.all(portfolioDetailStore.portfolioItem.acquisitionList
     .map((value) => [value.stockCode, value.price, value.quantity])
@@ -81,8 +87,8 @@ const submitReply = async () => {
   }
 };
 
-const username = '멍자';
-const portfolioIdx = 1;
+// const username = '멍자';
+const portfolioIdx = portfolioDetailStore.$state.portfolioItem.idx;
 // const updateBtn = () => {
 //   router.push({
 //     path: '/editport',
@@ -93,7 +99,7 @@ const updateBtn = () => {
   router.push({
     name: 'Portfolio', // 라우트 이름
     params: { mode: 'update' },
-    state: { username: "멍자", portfolioIdx: 1, }
+    state: { username: portname, portfolioIdx: portfolioIdx, }
   });
 };
 
@@ -124,7 +130,7 @@ const deleteBtn = () => {
                     style="color:transparent" src="../images/멍자.png" />
                 </router-link>
                 <div>
-                  <h1 class="h3 mb-0 text-gray-800">{{ username }} 포트폴리오</h1>
+                  <h1 class="h3 mb-0 text-gray-800">{{ portname }} 포트폴리오</h1>
                 </div>
                 <div>
                   <button class="updateBtn" @click="updateBtn">수정</button>
@@ -206,7 +212,7 @@ const deleteBtn = () => {
                         <div class="col mr-2">
                           <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                             RATINGS(평가 손익)</div>
-                          <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                          <div class="h5 mb-0 font-weight-bold text-gray-800">-</div>
                         </div>
                         <div class="col-auto">
                           <i class="fas fa-comments fa-2x text-gray-300"></i>
@@ -252,7 +258,7 @@ const deleteBtn = () => {
                   <!-- 포트폴리오 종목 카드 -->
                   <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                      <PortfolioStock :portfolioStocks="portfolioStocks" />
+                      <PortfolioStock :portfolioStocks="topstocks" />
                     </div>
                   </div>
                 </div>
