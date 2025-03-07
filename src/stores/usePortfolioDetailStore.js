@@ -86,6 +86,7 @@ export const usePortfolioDetailStore = defineStore("portfolioDetail", {
 
     setProfit(value) {
       this.portfolioItem.total_profit = value;
-    }
+    },
+
   },
 });

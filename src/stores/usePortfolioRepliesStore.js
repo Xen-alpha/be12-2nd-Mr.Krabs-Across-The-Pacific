@@ -11,23 +11,7 @@ export const usePortfolioRepliesStore = defineStore('portfolioReplies',{
                 updatedAt: "2024-10-03 10:00:00",
                 content: "This portfolio looks great! How did you manage to achieve such high returns?",
                 likesCount: 15,
-            },
-            {
-                id: 2,
-                userName: "JaneInvestor",
-                createdAt: "2024-10-04 15:45:00",
-                updatedAt: "2024-10-04 16:15:00",
-                content: "Amazing portfolio selection. Any advice for beginners?",
-                likesCount: 20,
-            },
-            {
-                id: 3,
-                userName: "StockGuru",
-                createdAt: "2024-10-05 18:20:00",
-                updatedAt: "2024-10-05 19:00:00",
-                content: "Impressive gains! Did you account for recent market volatility?",
-                likesCount: 10,
-            },
+            }
         ],
         
 

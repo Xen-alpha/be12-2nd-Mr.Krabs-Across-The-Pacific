@@ -9,6 +9,7 @@ import { usePortfolioRepliesStore } from '../stores/usePortfolioRepliesStore';
 import { useRoute } from 'vue-router';
 import { useRouter } from 'vue-router';
 import { useUserStore } from '../stores/useUserStore';
+import axios from 'axios';
 
 
 const route = useRoute();
@@ -29,12 +30,16 @@ let prevAsset = ref(null);
 let currAsset = ref(null);
 let profit = ref(null);
 let topstocks = ref([]);
+let viewers = ref(0);
 onMounted(async () => {
   console.log("HI");
   // Portfolio detail 데이터 가져오기
   await portfolioDetailStore.getportfolioDetail(route.params.idx);
   await portfolioRepliesStore.getPortfolioRepliesByCreatedAt(route.params.idx);
   console.log("Portfolio Detail Loaded:", portfolioDetailStore.portfolioItem);
+
+  await axios.get(`/api/portfolio/view/${route.params.idx}`);
+
 
   // 계산해서 총 수익률 구하기
   prevAsset.value = portfolioDetailStore.portfolioItem.acquisitionList.reduce((prev, curr) => {
@@ -44,6 +49,7 @@ onMounted(async () => {
 
   portname.value = portfolioDetailStore.$state.portfolioItem.name;
   topstocks.value = portfolioDetailStore.$state.portfolioItem.topStocks;
+  viewers.value = portfolioDetailStore.$state.portfolioItem.viewCnt;
 
   Promise.all(portfolioDetailStore.portfolioItem.acquisitionList
     .map((value) => [value.stockCode, value.price, value.quantity])
@@ -216,7 +222,7 @@ const deleteBtn = () => {
                       <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                           <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                            RATINGS(평가 손익)</div>
+                            RATINGS(평가 순위)</div>
                           <div class="h5 mb-0 font-weight-bold text-gray-800">-</div>
                         </div>
                         <div class="col-auto">
