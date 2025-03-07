@@ -107,11 +107,14 @@ const showList = (index, type) => {
 //주식 검색
 const filteredStocks = computed(() => {
   const sourceData = activeListType.value === 'portfolio' ? portfolioData.value.stocks : stockData.value.stocks;
+  console.log("sourceData:", sourceData);
+  console.log("stocks:", stocks.value);
 
   return sourceData.map((stock) => {
     const searchQuery = stock.name.toLowerCase();
     return stocks.value.filter((s) =>
-      s.name.toLowerCase().includes(searchQuery)
+      s.name.toLowerCase().includes(searchQuery) ||
+      s.code.toLowerCase().includes(searchQuery)
     );
   });
 });

@@ -1,12 +1,14 @@
 <script setup>
 import { defineProps } from 'vue';
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
 
 const props = defineProps({
-  username: {
-    type: String,
-    required: true,
-  },
+  userIdx: String, // ✅ `params`에서 전달됨
 });
+// `query`에서 userName 가져오기
+const userName = route.query.userName || "Guest"; // ✅ 기본값 설정 가능
 </script>
 
 <template>
@@ -14,17 +16,14 @@ const props = defineProps({
     <div class="userProfile_section">
       <div class="userProfile_left">
         <!--TODO : 링크 추가-->
-        <a :href="`http://localhost:5173/portfoliolist/${username}`">
-          <!-- TODO : 유저데이터 받아올 때 v-if와 else 지우고 받아온 유저 정보 하나만 남기기기 -->
-          <img v-if="username === '멍자'" alt="profile" fetchpriority="high" width="128" height="128" decoding="async"
-            data-nimg="1" style="color:transparent" src="../images/멍자.png">
-          <img v-else alt="profile" fetchpriority="high" width="128" height="128" decoding="async" data-nimg="1"
-            style="color:transparent" src="../images/장원영.jpg">
+        <a :href="`http://localhost:5173/portfolio/list/${userIdx}`">
+          <img alt="profile" fetchpriority="high" width="128" height="128" decoding="async" data-nimg="1"
+            style="color:transparent" src="/images/멍자.png">
         </a>
         <div class="userProfile_userinfo">
           <div class="userProfile_name">
             <!--TODO : 링크 추가-->
-            <a :href="`http://localhost:5173/portfoliolist/${username}`">{{ username }}</a>
+            <a :href="`http://localhost:5173/portfolio/list/${userIdx}`"> {{ userName }}</a>
           </div>
           <div class="userProfile_descripton">
 
@@ -36,13 +35,13 @@ const props = defineProps({
     <div class="userProfile_bottom">
       <div class="userProfile_followInfo">
         <!--TODO : 링크 추가-->
-        <a class="userProfile_info" :href="`http://localhost:5173/portfoliolist/${username}`">
+        <a class="userProfile_info" :href="`http://localhost:5173/portfolio/list/${userIdx}`">
           <span class="userProfile_number">0</span>
           <span class="userProfile_text">팔로워</span>
         </a>
         <!--TODO : 링크 추가-->
         <!--TODO : 링크 추가-->
-        <a class="userProfile_info" :href="`http://localhost:5173/portfoliolist/${username}`">
+        <a class="userProfile_info" :href="`http://localhost:5173/portfolio/list/${userIdx}`">
           <span class="userProfile_number">0</span>
           <span class="userProfile_text">팔로잉</span>
         </a>
