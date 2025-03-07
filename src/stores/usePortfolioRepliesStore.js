@@ -36,14 +36,15 @@ export const usePortfolioRepliesStore = defineStore('portfolioReplies',{
     actions: {
         //포트폴리오id로 조회
         async getPortfolioRepliesByCreatedAt(idx) {
-            const response = await axios.get(`/sample/portfolioreply/replies.json`);
-            this.portfolioReplies = response.data.replies; // 댓글 데이터
+            const result = await axios.get(`/api/portfolio/reply/${idx}`);
+            this.portfolioReplies = result.data.result.content; // 댓글 데이터
+            return result.data.result;
         },
         //입력한 댓글 저장 , idx == 포트폴리오 id(portfolioId)
         async setPortfolioReply(portfolioId, newReply) {  
             try {
             const response = await axios.post(
-              `/sample/portfolioreply/newreply.json`,
+              `/api/portfolio/reply/${portfolioId}`,
               newReply
             );
             // 성공적으로 저장되면, 응답 데이터를 리스트에 추가

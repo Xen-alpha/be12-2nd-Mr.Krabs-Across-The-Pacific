@@ -8,6 +8,7 @@ import { usePortfolioDetailStore } from '../stores/usePortfolioDetailStore';
 import { usePortfolioRepliesStore } from '../stores/usePortfolioRepliesStore';
 import { useRoute } from 'vue-router';
 import { useRouter } from 'vue-router';
+import { useUserStore } from '../stores/useUserStore';
 
 
 const route = useRoute();
@@ -16,8 +17,11 @@ const router = useRouter();
 const portfolioDetailStore = usePortfolioDetailStore();
 const portfolioRepliesStore = usePortfolioRepliesStore();
 
+const userStore = useUserStore();
+
 const portfolioStocks = ref([]);
 const portfolioReplies = ref([]);
+
 
 let portname = ref("");
 let imagelink = ref("");
@@ -73,10 +77,10 @@ const submitReply = async () => {
   }
 
   const newReply = {
-    userName: "현재 사용자", // 사용자 이름
+    // username: "현재 사용자", // 사용자 이름
     content: newReplyContent.value,
-    createdAt: new Date().toISOString(), // 현재 시간
-    updatedAt: new Date().toISOString(),
+    // createdAt: new Date().toISOString(), // 현재 시간
+    // updatedAt: new Date().toISOString(),
   };
 
   try {
@@ -100,7 +104,7 @@ const updateBtn = () => {
   router.push({
     name: 'Portfolio', // 라우트 이름
     params: { mode: 'update' },
-    state: { username: portname, portfolioIdx: portfolioIdx, }
+    state: { portfolioIdx: portfolioIdx, }
   });
 };
 
@@ -108,7 +112,7 @@ const deleteBtn = () => {
   const isConfirmed = confirm('정말로 삭제하시겠습니까?');
   if (isConfirmed) {
     router.push({
-      path: `/portfoliolist/${username}`
+      path: `/portfoliolist/${portfolioIdx}`
     });
   }
 };
@@ -342,7 +346,6 @@ const deleteBtn = () => {
         <div class="row">
           <!-- Approach -->
           <PortfolioReply v-for="reply in portfolioRepliesStore.portfolioReplies" :reply="reply" />
-
 
         </div>
         <!-- /.container-fluid -->
