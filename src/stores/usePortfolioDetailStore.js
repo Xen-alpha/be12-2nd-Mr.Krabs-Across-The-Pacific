@@ -83,5 +83,9 @@ export const usePortfolioDetailStore = defineStore("portfolioDetail", {
     async updateportfolioDetail(idx) {
       // Implementation for updating an existing portfolio detail
     },
+
+    setProfit(value) {
+      this.portfolioItem.total_profit = value;
+    }
   },
 });

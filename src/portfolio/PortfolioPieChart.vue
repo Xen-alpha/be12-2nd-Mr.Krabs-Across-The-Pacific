@@ -13,13 +13,14 @@ const chartRef = ref(null);
 const route = useRoute();
 const portfolioDetailStore = usePortfolioDetailStore();
 let portfolioStocks = ref([]);
+let total_profit = ref(0);
 
 onMounted(async () => {
   const response = await portfolioDetailStore.getportfolioDetail(route.params.idx);
   portfolioStocks.value = response.result.topStocks;
   if (chartRef.value) {
     const ctx = chartRef.value.getContext('2d');
-    initializePieChart(ctx, portfolioStocks.value, props.profit); // Chart 초기화 함수 호출
+    initializePieChart(ctx, portfolioStocks.value); // Chart 초기화 함수 호출
   }
 });
 </script>

@@ -49,6 +49,7 @@ onMounted(async () => {
     })).then((response) => {
       currAsset.value = response.reduce((prev, curr) => prev + curr[0], 0).toFixed(2);
       profit.value = ((currAsset.value / prevAsset.value - 1) * 100).toFixed(2);
+      portfolioDetailStore.setProfit(profit.value);
     });
 
   // Portfolio replies 데이터 가져오기

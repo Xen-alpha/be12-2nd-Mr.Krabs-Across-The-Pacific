@@ -3,6 +3,7 @@ import { Chart, registerables } from "chart.js";
 Chart.register(...registerables); // Chart.js 기본 구성 등록
 
 //플러그인 커스텀
+/*
 const centerTextPlugin = {
   id: "centerText",
   beforeDraw(chart) {
@@ -30,9 +31,9 @@ const centerTextPlugin = {
 
 // 플러그인 등록
 Chart.register(centerTextPlugin);
-
+*/
 // 차트 초기화
-export const initializePieChart = (ctx, acquisitionList, profit) => {
+export const initializePieChart = (ctx, acquisitionList) => {
   console.log(acquisitionList);
   const myPieChart = new Chart(ctx, {
     type: "doughnut",
@@ -52,10 +53,6 @@ export const initializePieChart = (ctx, acquisitionList, profit) => {
           hoverBackgroundColor: ["#2e59d9", "#17a673", "#2c9faf", "#E7483B", "#F6B23D", "#4549E4"],
           hoverBorderColor: "rgba(234, 236, 244, 1)",
           borderWidth: 4, // 도넛의 외곽선 두께
-        },
-        {
-          type: null,
-          data: parseFloat(profit),
         }
       ],
     },
