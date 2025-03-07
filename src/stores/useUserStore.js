@@ -37,7 +37,7 @@ export const useUserStore = defineStore("user", {
                 })
             console.log(response);
             if (response === null) return false;
-            this.userIdx = response.data.result.idx;
+            this.userId = response.data.result.idx;
             this.image = response.data.result.image;
             this.isLogin = true;
             return true;
@@ -48,7 +48,6 @@ export const useUserStore = defineStore("user", {
                 .post("/api/logout",)
                 .catch((error) => {
                     console.error(error);
-                    return null
                 })
             console.log(response);
             this.userId = null;
