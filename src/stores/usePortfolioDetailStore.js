@@ -8,50 +8,6 @@ export const usePortfolioDetailStore = defineStore("portfolioDetail", {
       name:'',
       acquisitionList:[],
     },
-    portfolioItem: 
-    {
-      "idx": 1,
-      "name": "My First Portfolio",
-      "created_at": "2024-10-02 00:00:00",
-      "updated_at": "2024-10-05 12:00:00",
-      "author": "User123",
-      "acquisitionList": [ // TODO: acquisitionList로 변경
-          {
-              "image": "https://images.therich.io/images/logo/us/AAPL.png",
-              "name": "Apple",
-              "stockCode": "AAPL",
-              "quantity": 5
-          },
-          {
-              "image": "https://images.therich.io/images/logo/us/MSFT.png",
-              "name": "Microsoft",
-              "stockCode": "MSFT",
-              "quantity": 30
-          },
-          {
-              "image": "https://images.therich.io/images/logo/us/GOOGL.png",
-              "name": "Google",
-              "stockCode": "GOOGL",
-              "quantity": 30
-          },
-          {
-              "image": "https://images.therich.io/images/logo/us/TSLA.png",
-              "name": "Tesla",
-              "stockCode": "TSLA",
-              "quantity": 80
-          },
-          {
-              "image": "https://images.therich.io/images/logo/us/AMZN.png",
-              "name": "Amazon",
-              "stockCode": "AMZN",
-              "quantity": 100
-          }
-      ],
-      "total_profit": "$5,000",
-      "total_dividend": "$500",
-      "total_tax": "$100",
-      "rank": 1
-  },
   stockgraphList: []
   }),
   actions: {
@@ -102,10 +58,6 @@ export const usePortfolioDetailStore = defineStore("portfolioDetail", {
 
     async updateportfolioDetail(idx) {
       // Implementation for updating an existing portfolio detail
-    },
-
-    setProfit(value) {
-      this.portfolioItem.total_profit = value;
     },
 
   },

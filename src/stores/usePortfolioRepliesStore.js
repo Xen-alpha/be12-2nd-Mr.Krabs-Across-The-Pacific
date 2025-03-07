@@ -5,18 +5,7 @@ export const usePortfolioRepliesStore = defineStore('portfolioReplies',{
     state: () => ({
         result:{
         },
-        portfolioReplies: [
-            {
-                id: 1,
-                userName: "JohnDoe",
-                createdAt: "2024-10-03 09:30:00",
-                updatedAt: "2024-10-03 10:00:00",
-                content: "This portfolio looks great! How did you manage to achieve such high returns?",
-                likesCount: 15,
-            }
-        ],
-        
-
+        portfolioReplies: [],
     }),
 
     actions: {

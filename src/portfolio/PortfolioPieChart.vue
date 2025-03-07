@@ -25,16 +25,13 @@ let portfolioStocks = ref([]);
 let total_profit = ref(0);
 
 onMounted(async () => {
-  const response = await portfolioDetailStore.getportfolioDetail(route.params.idx);
-  portfolioStocks.value = response.result.topStocks;
+  const response = await portfolioDetailStore.getPortfolioDetail(route.params.idx);
+  portfolioStocks.value = response.topStocks;
   if (chartRef.value) {
     const ctx = chartRef.value.getContext('2d');
     initializePieChart(ctx, portfolioStocks.value); // Chart 초기화 함수 호출
   }
 });
-
-
-const chartRef = ref(null);
 let chartInstance = null;
 
 // 차트 렌더링

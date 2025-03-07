@@ -44,24 +44,24 @@ let topstocks = ref([]);
 let viewers = ref(0);
 onMounted(async () => {
   // Portfolio detail 데이터 가져오기
-  await portfolioDetailStore.getportfolioDetail(route.params.idx);
+  await portfolioDetailStore.getPortfolioDetail(route.params.idx);
   await portfolioRepliesStore.getPortfolioRepliesByCreatedAt(route.params.idx);
-  console.log("Portfolio Detail Loaded:", portfolioDetailStore.portfolioItem);
+  console.log("Portfolio Detail Loaded:", portfolioDetailStore.result);
 
   await axios.get(`/api/portfolio/view/${route.params.idx}`);
 
 
   // 계산해서 총 수익률 구하기
-  prevAsset.value = portfolioDetailStore.portfolioItem.acquisitionList.reduce((prev, curr) => {
+  prevAsset.value = portfolioDetailStore.result.acquisitionList.reduce((prev, curr) => {
     prev += curr.quantity * curr.price;
     return prev;
   }, 0);
 
-  portname.value = portfolioDetailStore.$state.portfolioItem.name;
-  topstocks.value = portfolioDetailStore.$state.portfolioItem.topStocks;
-  viewers.value = portfolioDetailStore.$state.portfolioItem.viewCnt;
+  portfolioDetail.value.name = portfolioDetailStore.$state.result.name;
+  portfolioDetail.value.topstocks = portfolioDetailStore.$state.result.topStocks;
+  viewers.value = portfolioDetailStore.$state.result.viewCnt;
 
-  Promise.all(portfolioDetailStore.portfolioItem.acquisitionList
+  Promise.all(portfolioDetailStore.result.acquisitionList
     .map((value) => [value.stockCode, value.price, value.quantity])
     .map(async ([code, price, quantity]) => {
       const recentprice = await portfolioDetailStore.getRecentPrice(code);
@@ -69,14 +69,13 @@ onMounted(async () => {
     })).then((response) => {
       currAsset.value = response.reduce((prev, curr) => prev + curr[0], 0).toFixed(2);
       profit.value = ((currAsset.value / prevAsset.value - 1) * 100).toFixed(2);
-      portfolioDetailStore.setProfit(profit.value);
     });
 
   // Portfolio replies 데이터 가져오기
-  portfolioReplies.value = await portfolioRepliesStore.getPortfolioRepliesByCreatedAt(route.params.idx);
   console.log("Portfolio Replies Loaded:", portfolioRepliesStore.portfolioReplies);
+  await portfolioRepliesStore.getPortfolioRepliesByCreatedAt(route.params.idx, page.value, size);
   // 데이터를 vue의 상태에 반영
-  portfolioStocks.value = portfolioDetailStore.portfolioItem.topStocks || {};
+  portfolioStocks.value = portfolioDetailStore.result.topStocks || {};
   portfolioReplies.value = portfolioRepliesStore.portfolioReplies || [];
 });
 
@@ -125,20 +124,12 @@ const submitReply = async () => {
   }
 };
 
-const username = '멍자';
-const portfolioIdx = portfolioDetailStore.$state.portfolioItem.idx;
+//const username = '멍자';
+//const portfolioIdx = portfolioDetailStore.$state.result.idx;
 const updateBtn = () => {
   router.push({
     path: '/editport',
     state: { username: "멍자", portfolioIdx: 1, portStatus: false },
-  });
-};
-
-const updateBtn = () => {
-  router.push({
-    name: 'Portfolio', // 라우트 이름
-    params: { mode: 'update' },
-    state: { portfolioIdx: portfolioIdx, }
   });
 };
 

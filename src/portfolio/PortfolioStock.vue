@@ -1,15 +1,18 @@
 <script setup>
 import { defineProps, onMounted, watch, ref, computed } from 'vue';
+import { usePortfolioDetailStore } from '../stores/usePortfolioDetailStore';
+import { useRoute } from 'vue-router';
 
-// Props로 portfolioStocks 데이터를 받습니다.
-const props = defineProps({
-  portfolioStocks: {
-    type: Array,
-    required: true,
-  },
+const route = useRoute();
+const portfolioDetailStore = usePortfolioDetailStore();
+
+let portfolioStocks = ref([]);
+
+onMounted(async () => {
+  // Portfolio detail 데이터 가져오기
+  await portfolioDetailStore.getPortfolioDetail(route.params.idx);
+  portfolioStocks.value = portfolioDetailStore.result.topStocks;
 });
-console.log("상위 주식 목록 : ", props.portfolioStocks);
-
 </script>
 
 <template>

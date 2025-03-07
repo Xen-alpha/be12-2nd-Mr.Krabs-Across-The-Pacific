@@ -32,13 +32,6 @@ stockListStore.getStockList(offset, text).then((result) => {
   console.log(result);
 })
 
-onMounted(async () => {
-  loadingStore.startLoading();
-  //await stockListStore.getStockList(offset, text);
-  await stockListStore.getStocks();
-  loadingStore.stopLoading();
-});
-
 const onmovePrev = async () => {
   offset.value -= 30;
   loadingStore.startLoading();

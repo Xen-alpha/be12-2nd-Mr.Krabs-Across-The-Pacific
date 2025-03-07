@@ -11,9 +11,9 @@ const portfolioDetailStore = usePortfolioDetailStore();
 let graphvalues = ref([]);
 
 onMounted(async () => {
-  await portfolioDetailStore.getportfolioDetail(route.params.idx);
+  await portfolioDetailStore.getPortfolioDetail(route.params.idx);
 
-  Promise.all(portfolioDetailStore.portfolioItem.acquisitionList
+  Promise.all(portfolioDetailStore.result.acquisitionList
     .map((value) => [value.stockCode, value.price, value.quantity])
     .map(async ([code, price, quantity]) => {
       const result = await portfolioDetailStore.getPriceList(code);
