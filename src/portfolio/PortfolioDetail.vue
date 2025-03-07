@@ -73,7 +73,6 @@ onMounted(async () => {
 
   // Portfolio replies 데이터 가져오기
   console.log("Portfolio Replies Loaded:", portfolioRepliesStore.portfolioReplies);
-  await portfolioRepliesStore.getPortfolioRepliesByCreatedAt(route.params.idx, page.value, size);
   // 데이터를 vue의 상태에 반영
   portfolioStocks.value = portfolioDetailStore.result.topStocks || {};
   portfolioReplies.value = portfolioRepliesStore.portfolioReplies || [];
