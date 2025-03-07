@@ -1,8 +1,9 @@
 <script setup>
+import { onMounted, ref, onUnmounted} from "vue";
 
-import { onMounted, ref } from "vue";
 import { useUserStore } from "../stores/useUserStore";
 import { useRouter } from "vue-router";
+import Login from "../user/Login.vue";
 
 const searchQuery = ref("");
 const router = useRouter();
@@ -29,8 +30,15 @@ const alerts = [
 ];
 
 const userStore = useUserStore();
+const goToMyPortfolio=()=>{
+  const result = userStore.getUserDetail();
+  console.log(result);
+  if(result===null){
+    router.push("/login")
+  }
+}
 
-const searchPortfolio = (event) => {
+const searchPortfolio = () => {
   if (!searchQuery.value.trim()) {
     alert("검색어를 입력하세요.");
     return;
@@ -53,14 +61,25 @@ onMounted(() => {
   });
 });
 
+// 로고 클릭 시 검색어 초기화
+const resetSearch = () => {
+  searchQuery.value = ""; // 검색어 상태 초기화
+  router.push({ path: "/" }); // 🔥 keyword 파라미터 제거하여 전체 리스트 표시
+};
+
+const goToMyPortpolio = () =>{
+  console.log(userStore.userId);
+  router.push({ path: "/portfolio/list/"+userStore.userId });
+}
+
 </script>
 
 <template>
   <nav class="navbar navbar-marketing navbar-expand-lg shadow bg-white navbar-light fixed-top">
     <div class="nav-container">
       <!-- Logo -->
-      <router-link to="/" class="navbar-brand text-black">
-        <img src="../images/money.png" alt="Across The Pacific Logo" />
+      <router-link to="/" class="navbar-brand text-black"  @click="resetSearch">
+        <img src="../images/money.png" alt="Across The Pacific Logo"/>
         <span class="ms-2">Across The Pacific</span>
       </router-link>
 
@@ -83,9 +102,11 @@ onMounted(() => {
               <!-- <font-awesome-icon :icon="['fas', 'chevron-right']" /> -->
             </a>
             <ul class="dropdown-menu">
+
               <!-- 링크 수정(khj) -->
               <li>
-                <router-link :to="`/portfoliolist/${username}`" class="dropdown-item"> 내 포트폴리오 </router-link>
+                <!-- <router-link :to="`/portfolio/list/${userIdx}`" class="dropdown-item"> 내 포트폴리오 </router-link> -->
+                <button class="dropdown-item" @click="goToMyPortpolio"> 내 포트폴리오 </button>
               </li>
               <li>
                 <router-link to="/bookmarks" class="dropdown-item"> 북마크 포트폴리오 </router-link>
