@@ -33,14 +33,14 @@ Chart.register(centerTextPlugin);
 
 // 차트 초기화
 export const initializePieChart = (ctx, acquisitionList, profit) => {
-  // console.log(acquisitionList);
+  console.log(acquisitionList);
   const myPieChart = new Chart(ctx, {
     type: "doughnut",
     data: {
-      labels: acquisitionList.map((value) => value.stockName.slice(0,10)).slice(0,6),
+      labels: acquisitionList.map((value) => value.stockName.slice(0,10)),
       datasets: [
         {
-          data: acquisitionList.map((value) => value.quantity),
+          data: acquisitionList.map((value) => value.percentage),
           backgroundColor: [
             "#4e73df",
             "#1cc88a",

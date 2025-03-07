@@ -5,18 +5,21 @@ import { useRoute } from 'vue-router';
 import { usePortfolioDetailStore } from '../stores/usePortfolioDetailStore.js';
 
 const props = defineProps({
+  portfolioStocks: Object,
   profit: String
 })
 
 const chartRef = ref(null);
 const route = useRoute();
 const portfolioDetailStore = usePortfolioDetailStore();
+let portfolioStocks = ref([]);
 
 onMounted(async () => {
-  await portfolioDetailStore.getportfolioDetail(route.params.idx);
+  const response = await portfolioDetailStore.getportfolioDetail(route.params.idx);
+  portfolioStocks.value = response.result.topStocks;
   if (chartRef.value) {
     const ctx = chartRef.value.getContext('2d');
-    initializePieChart(ctx, portfolioDetailStore.$state.portfolioItem.acquisitionList, props.profit); // Chart 초기화 함수 호출
+    initializePieChart(ctx, portfolioStocks.value, props.profit); // Chart 초기화 함수 호출
   }
 });
 </script>

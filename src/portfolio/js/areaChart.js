@@ -32,7 +32,6 @@ function generateRandomData(count, min, max) {
 
 // Initialize Area Chart
 export const initializeAreaChart = (ctx, datalist) => {
-  console.log(datalist);
   return new Chart(ctx, {
     type: 'line',
     data: {

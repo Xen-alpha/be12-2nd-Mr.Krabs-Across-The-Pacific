@@ -30,7 +30,6 @@ onMounted(async () => {
         }
         return prev;
       }, new Array(730).fill(0)).reverse().filter((value) => value !== 0).map((value, index, array) => value);
-      // console.log(graphvalues.value);
       if (chartRef.value) {
         const ctx = chartRef.value.getContext('2d');
         initializeAreaChart(ctx, graphvalues.value); // Chart 초기화
