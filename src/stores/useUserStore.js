@@ -10,11 +10,11 @@ export const useUserStore = defineStore("user", {
     actions: {
         async login(email, password) {
             const response = await axios
-                .get("/sample/auth/login.json", {
+                .post("/api/login", {
                 //.post("/sample/auth/login.json", {
-                    "email": email,
+                    "id": email,
                     "password": password
-                },)
+                })
                 .catch((error) => {
                     console.log(error);
                     return null
@@ -52,8 +52,15 @@ export const useUserStore = defineStore("user", {
             if (response == null) return false;
             return true;
         },
-        async getUserDetail(id) {
+        async getUserDetail() {
             //axios
+            try {
+                const response = await axios.get('/api/user/mypage');
+                return response.data.result;
+            } catch (e) {
+                console.log("에러:"+ e.message);
+                return null;
+            }
         },
 
         async updateUserDetailReply(password, image) {
