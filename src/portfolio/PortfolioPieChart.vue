@@ -31,7 +31,7 @@ onMounted(async () => {
     const ctx = chartRef.value.getContext('2d');
     initializePieChart(ctx, portfolioStocks.value); // Chart 초기화 함수 호출
   }
-);
+});
 
 
 const chartRef = ref(null);
