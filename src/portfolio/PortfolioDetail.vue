@@ -29,20 +29,19 @@ onMounted(async () => {
   await portfolioRepliesStore.getPortfolioRepliesByCreatedAt(route.params.idx);
   console.log("Portfolio Detail Loaded:", portfolioDetailStore.portfolioItem);
 
-  // 계산해서 총 수익률 구하기
-  prevAsset.value = portfolioDetailStore.portfolioItem.acquisitionList.reduce((prev, curr) => {
-    prev += curr.quantity * curr.price;
-    return prev;
-  }, 0);
-
   Promise.all(portfolioDetailStore.portfolioItem.acquisitionList
     .map((value) => [value.stockCode, value.price, value.quantity])
     .map(async ([code, price, quantity]) => {
       const recentprice = await portfolioDetailStore.getRecentPrice(code);
       return [recentprice * quantity, (price - recentprice) * quantity];
     })).then((response) => {
+      // 계산해서 총 수익률 구하기
+      prevAsset.value = portfolioDetailStore.portfolioItem.acquisitionList.reduce((prev, curr) => {
+        prev += curr.quantity * curr.price;
+        return prev;
+      }, 0);
       currAsset.value = response.reduce((prev, curr) => prev + curr[0], 0).toFixed(2);
-      profit.value = ((currAsset.value / prevAsset.value - 1) * 100).toFixed(2);
+      profit.value = prevAsset.value !== 0 ? ((currAsset.value / prevAsset.value - 1) * 100).toFixed(2) : 0;
     });
 
   // Portfolio replies 데이터 가져오기

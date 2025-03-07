@@ -70,8 +70,8 @@ export const initializeAreaChart = (ctx, datalist) => {
         },
         y: { // y축 설정
           beginAtZero: false,
-          min: -500, // 최소값 -500
-          max: 500,  // 최대값 500
+          min: -1000, // 최소값 -500
+          max: 1000,  // 최대값 500
           grid: {
             color: "rgb(234, 236, 244)",
             zeroLineColor: "rgb(234, 236, 244)",

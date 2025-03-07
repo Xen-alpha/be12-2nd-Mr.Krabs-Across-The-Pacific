@@ -1,5 +1,7 @@
 <script setup>
-import { defineProps } from 'vue';
+import { ref, defineProps, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+import { useUserStore } from '../stores/useUserStore';
 
 const props = defineProps({
   username: {
@@ -7,6 +9,27 @@ const props = defineProps({
     required: true,
   },
 });
+
+const route = useRoute();
+const userStore = useUserStore();
+
+let userid = ref(route.params.username);
+
+let username = ref("장원영");
+let userimage = ref("../images/across_the_pacific.png")
+let follower = ref(0);
+let following = ref(0);
+
+onMounted(async () => {
+  const userinfo = await userStore.getUserDetail();
+  console.log(userinfo);
+  username.value = userinfo.name;
+  if (userinfo.image !== "") userimage.value = userinfo.image;
+  follower.value = userinfo.followers_count;
+  following.value = userinfo.followings_count;
+});
+
+
 </script>
 
 <template>
@@ -15,16 +38,13 @@ const props = defineProps({
       <div class="userProfile_left">
         <!--TODO : 링크 추가-->
         <a :href="`http://localhost:5173/portfoliolist/${username}`">
-          <!-- TODO : 유저데이터 받아올 때 v-if와 else 지우고 받아온 유저 정보 하나만 남기기기 -->
-          <img v-if="username === '멍자'" alt="profile" fetchpriority="high" width="128" height="128" decoding="async"
-            data-nimg="1" style="color:transparent" src="../images/멍자.png">
-          <img v-else alt="profile" fetchpriority="high" width="128" height="128" decoding="async" data-nimg="1"
-            style="color:transparent" src="../images/장원영.jpg">
+          <img alt="profile" fetchpriority="high" width="128" height="128" decoding="async" data-nimg="1"
+            style="color:transparent" :src=userimage>
         </a>
         <div class="userProfile_userinfo">
           <div class="userProfile_name">
             <!--TODO : 링크 추가-->
-            <a :href="`http://localhost:5173/portfoliolist/${username}`">{{ username }}</a>
+            <a :href="`http://localhost:5173/myprofile`">{{ username }}</a>
           </div>
           <div class="userProfile_descripton">
 
@@ -37,13 +57,13 @@ const props = defineProps({
       <div class="userProfile_followInfo">
         <!--TODO : 링크 추가-->
         <a class="userProfile_info" :href="`http://localhost:5173/portfoliolist/${username}`">
-          <span class="userProfile_number">0</span>
+          <span class="userProfile_number">{{ follower }}</span>
           <span class="userProfile_text">팔로워</span>
         </a>
         <!--TODO : 링크 추가-->
         <!--TODO : 링크 추가-->
         <a class="userProfile_info" :href="`http://localhost:5173/portfoliolist/${username}`">
-          <span class="userProfile_number">0</span>
+          <span class="userProfile_number">{{ following }}</span>
           <span class="userProfile_text">팔로잉</span>
         </a>
       </div>

@@ -2,13 +2,14 @@
 import { defineProps, ref, reactive } from 'vue';
 
 const props = defineProps({
-  portfolio:{
-    type:Object,
-    required: true,
-  },
-  showBookmarks:{
-    type: Boolean,
-    default: false }, // 북마크만 표시 여부
+    portfolio: {
+        type: Object,
+        required: true,
+    },
+    showBookmarks: {
+        type: Boolean,
+        default: false
+    }, // 북마크만 표시 여부
 });
 
 //const portfolio_id = props.portfolio.idx; // 동적으로 바인딩할 ID (예: props로 전달받거나 데이터에서 가져옴)
@@ -47,13 +48,12 @@ const bookBtn = () => {
         <!-- <a  class="portfolio" href="/portfolio/1">
             <img class="img" src="../images/sample.jpg" alt="Portfolio Image" />
         </a> -->
-        <router-link class="portfolio"
-        :to="`/portfolio/${portfolio_id}`" >
+        <router-link class="portfolio" :to="`/portfolio/${portfolio_id}`">
             <img class="img" src="../images/sample.jpg" alt="Portfolio Image" />
         </router-link>
         <div class="bottom">
             <div class="bottom_left">
-                <div class="p_name">{{portfolio.name}}</div>
+                <div class="p_name">{{ portfolio.name }}</div>
                 <div class="badge">
                     <!--TODO : 포트폴리오 뱃지 데이터 가져오기-->
                     <img src="../images/badge1.webp" alt="badge1" class="badge_img">
@@ -64,17 +64,17 @@ const bookBtn = () => {
             </div>
             <div class="bottom_right">
                 <p class="view">👀 {{ portfolio.view }}</p>
-                <button class="bookmark" :class="{ 'active': isBookmarked }"
-                @click="bookBtn">♥️ {{ props.portfolio.bookmark }}</button>
+                <button class="bookmark" :class="{ 'active': isBookmarked }" @click="bookBtn">♥️ {{
+                    props.portfolio.bookmark }}</button>
                 <!-- 하트 애니메이션 컨테이너 -->
                 <div class="hearts-container" ref="heartsContainer"></div>
             </div>
-        </div>                
+        </div>
     </div>
 
 </template>
 
 
 <style>
-    @import './main.css'
+@import './main.css'
 </style>
