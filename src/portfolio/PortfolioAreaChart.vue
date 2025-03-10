@@ -22,14 +22,14 @@ onMounted(async () => {
       return [datelist, pricelist, price, quantity];
     })).then((reversedArray) => {
       graphvalues.value = reversedArray.map(([datelist, pricelist, price, quantity]) => {
-        const reversedprofitlist = pricelist.map(value => price === 0 ? 0 : (value - price) / price * quantity);
+        const reversedprofitlist = pricelist.map(value => (value - price) * quantity);
         return [datelist, reversedprofitlist];
       }).reduce((prev, curr) => {
         for (let i = 0; i < curr[1].length; i++) {
           prev[i] += curr[1][i];
         }
         return prev;
-      }, new Array(730).fill(0)).reverse().filter((value) => value !== 0).map((value, index, array) => value);
+      }, new Array(730).fill(0)).reverse().filter((value) => value !== 0).map((value, index, array) => value / 100);
       if (chartRef.value) {
         const ctx = chartRef.value.getContext('2d');
         initializeAreaChart(ctx, graphvalues.value); // Chart 초기화

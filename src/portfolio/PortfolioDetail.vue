@@ -41,6 +41,7 @@ let prevAsset = ref(null);
 let currAsset = ref(null);
 let profit = ref(null);
 let topstocks = ref([]);
+let ratings = ref(0);
 let viewers = ref(0);
 onMounted(async () => {
   // Portfolio detail 데이터 가져오기
@@ -68,8 +69,9 @@ onMounted(async () => {
       return [recentprice * quantity, (price - recentprice) * quantity];
     })).then((response) => {
       currAsset.value = response.reduce((prev, curr) => prev + curr[0], 0).toFixed(2);
-      profit.value = ((currAsset.value / prevAsset.value - 1) * 100).toFixed(2);
+      profit.value = (portfolioDetailStore.$state.result.profit * 100 / currAsset.value).toFixed(2);
     });
+  ratings.value = portfolioDetailStore.$state.result.ratings;
 
   // Portfolio replies 데이터 가져오기
   console.log("Portfolio Replies Loaded:", portfolioRepliesStore.portfolioReplies);
@@ -255,7 +257,7 @@ const goToUserInfo = async (userIdx, userName) => {
                         <div class="col mr-2">
                           <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                             RATINGS(평가 순위)</div>
-                          <div class="h5 mb-0 font-weight-bold text-gray-800">-</div>
+                          <div class="h5 mb-0 font-weight-bold text-gray-800">{{ ratings }}</div>
                         </div>
                         <div class="col-auto">
                           <i class="fas fa-comments fa-2x text-gray-300"></i>

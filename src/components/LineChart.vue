@@ -54,21 +54,23 @@ const chartOptions = ref({
 
 onMounted(async () => {
   // 차트 데이터 가져오기
-  loadingStore.startLoading();
-  const response = await axios.get(`/api/stockgraph/${code}`);
-  const result = response.data.result;
-  // console.log(result);
-  const result_data = result.prices;
-  const result_label = result.dates;
-  const length = result_label.length;
-  // 적용하기
-  let chart = ChartJS.getChart(document.getElementsByClassName("graphchart")[id - 1]);
-  for (let i = 0; i < length; i++) {
-    labelList.push(result_label[i]);
+  try {
+    const response = await axios.get(`/api/stockgraph/${code}`);
+    const result = response.data.result;
+    // console.log(result);
+    const result_data = result.prices;
+    const result_label = result.dates;
+    const length = result_label.length;
+    // 적용하기
+    let chart = ChartJS.getChart(document.getElementsByClassName("graphchart")[id - 1]);
+    for (let i = 0; i < length; i++) {
+      labelList.push(result_label[i]);
+    }
+    chart.data.datasets[0].data = result_data;
+    chart.update();
+  } catch (e) {
+    console.log("Cannot get graph: " + e.message);
   }
-  chart.data.datasets[0].data = result_data;
-  chart.update();
-  loadingStore.stopLoading();
 });
 </script>
 <template>
