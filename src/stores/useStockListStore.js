@@ -7,6 +7,7 @@ export const useStockListStore = defineStore("stockList", {
     sortType: "ascending", // 정렬 기능 대비용 필드, 현재는 Mock 상태
     stockList: [],
     totalLength: 6969,
+    result:{},
   }),
   persist: {
     storage: sessionStorage,
@@ -18,24 +19,36 @@ export const useStockListStore = defineStore("stockList", {
     stockListTotalLength: (state) => state.totalLength,
   },
   actions: {
-    async getStockList(off) {
-      // 전체 리스트를 반환
+    // async getStockList(off) {
+    //   // 전체 리스트를 반환
+    //   try {
+    //     const response = await axios.get("/api/stock/list");
+    //     this.stockList = response.data.result.slice(off, off + 30);
+    //     this.offset = off;
+    //     this.totalLength = response.data.result.length;
+    //     return response.data.result.slice(off, off + 30);
+    //   } catch (e) {
+    //     console.log(e.message);
+    //     return this.stockList;
+    //   }
+    // },
+    async getStockList(page) {
       try {
-        const response = await axios.get("/api/stock/list");
-        this.stockList = response.data.result.slice(off, off + 30);
-        this.offset = off;
-        this.totalLength = response.data.result.length;
-        return response.data.result.slice(off, off + 30);
+        const response = await axios.get(`/api/stock/list`,
+          {params: { page: page, size: 10 }});
+          if(response.data?.result){
+            this.result = response.data.result;
+            return this.result.content;
+          }else{
+              throw new Error("잘못된 응답 형식입니다.");
+          }
       } catch (e) {
         console.log(e.message);
         return this.stockList;
       }
     },
-    //Note : KHJ
     async getStockListForSearch() {
       try {
-        // TODO: 크롤링 서버 URL로 바꾸기
-        //const response = await axios.get("/sample/stockList.json",);
         const response = await axios.get("/api/stock/list",);
         //return response.data;
         this.stockList = response.data.result;

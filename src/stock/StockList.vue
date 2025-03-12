@@ -12,23 +12,47 @@ const router = useRouter();
 let itemlist = ref([]);
 let offset = ref(0);
 
-const onMove = () => {
-  if (loadingStore.isLoading) return;
-  offset.value = offset.value + 30;
-  stockListStore.$state.offset = offset.value + 30;
-  loadStockList(offset.value + 30);
-  watchEffect(loadStockList);
+// const onMove = () => {
+//   if (loadingStore.isLoading) return;
+//   offset.value = offset.value + 30;
+//   stockListStore.$state.offset = offset.value + 30;
+//   loadStockList(offset.value + 30);
+//   watchEffect(loadStockList);
+// };
+
+
+// const loadStockList = (o) => {
+//   stockListStore.getStockList(o).then((result) => {
+//     console.log(offset.value);
+//     itemlist.value = result;
+//   });
+// };
+// loadStockList(offset.value);
+
+const stockList = ref([]);
+const page = ref(0); // 현재 페이지 번호
+
+onMounted(async () => {
+  loadStockList();
+});
+
+const loadStockList = async $state => {
+  try {
+    const response = await stockListStore.getStockList(page.value);
+    if (response.length < 1) {
+      console.log("더 이상 불러올 데이터 없음.");
+      $state.complete();
+    } else {
+      // itemlist.value = response;
+      itemlist.value.push(...response);
+      $state.loaded();
+    }
+    page.value++;
+  } catch (error) {
+    console.error("주식 불러오기 실패:", error);
+    $state.error();
+  }
 };
-
-
-const loadStockList = (o) => {
-  stockListStore.getStockList(o).then((result) => {
-    console.log(offset.value);
-    itemlist.value = result;
-  });
-};
-loadStockList(offset.value);
-
 
 </script>
 
@@ -38,9 +62,15 @@ loadStockList(offset.value);
     <div :v-bind=itemlist v-for="item in itemlist">
       <stockListItem :information="item" />
     </div>
-    <span class="pagination">
+    <InfiniteLoading @infinite="loadStockList">
+      <template #complete>
+        <div></div>
+      </template>
+    </InfiniteLoading>
+    <!-- <span class="pagination">
       <button @click="onMove">더보기</button>
-    </span>
+    </span> -->
+
   </div>
 </template>
 <style scoped>
