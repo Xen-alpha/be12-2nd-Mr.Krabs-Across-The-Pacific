@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: front
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  revisionHistoryLimit: 1
+  selector:
+    matchLabels:
+        type: frontend 
+        app: user
+  template:
+    metadata:
+      labels:
+        type: frontend 
+        app: user
+    spec:
+      containers:
+        - name: nginx
+          image: sjhyun0000/user-front:2.0
+          volumeMounts:
+            - name: nginx-config
+              mountPath: /etc/nginx/conf.d/
+          ports:
+            - containerPort: 80
+      volumes:
+        - name: nginx-config
+          configMap:
+            name: user-config
