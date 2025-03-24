@@ -2,8 +2,8 @@ pipeline {
     agent any  // 어떤 에이전트에서든 실행되도록 설정
 
     environment {
-        GIT_DEPLOYMENT_YAML = 'https://raw.githubusercontent.com/Shin-JiHyun/across-the-pacific-Front/main/k8s/frontend-deployment.yaml'
-        GIT_SERVICE_YAML = 'https://raw.githubusercontent.com/Shin-JiHyun/across-the-pacific-Front/main/k8s/frontend-service.yaml'
+        GIT_DEPLOYMENT_YAML = 'https://raw.githubusercontent.com/Shin-JiHyun/be12-2nd-Mr.Krabs-Across-The-Pacific/main/k8s/frontend-deployment.yaml'
+        GIT_SERVICE_YAML = 'https://raw.githubusercontent.com/Shin-JiHyun/be12-2nd-Mr.Krabs-Across-The-Pacific/main/k8s/frontend-service.yaml'
         NAMESPACE = 'sjh'  
     }
 
