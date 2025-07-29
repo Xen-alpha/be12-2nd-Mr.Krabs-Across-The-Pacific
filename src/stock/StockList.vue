@@ -30,7 +30,7 @@ let offset = ref(0);
 // loadStockList(offset.value);
 
 const stockList = ref([]);
-const page = ref(0); // 현재 페이지 번호
+let page = ref(0); // 현재 페이지 번호
 
 onMounted(async () => {
   loadStockList();

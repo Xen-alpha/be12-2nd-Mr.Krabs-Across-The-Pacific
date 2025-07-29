@@ -9,7 +9,7 @@ export const useUserStore = defineStore("user", {
     },
     actions: {
         async signup(email, password, name, image) {
-            console.log("hi")
+            console.log("hi");
             const response = await axios
                 .post("/api/user/signup", {
                     "email": email,
@@ -20,13 +20,10 @@ export const useUserStore = defineStore("user", {
                 .catch((error) => {
                     console.log(error);
                     return null;
-                })
-                console.log("hi")
+                });
         },
         async login(email, password) {
             const response = await axios
-                //.get("/sample/auth/login.json", {
-                //.post("/sample/auth/login.json", {
                 .post("/api/login", {
                     "id": email,
                     "password": password

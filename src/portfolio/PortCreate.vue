@@ -104,11 +104,11 @@ const showList = (index, type) => {
   isListVisible.value = index;
   activeListType.value = type; // 클릭한 리스트 타입
 };
-//주식 검색
+//주식 검색(TODO: 백엔드 검색으로 전환하므로 삭제)
 const filteredStocks = computed(() => {
   const sourceData = activeListType.value === 'portfolio' ? portfolioData.value.stocks : stockData.value.stocks;
-  console.log("sourceData:", sourceData);
-  console.log("stocks:", stocks.value);
+  //console.log("sourceData:", sourceData);
+  //console.log("stocks:", stocks.value);
 
   return sourceData.map((stock) => {
     const searchQuery = stock.name.toLowerCase();
@@ -118,19 +118,7 @@ const filteredStocks = computed(() => {
     );
   });
 });
-// 선택된 주식을 입력 필드에 넣고 목록 숨기기
-const selectStock = (stockName, index) => {
-  const sourceData = activeListType.value === 'portfolio' ? portfolioData : stockData;
-  sourceData.value.stocks[index].name = stockName;
-  isListVisible.value = false;
-};
-// blur 시 목록 숨기기
-const hideList = () => {
-  setTimeout(() => {
-    isListVisible.value = false;
-    activeListType.value = ''; // 리스트 타입 초기화
-  }, 100);
-};
+
 //주식 이름 지우기
 const nameRemove = (dataType, index) => {
   if (dataType === 'create') {
@@ -169,14 +157,29 @@ const loadPortfolio = async () => {
   }
 };
 
-//주식 리스트 가져오기
+
 const stocks = ref([]);
-onMounted(async () => {
+// 검색한 주식 리스트 가져오기
+const searchStock = async (keyword) => {
   loadingStore.startLoading();
-  const getStockList = await stockList.getStockListForSearch();
-  stocks.value = [...stocks.value, ...getStockList];
+  stocks.value = await stockList.getStockListForSearch(keyword);
   loadingStore.stopLoading();
-});
+};
+
+const selectStock = (stockName, index) => {
+  const sourceData = activeListType.value === 'portfolio' ? portfolioData : stockData;
+  sourceData.value.stocks[index].name = stockName;
+  let stockCode = stocks.value.filter((value) => value.name === stockName);
+  sourceData.value.stocks[index].code = stockCode[index].code;
+  isListVisible.value = false;
+};
+// blur 시 목록 숨기기
+const hideList = () => {
+  setTimeout(() => {
+    isListVisible.value = false;
+    activeListType.value = ''; // 리스트 타입 초기화
+  }, 100);
+};
 
 //+버튼을 누르면 포트폴리오 입력 추가
 const addCount = ref(1);
@@ -256,9 +259,11 @@ const createBtn = async (index) => {
   try {
     const response = await portCreate.setPortfolio({
       name: portfolioData.value.name,
+      isPublic: true,
       acquisitionList: stockData.value.stocks.map(stock => ({
         name: stock.name,
         price: stock.price,
+        code: stock.code,
         quantity: stock.quantity,
         date: stock.date
       }))
@@ -537,7 +542,7 @@ ChartJS.register(hideCenterTextPlugin); // 플러그인 등록
           </div>
           <div class="stock_name">
             <div class="stock_list">
-              <input type="text" placeholder="Enter stock name" v-model="stock.name" @focus="showList(index, 'create')"
+              <input type="text" placeholder="Enter stock name" v-model="stock.name" @change="searchStock(stock.name)" @focus="showList(index, 'create')"
                 @input="showList(index, 'create')" @blur="hideList" />
               <img :class="['xmark', stock.name === '' ? 'xmarkhide' : 'xmarkshow']" src="../images/x.svg"
                 @click="nameRemove('create', index)" />
@@ -566,7 +571,7 @@ ChartJS.register(hideCenterTextPlugin); // 플러그인 등록
           </div>
         </div>
         <!--FIX : 구매 금액 합계 동작 확인-->
-        <div class="stock_sum">구매 금액 합계 : {{ sum }}</div>
+        <div class="stock_sum">구매 금액 합계 : ${{ sum }}</div>
         <!--TODO : updateBtn 동작 확인(for문의 영역에 맞춰 각각 나눠서 반영이 되는지)-->
         <div class="field-input">
           <button v-if="isEditMode" @click=updateBtn class="add-field-button createBtn">Update</button>

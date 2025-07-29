@@ -30,47 +30,46 @@ const signup = async () => {
                             <div class="card-body under row justify-content-center">
                                     <div class="col-xl-8 col-lg-9">
                                         <div>
-                                            <h1 class="font-weight-bold">Start ATP</h1>
+                                            <h1 class="font-weight-bold">ATP 서비스 시작하기</h1>
                                         </div>
                                         <form novalidate="" class="ng-untouched ng-pristine ng-invalid">
-                                            <div class="mb-3"><label for="emailInput" class="text-gray-600 small">Name</label>
+                                            <div class="mb-3"><label for="emailInput" class="text-gray-600 small">이름</label>
                                                 <input id="emailInput" data-cy="emailInput" type="email"
                                                     aria-describedby="emailHelp" formcontrolname="email" v-model="name"
                                                     class="input-control form-control-solid ng-untouched ng-pristine ng-invalid">
-                                                <div class="invalid-feedback">Email required.
+                                                <div class="invalid-feedback">닉네임을 적어주세요.
                                                 </div>
                                             </div>
-                                            <div class="mb-3"><label for="emailInput" class="text-gray-600 small">Email
-                                                    address</label>
+                                            <div class="mb-3"><label for="emailInput" class="text-gray-600 small">이메일 주소</label>
                                                 <input id="emailInput" data-cy="emailInput" type="email"
                                                     aria-describedby="emailHelp" formcontrolname="email" v-model="email"
                                                     class="input-control form-control-solid ng-untouched ng-pristine ng-invalid">
-                                                <div class="invalid-feedback">Email required.
+                                                <div class="invalid-feedback">이메일을 적어주세요.
                                                 </div>
                                             </div>
                                             <div style="display: flex; justify-content: space-between;">
                                                 <div class="mb-3" style="width: 18em;">
                                                     <label for="passwordInput" class="small text-gray-600">
-                                                        Password
+                                                        비밀번호
                                                     </label>
                                                     <input id="passwordInput" data-cy="passwordInput" type="password"
                                                         formcontrolname="password" v-model="password"
                                                         class="input-control form-control-solid ng-untouched ng-pristine ng-invalid">
 
                                                     <div class="invalid-feedback">
-                                                        Password required.
+                                                        비밀번호를 적어주세요.
                                                     </div>
                                                 </div>
                                                 <div class="mb-3" style="width: 18em;">
                                                     <label for="passwordInput" class="small text-gray-600">
-                                                        Password Confirm
+                                                        비밀번호 확인
                                                     </label>
                                                     <input id="passwordInput" data-cy="passwordInput" type="password"
                                                         formcontrolname="password" v-model="passwordconfirm"
                                                         class="input-control form-control-solid ng-untouched ng-pristine ng-invalid">
 
                                                     <div class="invalid-feedback">
-                                                        Password do not match.
+                                                        패스워드가 맞지 않습니다.
                                                     </div>
                                                 </div>
                                             </div>
@@ -80,7 +79,7 @@ const signup = async () => {
 
                                             <div class="mb-3 d-flex align-items-center" style="flex-direction: row-reverse;">
                                                 <button type="button" class="btn btn-primary"
-                                                    @click="signup()">Register</button>
+                                                    @click="signup()">회원가입</button>
                                             </div>
                                         </form>
                                         <p class="small pt-3">

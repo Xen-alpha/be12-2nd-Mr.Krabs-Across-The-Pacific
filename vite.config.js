@@ -9,15 +9,10 @@ export default defineConfig({
     proxy: {
       "/api": {
         target: "http://localhost:8080",
-        changeOrigin: true,
+        changeOrigin: false,
         rewrite: (path) => path.replace(/^\/api/, ""),
-      },
-      "/test": {
-        target: "http://13.125.245.64:8080",
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/test/, ""),
       }
     }
-  }
-})
+  },
+});
 

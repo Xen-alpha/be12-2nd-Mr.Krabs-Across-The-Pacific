@@ -38,8 +38,8 @@ export const useStockListStore = defineStore("stockList", {
           {params: { page: page, size: 10 }});
           if(response.data?.result){
             this.result = response.data.result;
-            return this.result.content;
-          }else{
+            return this.result;
+          } else{
               throw new Error("잘못된 응답 형식입니다.");
           }
       } catch (e) {
@@ -47,9 +47,9 @@ export const useStockListStore = defineStore("stockList", {
         return this.stockList;
       }
     },
-    async getStockListForSearch() {
+    async getStockListForSearch(keyword) {
       try {
-        const response = await axios.get("/api/stock/list",);
+        const response = await axios.get("/api/stock/search", {params: {keyword: keyword}});
         //return response.data;
         this.stockList = response.data.result;
         return response.data.result;
