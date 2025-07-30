@@ -1,0 +1,215 @@
+.container{
+    max-width: 90%;
+}
+.page-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    margin-top: 80px;
+    width: 100%; /* 부모 컨테이너의 너비를 100%로 설정 */
+    text-align: center;
+    justify-content: center;
+}
+
+.left-section {
+    flex: 1;
+    padding: 1rem;
+    /* border-right: 1px solid #ddd; */
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+.chart_position {
+    background-color: #f9f9f9;
+    position: sticky;
+    top: 100px; /* top 값을 설정하여 화면 상단에 고정 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    padding: 1rem;
+    width: 100%;
+    margin-top: 30px;
+}
+
+.right-section {
+    width: 100%;
+    max-width: 500px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    background-color: white;
+    /* border-left: 1px solid #ddd; */
+    box-sizing: border-box;
+    overflow: auto;
+    margin-right: 10px;
+}
+.donut {
+    size: 90%;
+}
+.editable-text {
+    cursor: pointer;
+    padding: 0.5rem;
+    border: 1px solid transparent;
+    transition: border-color 0.2s;
+}
+.editable-text:hover {
+    border-color: #ccc;
+}
+
+.editable-input {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 100%;
+}
+
+/* Input Rows */
+#field-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem; /* field-labels와 동일한 간격 */
+}
+
+/* Field Labels */
+.field-labels {
+    display: flex;
+    gap: 0.1rem; /* 동일한 간격 */
+    align-items: center; /* 수직 중앙 정렬 */
+    justify-content: space-between; /* 라벨 간 간격 균일 */
+    height: 40px; /* 입력 필드와 동일한 높이 */
+}
+.stock_check{
+    width: 20px;
+}
+.stock_name{
+    width: 200px;
+    text-align: center;
+}
+.stock_name input {
+    width: 100%;
+}
+.stock_quantity, .stock_price {
+    width: 50px;
+    text-align: center;
+}
+.stock_quantity input , .stock_price input {
+    width:30px;
+}
+
+.stock_date {
+    width: 120px;
+    text-align: center;
+}
+.stock_count {
+    width: 50px ;
+    text-align: center;
+}
+.stock_delete{
+    width: 20px;
+    text-align: center;
+}
+.stock_count_p {
+    width: 50px ;
+    text-align: center;
+    padding-top: 1rem;
+}
+.stock_sum{
+    text-align: right;
+    margin-right: 20px;
+}
+
+/* Input Fields */
+input {
+    width: 100%;
+}
+
+/* Stock List Container */
+.stock_list {
+    position: relative;
+    display: inline-block;
+}
+
+.stock_list > ul{
+    position: absolute;
+    list-style: none;
+    padding-left: 0px;
+    width: 100%;
+    max-height: 200px;
+    border: 1px solid black;
+    overflow: scroll; overflow-x: hidden;
+    background-color: white;
+    z-index: 100;
+    text-align: left;
+}
+
+.stock_list > ul > li{
+    padding: 0px 5px;
+    cursor: pointer;
+}
+
+
+li:hover {
+    background-color: #f0f0f0;
+}
+
+.xmark{
+    position: absolute;
+    top: 50%;
+    cursor: pointer;
+    z-index: 1;
+    width: 12px;
+    transition: 0.3x ease;
+    transform: translateY(-40%);
+}
+.xmarkhide{
+    visibility: hidden; right: 8px; opacity: 0;
+}
+.xmarkshow{
+    visibility: show; right: 10px; opacity: 1;
+}
+
+
+.field-input {
+    display: flex; /* Flex 컨테이너 설정 */
+    justify-content: space-between; /* 양 끝으로 버튼 배치 */
+    align-items: center; /* 세로 중앙 정렬 */
+    gap: 1rem; /* 버튼 사이 간격 */
+    width: 100%; /* 전체 너비 */
+    margin-bottom: 1.5rem;
+}
+
+.add-field-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #fff;
+    background-color: #4e73df;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.add-field-button:hover {
+    background-color: #375a7f;
+}
+
+.addBtn {
+    margin-left: auto; /* 오른쪽 정렬 */
+    margin-right: 10px;
+}
+
+.createBtn {
+    margin-right: auto; /* 중앙 정렬 */
+    flex-grow: 1; /* 버튼이 가운데로 이동하도록 여백 확장 */
+    text-align: center; /* 버튼 텍스트 중앙 정렬 */
+    margin-left: 30px;
+}
