@@ -17,7 +17,7 @@
 <br>
 
 ## 배포 링크
-🔗[Across The Pacific](https://celarim.kro.kr)
+🔗[Across The Pacific](https://atp.xena.p-e.kr)
 
 <br>
 
