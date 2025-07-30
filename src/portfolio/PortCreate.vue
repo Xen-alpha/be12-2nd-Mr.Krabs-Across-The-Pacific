@@ -8,7 +8,9 @@ import { useLoadingStore } from '../stores/useLoadingStore';
 import { useStockListStore } from '../stores/useStockListStore';
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
-import { faBorderNone } from '@fortawesome/free-solid-svg-icons';
+import { useUserStore } from '../stores/useUserStore';
+
+const userStore = useUserStore();
 
 const stockList = useStockListStore();
 const loadingStore = useLoadingStore();
@@ -35,8 +37,9 @@ watch(() => route.params.mode, (newMode, oldMode) => {
   }
 });
 // 페이지 렌더링 시 동작 분기
-onMounted(() => {
-  console.log('현재 모드:', isCreateMode.value ? '생성' : '수정');
+onMounted(async () => {
+  await userStore.routeToLogin();
+  //console.log('현재 모드:', isCreateMode.value ? '생성' : '수정');
   if (isEditMode.value) {
     loadPortfolio();
   } else if(isCreateMode){
@@ -105,6 +108,7 @@ const showList = (index, type) => {
   activeListType.value = type; // 클릭한 리스트 타입
 };
 //주식 검색(TODO: 백엔드 검색으로 전환하므로 삭제)
+/*
 const filteredStocks = computed(() => {
   const sourceData = activeListType.value === 'portfolio' ? portfolioData.value.stocks : stockData.value.stocks;
   //console.log("sourceData:", sourceData);
@@ -118,7 +122,7 @@ const filteredStocks = computed(() => {
     );
   });
 });
-
+*/
 //주식 이름 지우기
 const nameRemove = (dataType, index) => {
   if (dataType === 'create') {
@@ -166,11 +170,14 @@ const searchStock = async (keyword) => {
   loadingStore.stopLoading();
 };
 
-const selectStock = (stockName, index) => {
-  const sourceData = activeListType.value === 'portfolio' ? portfolioData : stockData;
-  sourceData.value.stocks[index].name = stockName;
-  let stockCode = stocks.value.filter((value) => value.name === stockName);
-  sourceData.value.stocks[index].code = stockCode[index].code;
+const selectStock = (nametarget, index, position) => {
+  //const sourceData = activeListType.value === 'portfolio' ? portfolioData : stockData;
+  //sourceData.value.stocks[index].name = stockName;
+  stockData.value.stocks[index].name = stocks.value[position].name
+  nametarget = stocks.value[position].name;
+  stockData.value.stocks[index].code = stocks.value[position].code;
+  //console.log("stockCode: "+ stockCode[position].code);
+  //sourceData.value.stocks[index].code = stockCode[position].code;
   isListVisible.value = false;
 };
 // blur 시 목록 숨기기
@@ -512,8 +519,8 @@ ChartJS.register(hideCenterTextPlugin); // 플러그인 등록
               <img :class="['xmark', portStock.name === '' ? 'xmarkhide' : 'xmarkshow']" src="../images/x.svg"
                 @click="nameRemove('update', index)" />
               <ul v-if="isListVisible === index && activeListType === 'portfolio'">
-                <li v-if="filteredStocks[index] === 0">>검색 결과가 없습니다</li>
-                <li v-for="(stock, i) in filteredStocks[index]" :key="i" @click="selectStock(stock.name, index)">
+                <li v-if="stocks[index] === 0">검색 결과가 없습니다</li>
+                <li v-for="(stock, i) in stocks[index]" :key="i" @click="selectStock(index, i)">
                   {{ stock.name }}
                 </li>
               </ul>
@@ -547,9 +554,9 @@ ChartJS.register(hideCenterTextPlugin); // 플러그인 등록
               <img :class="['xmark', stock.name === '' ? 'xmarkhide' : 'xmarkshow']" src="../images/x.svg"
                 @click="nameRemove('create', index)" />
               <ul v-if="isListVisible === index && activeListType === 'create'">
-                <li v-if="filteredStocks[index].length == 0">검색 결과가 없습니다</li>
-                <li v-for="(stock, i) in filteredStocks[index]" :key="i" @click="selectStock(stock.name, index)">
-                  {{ stock.name }}
+                <li v-if="stocks.length == 0">검색 결과가 없습니다</li>
+                <li v-for="(s, i) in stocks" :key="i" @click="selectStock(stock.name, index, i)">
+                  {{ s.name }}
                 </li>
               </ul>
             </div>

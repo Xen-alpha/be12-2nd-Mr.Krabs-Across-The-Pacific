@@ -43,7 +43,7 @@ const badgeList = (badges) => computed(() =>
     <div class="inside">
         <div class="portfolio">
             <div class="image-container">
-                <img class="img base-img" @click="navigateToPortfolio(portfolio.idx)" src="../images/sample.jpg" alt="Base Image" />
+                <img class="img base-img" @click="navigateToPortfolio(portfolio.idx)" src="/images/stocks.png" alt="Base Image" />
                 <!-- badgeList가 비어있지 않은 경우에만 렌더링 -->
                     <div v-if="portfolio.badges!==0" class="badge-container">
                         <div v-for="badge in badgeList(portfolio.badges).value" :key="badge">
@@ -66,7 +66,8 @@ const badgeList = (badges) => computed(() =>
         <div class="bottom">
             <div class="bottom_left">
                 <div class="p_name">{{portfolio.name}}</div>
-                <div class="rate"> 평가 손익 : {{ portfolio.rate }}%</div>
+                <!-- TODO -->
+                <!-- <div class="rate"> 평가 손익 : {{ portfolio.rate }}%</div> -->
             </div>
             <div class="bottom_right">
                 <p class="view">{{ portfolio.viewCnt }} 👀</p>

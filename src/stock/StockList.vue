@@ -41,16 +41,16 @@ const loadStockList = async $state => {
     const response = await stockListStore.getStockList(page.value);
     if (response.length < 1) {
       console.log("더 이상 불러올 데이터 없음.");
-      $state.complete();
+      //$state.complete();
     } else {
       // itemlist.value = response;
       itemlist.value.push(...response);
-      $state.loaded();
+      //$state.loaded();
     }
     page.value++;
   } catch (error) {
     console.error("주식 불러오기 실패:", error);
-    $state.error();
+    // $state.error();
   }
 };
 

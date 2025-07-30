@@ -119,7 +119,7 @@ const goToMyPortpolio = () =>{
                 </router-link -link>
               </li>
               <li>
-                <router-link to="/themes/landing-pages" class="dropdown-item"> 명예의 전당 </router-link>
+                <router-link to="/hof" class="dropdown-item"> 명예의 전당 </router-link>
               </li>
             </ul>
           </li>
@@ -156,6 +156,7 @@ const goToMyPortpolio = () =>{
           <router-link to="/login" class="btn btn-primary mb-3 mb-lg-0"> Log In </router-link>
         </div>
         <div v-else class="navbar-nav align-items-lg-center nav-right">
+          <!-- TODO
           <li class="nav-item dropdown no-arrow mx-1" data-bs-toggle="dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-bs-toggle="dropdown"
               aria-expanded="true">
@@ -180,13 +181,13 @@ const goToMyPortpolio = () =>{
               <a class="dropdown-item text-center small text-gray-500" href="#"> Show All Alerts </a>
             </div>
           </li>
-
+          -->
           <div class="topbar-divider d-none d-sm-block"></div>
           <div>
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
-                <img class="img-profile rounded-circle" :src="image" />
+                <img class="img-profile rounded-circle" src="/images/badge1.png" />
               </a>
 
               <!-- Dropdown - User Information -->
@@ -199,10 +200,6 @@ const goToMyPortpolio = () =>{
                   <font-awesome-icon :icon="['fas', 'gear']" />
                   Settings
                 </router-link>
-                <a class="dropdown-item" href="#">
-                  <font-awesome-icon :icon="['fas', 'list']" />
-                  Activity Log
-                </a>
                 <div class="dropdown-divider"></div>
                 <button @click="userStore.logout()" class="dropdown-item">
                   <font-awesome-icon :icon="['fas', 'right-from-bracket']" />

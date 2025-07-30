@@ -172,7 +172,7 @@ const goToUserInfo = async (userIdx, userName) => {
                   <h1 class="h3 mb-0 text-gray-800">{{ portname }} 포트폴리오</h1>
                   <img @click="goToUserInfo(portfolioDetail.userIdx, portfolioDetail.userName)" alt="profile"
                     fetchpriority="high" width="128" height="128" decoding="async" data-nimg="1"
-                    style="color:transparent" :src="portfolioDetail.profileImage || '/images/멍자.png'" />
+                    style="color:transparent" :src="portfolioDetail.profileImage || '/images/stocks.png'" />
                 </div>
                 <div>
                   <h1 class="h3 mb-0 text-gray-800">{{ portfolioDetail.name }}</h1>

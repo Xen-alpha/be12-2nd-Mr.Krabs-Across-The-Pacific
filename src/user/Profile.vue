@@ -2,9 +2,10 @@
 import { onMounted, ref, reactive } from "vue";
 import { useUserStore } from "../stores/useUserStore.js";
 import { useStockLikesStore } from "../stores/useStockLikesStore.js";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 const userStore = useUserStore();
+const router = useRouter();
 // 프로파일에 사용할 변수들
 let image = ref("");
 let name = ref("장원영");
@@ -29,7 +30,9 @@ const myPortUrl = ref(`/portfolio/list/${userStore.$state.userId}`);
 //stocklikes.value = stockLikesStore.stockListTotalLength;
 
 onMounted(async () => {
+  await userStore.routeToLogin();
   const response = await userStore.getUserDetail();
+  console.log(response);
   name.value = response.name
   email.value = response.email
   tier.value = response.tier;
@@ -38,6 +41,7 @@ onMounted(async () => {
   following.value = response.followings_count;
   image.value = response.image === "" ? "/images/across_the_pacific.PNG" : response.image;
 });
+
 </script>
 <template>
   <div id="userprofile">

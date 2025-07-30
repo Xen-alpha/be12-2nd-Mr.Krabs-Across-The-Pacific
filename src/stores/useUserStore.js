@@ -1,6 +1,6 @@
 import axios from "axios";
 import { defineStore } from "pinia";
-
+import { useRouter } from "vue-router";
 
 export const useUserStore = defineStore("user", {
     state: () => ({ isLogin: false, userId: 0, image: "" }),
@@ -21,6 +21,12 @@ export const useUserStore = defineStore("user", {
                     console.log(error);
                     return null;
                 });
+        },
+        async routeToLogin() {
+          const router = useRouter();
+          const result = this.$state.isLogin = await this.checkLogin();
+          console.log(result ? "로그인됨" : "로그인 안 됨");
+          if (!result) router.push("/login");
         },
         async login(email, password) {
             const response = await axios
@@ -55,8 +61,7 @@ export const useUserStore = defineStore("user", {
         },
         async checkLogin() {
             //axios
-            //const response = await axios.get("/sample/auth/check.json", {
-            const response = await axios.get("test/user/check", {
+            const response = await axios.get("/api/user/checkMe", {
                 withCredentials: true,
             }).catch((error) => {
                 //console.error(error);
@@ -65,7 +70,7 @@ export const useUserStore = defineStore("user", {
             if (response == null) return false;
             return true;
         },
-        async getUserDetail(id) {
+        async getUserDetail() {
             //axios
             try {
                 const response = await axios.get('/api/user/mypage');

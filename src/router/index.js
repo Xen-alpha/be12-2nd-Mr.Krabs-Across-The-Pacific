@@ -17,6 +17,7 @@ import About from "../etc/About.vue";
 import Privacy from "../etc/Privacy.vue";
 import Profile from "../user/Profile.vue";
 import EditProfile from "../user/EditProfile.vue";
+import HallOfFame from "../portfolio/HallOfFame.vue";
 
 // Login Check Middleware
 const checkLogin = async (to, from, next) => {
@@ -71,6 +72,7 @@ const routes = [
   { path: '/signup', component: Signup },
   { path: '/endsignup', component: EndSignup},
   { path: "/login", component: Login },
+  { path: "/hof", component: HallOfFame },
   {
     path: "/:pathMatch(.*)*", // 기타 존재하지 않는 페이지인 경우
     redirect: "/404",
