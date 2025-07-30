@@ -14,6 +14,7 @@ const route = useRoute();
 const loadPortfolioList = async () => {
     loadingStore.startLoading();
     if (route.query.keyword) { //포트폴리오 검색
+        const newKeyword = route.query.keyword;
         await portfolioList.searchPortfolioList(currentPage.value - 1, newKeyword);
     } else if (route.params.userIdx) { //userIdx를 이용한 특정 유저의 포트폴리오 목록 조회
         await portfolioList.getUserPortfolioList(currentPage.value - 1, selectedOption.value, route.params.userIdx);
@@ -49,16 +50,16 @@ const changePage = async (page) => {
     <div class="container">
         <router-view name="user" />
         <div class="p_type">
-            <div class="p_category">Category</div>
+            <div class="p_category">분류</div>
             <div class="p_btn_group">
                 <label data-cy="showView" class="btn_active" :class="{ selected: selectedOption === 'CreatedAt' }" @click="selectOption('CreatedAt')">
-                    New
+                    신규
                 </label>
                 <label data-cy="showLikes" class="btn_active" :class="{ selected: selectedOption === 'View' }" @click="selectOption('View')">
-                    View
+                    조회수
                 </label>
                 <label data-cy="showBookM" class="btn_active" :class="{ selected: selectedOption === 'Bookmark' }" @click="selectOption('Bookmark')">
-                    Bookmark
+                    북마크 수
                 </label>
             </div>
         </div>

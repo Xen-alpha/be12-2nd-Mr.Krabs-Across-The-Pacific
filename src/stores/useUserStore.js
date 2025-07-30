@@ -1,6 +1,6 @@
 import axios from "axios";
 import { defineStore } from "pinia";
-
+import { useRouter } from "vue-router";
 
 export const useUserStore = defineStore("user", {
     state: () => ({ isLogin: false, userId: 0, image: "" }),
@@ -9,7 +9,7 @@ export const useUserStore = defineStore("user", {
     },
     actions: {
         async signup(email, password, name, image) {
-            console.log("hi")
+            console.log("hi");
             const response = await axios
                 .post("/api/user/signup", {
                     "email": email,
@@ -20,13 +20,16 @@ export const useUserStore = defineStore("user", {
                 .catch((error) => {
                     console.log(error);
                     return null;
-                })
-                console.log("hi")
+                });
+        },
+        async routeToLogin() {
+          const router = useRouter();
+          const result = this.$state.isLogin = await this.checkLogin();
+          console.log(result ? "로그인됨" : "로그인 안 됨");
+          if (!result) router.push("/login");
         },
         async login(email, password) {
             const response = await axios
-                //.get("/sample/auth/login.json", {
-                //.post("/sample/auth/login.json", {
                 .post("/api/login", {
                     "id": email,
                     "password": password
@@ -58,8 +61,7 @@ export const useUserStore = defineStore("user", {
         },
         async checkLogin() {
             //axios
-            //const response = await axios.get("/sample/auth/check.json", {
-            const response = await axios.get("test/user/check", {
+            const response = await axios.get("/api/user/checkMe", {
                 withCredentials: true,
             }).catch((error) => {
                 //console.error(error);
@@ -68,8 +70,16 @@ export const useUserStore = defineStore("user", {
             if (response == null) return false;
             return true;
         },
-        async getUserDetail(id) {
+        async getUserDetail() {
             //axios
+            try {
+                const response = await axios.get('/api/user/mypage');
+                
+                return response.data.result;
+            } catch (e) {
+                console.log("에러:"+ e.message);
+                return null;
+            }
         },
 
         async updateUserDetailReply(password, image) {

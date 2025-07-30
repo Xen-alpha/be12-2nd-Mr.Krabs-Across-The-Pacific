@@ -1,14 +1,20 @@
 <script setup>
-import { defineProps } from 'vue';
+import { defineProps, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
+import { useUserStore } from '../stores/useUserStore';
 
 const route = useRoute();
+const userStore = useUserStore();
 
 const props = defineProps({
   userIdx: String, // ✅ `params`에서 전달됨
 });
 // `query`에서 userName 가져오기
 const userName = route.query.userName || "Guest"; // ✅ 기본값 설정 가능
+
+onMounted(async () => {
+  await userStore.checkLogin();
+});
 </script>
 
 <template>

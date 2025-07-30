@@ -17,6 +17,7 @@ import About from "../etc/About.vue";
 import Privacy from "../etc/Privacy.vue";
 import Profile from "../user/Profile.vue";
 import EditProfile from "../user/EditProfile.vue";
+import HallOfFame from "../portfolio/HallOfFame.vue";
 
 // Login Check Middleware
 const checkLogin = async (to, from, next) => {
@@ -66,11 +67,12 @@ const routes = [
   },
   { path: "/portfolio/detail/:idx", component: PortfolioDetail },
   { path: "/stock/:idx", component: StockDetail },
-  { path: "/stockList", component: StockList },
+  { path: "/stockList", component: StockList},
   // { path: '/editport', component: CreatePortfolio, beforeEnter: checkLogin }, //로그인 되었는지 확인
   { path: '/signup', component: Signup },
   { path: '/endsignup', component: EndSignup},
   { path: "/login", component: Login },
+  { path: "/hof", component: HallOfFame },
   {
     path: "/:pathMatch(.*)*", // 기타 존재하지 않는 페이지인 경우
     redirect: "/404",
