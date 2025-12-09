@@ -17,6 +17,7 @@
 <br>
 
 ## 배포 링크
+🔗[Across The Pacific](https://xena.p-e.kr) (마이그레이션 예정 중인 링크)
 🔗[Across The Pacific](https://atp.xena.p-e.kr)
 
 <br>
