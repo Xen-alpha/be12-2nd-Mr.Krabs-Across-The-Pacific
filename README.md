@@ -17,8 +17,7 @@
 <br>
 
 ## 배포 링크
-🔗[Across The Pacific](https://xena.p-e.kr) (마이그레이션 예정 중인 링크)
-🔗[Across The Pacific](https://atp.xena.p-e.kr)
+🔗[Across The Pacific](https://xena.p-e.kr)
 
 <br>
 
@@ -289,3 +288,4 @@ Across The Pacific은 위의 문제점들을 보완하여 꾸준히 높아지는
 <br>
 
 [👉🏼 요구사항 정의서](https://docs.google.com/spreadsheets/d/1woSNDRkSPBwEEkWzr27yUoJJfmwXYKzcMOCcOs6mO3c/edit?usp=sharing)
+
